@@ -11,9 +11,24 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+from sqlalchemy import text
+
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="SherloTracks API")
+
+@app.on_event("startup")
+def migrate_db():
+    db = SessionLocal()
+    try:
+        # PostgreSQL syntax for adding column if not exists is tricky in 15-, 
+        # so we just try and catch.
+        db.execute(text("ALTER TABLE activities ADD COLUMN IF NOT EXISTS type VARCHAR;"))
+        db.commit()
+    except Exception as e:
+        print(f"Migration info: {e}")
+    finally:
+        db.close()
 
 app.add_middleware(
     CORSMiddleware,
@@ -74,14 +89,12 @@ def callback(code: str, db: Session = Depends(get_db)):
     return {"message": "Authenticated successfully"}
 
 @app.get("/activities/sync")
-def sync_activities(db: Session = Depends(get_db)):
-    # 1. Obtener y validar token
+def sync_activities(db: Session = Depends(get_db), full: bool = False):
     token = db.query(models.StravaToken).first()
     if not token:
         raise HTTPException(status_code=401, detail="No token found. Please login.")
     
-    # Background Check: Refrescar si expiró
-    if time.time() > token.expires_at - 300: # 5 min margin
+    if time.time() > token.expires_at - 300:
         info = get_strava_client_info()
         new_data = strava_utils.refresh_strava_token(info["id"], info["secret"], token.refresh_token)
         token.access_token = new_data["access_token"]
@@ -89,35 +102,72 @@ def sync_activities(db: Session = Depends(get_db)):
         token.expires_at = new_data["expires_at"]
         db.commit()
 
-    # 2. Obtener actividades de Strava (pedimos las últimas 100)
-    headers = {"Authorization": f"Bearer {token.access_token}"}
-    resp = requests.get("https://www.strava.com/api/v3/athlete/activities?per_page=100", headers=headers)
-    activities_data = resp.json()
-
-    # 3. Procesar y Guardar
     new_count = 0
-    for act in activities_data:
-        if db.query(models.Activity).filter(models.Activity.id == str(act["id"])).first():
-            continue
-        
-        poly = act.get("map", {}).get("summary_polyline")
-        if not poly: continue
-        
-        geom = strava_utils.decode_polyline(poly)
-        if not geom: continue
-
-        db_activity = models.Activity(
-            id=str(act["id"]),
-            name=act["name"],
-            distance=act["distance"],
-            total_elevation_gain=act.get("total_elevation_gain", 0),
-            start_date=act["start_date"],
-            geom=geom
-        )
-        db.add(db_activity)
-        new_count += 1
+    page = 1
+    per_page = 100
     
-    db.commit()
+    print(f"DEBUG: Iniciando sync. Full={full}")
+    
+    while True:
+        print(f"DEBUG: Solicitando página {page}...")
+        headers = {"Authorization": f"Bearer {token.access_token}"}
+        resp = requests.get(f"https://www.strava.com/api/v3/athlete/activities?per_page={per_page}&page={page}", headers=headers)
+        activities_data = resp.json()
+        
+        if not isinstance(activities_data, list):
+            print(f"DEBUG: Error en respuesta de Strava: {activities_data}")
+            break
+
+        if not activities_data or len(activities_data) == 0:
+            print("DEBUG: No hay más actividades en Strava.")
+            break
+
+        print(f"DEBUG: Recibidas {len(activities_data)} actividades de Strava.")
+        page_new = 0
+        for act in activities_data:
+            existing = db.query(models.Activity).filter(models.Activity.id == str(act["id"])).first()
+            if existing:
+                if not existing.type:
+                    existing.type = act.get("type")
+                continue
+            
+            poly = act.get("map", {}).get("summary_polyline")
+            if not poly: 
+                print(f"DEBUG: Actividad {act['id']} sin mapa (saltada).")
+                continue
+            
+            geom = strava_utils.decode_polyline(poly)
+            if not geom: continue
+
+            db_activity = models.Activity(
+                id=str(act["id"]),
+                name=act["name"],
+                type=act.get("type"),
+                distance=act["distance"],
+                total_elevation_gain=act.get("total_elevation_gain", 0),
+                start_date=act["start_date"],
+                geom=geom
+            )
+            db.add(db_activity)
+            new_count += 1
+            page_new += 1
+        
+        db.commit()
+        print(f"DEBUG: Página {page} procesada. Nuevas en esta página: {page_new}")
+        
+        # Si no es un sync completo y no encontramos nada nuevo en esta página, paramos
+        if not full and page_new == 0:
+             print("DEBUG: Sync normal finalizado (no hay más novedades).")
+             break
+        
+        if len(activities_data) < per_page:
+            print("DEBUG: Fin del histórico (última página recibida).")
+            break
+            
+        page += 1
+        time.sleep(0.5)
+
+    print(f"DEBUG: Sync finalizado. Total nuevas: {new_count}")
     return {"status": "synced", "count": new_count}
 
 @app.get("/activities")
@@ -126,17 +176,15 @@ def get_activities(db: Session = Depends(get_db)):
     import json
     from datetime import datetime, timedelta
     
-    # Calculamos la fecha de hace un año
-    one_year_ago = datetime.now() - timedelta(days=365)
-    
-    # Filtramos por fecha y quitamos el límite
+    # Retornamos todas las actividades de la base de datos
     results = db.query(
         models.Activity.id,
         models.Activity.name,
+        models.Activity.type,
         models.Activity.distance,
         models.Activity.start_date,
         func.ST_AsGeoJSON(models.Activity.geom).label("geojson")
-    ).filter(models.Activity.start_date >= one_year_ago).order_by(models.Activity.start_date.desc()).all()
+    ).order_by(models.Activity.start_date.desc()).all()
     
     activities = []
     for r in results:
@@ -144,6 +192,7 @@ def get_activities(db: Session = Depends(get_db)):
         activities.append({
             "id": r.id,
             "name": r.name,
+            "type": r.type,
             "distance": r.distance,
             "start_date": r.start_date,
             "points": geojson["coordinates"]

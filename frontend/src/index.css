@@ -2,12 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  background-color: #0a0a0a;
-  color: #ffffff;
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-/* El mapa ya es oscuro por CartoDB, no necesitamos filtros */
+:root {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
 .leaflet-container {
-  background: #0a0a0a !important;
+  height: 100% !important;
+  width: 100% !important;
+  background: #f1f5f9 !important;
 }

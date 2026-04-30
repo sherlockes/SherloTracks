@@ -13,6 +13,7 @@ class Activity(Base):
     __tablename__ = "activities"
     id = Column(String, primary_key=True)
     name = Column(String)
+    type = Column(String)
     distance = Column(Float)
     total_elevation_gain = Column(Float)
     start_date = Column(DateTime)

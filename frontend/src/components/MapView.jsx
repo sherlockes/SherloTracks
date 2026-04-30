@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { MapContainer, TileLayer, useMap, Polyline } from 'react-leaflet';
 import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
 
 // Componente para dibujar las líneas de las rutas
 const RouteLines = ({ activities }) => {
@@ -21,8 +20,8 @@ const RouteLines = ({ activities }) => {
             positions={path}
             pathOptions={{ 
                 color: '#FC4C02', 
-                weight: 2, 
-                opacity: 0.4,
+                weight: 3, 
+                opacity: 0.8,
                 lineJoin: 'round'
             }}
           />
@@ -58,27 +57,30 @@ const AutoCenter = ({ activities }) => {
 const MapView = ({ activities }) => {
   return (
     <div 
-        style={{ height: '650px', width: '100%', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' }}
-        className="border border-white/10 relative bg-[#0a0a0a]"
+        style={{ height: '100%', width: '100%' }}
+        className="relative bg-white"
     >
-      <div className="absolute top-4 right-4 z-[1000] bg-black/70 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 text-xs flex items-center gap-2">
+      <div className="absolute top-4 right-4 z-[1000] bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-slate-200 text-xs flex items-center gap-2 shadow-sm">
         <div className="w-2 h-2 rounded-full bg-strava animate-pulse" />
-        {activities.length > 0 ? `Visualizando ${activities.length} recorridos` : 'Cargando...'}
+        <span className="font-semibold text-slate-700">
+          {activities.length > 0 ? `Visualizando ${activities.length} recorridos` : 'Cargando...'}
+        </span>
       </div>
       
       <MapContainer 
         center={[40.4168, -3.7038]} 
         zoom={6} 
         scrollWheelZoom={true}
-        style={{ height: '100%', width: '100%', background: '#0a0a0a' }}
+        style={{ height: '100%', width: '100%', background: '#f1f5f9' }}
       >
         <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
           attribution='&copy; CARTO'
         />
         <RouteLines activities={activities} />
         <AutoCenter activities={activities} />
       </MapContainer>
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     </div>
   );
 };
