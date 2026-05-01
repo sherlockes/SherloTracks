@@ -21,9 +21,10 @@ app = FastAPI(title="SherloTracks API")
 def migrate_db():
     db = SessionLocal()
     try:
-        # PostgreSQL syntax for adding column if not exists is tricky in 15-, 
-        # so we just try and catch.
         db.execute(text("ALTER TABLE activities ADD COLUMN IF NOT EXISTS type VARCHAR;"))
+        db.execute(text("ALTER TABLE activities ADD COLUMN IF NOT EXISTS moving_time INTEGER;"))
+        db.execute(text("ALTER TABLE activities ADD COLUMN IF NOT EXISTS average_speed FLOAT;"))
+        db.execute(text("ALTER TABLE activities ADD COLUMN IF NOT EXISTS max_speed FLOAT;"))
         db.commit()
     except Exception as e:
         print(f"Migration info: {e}")
@@ -86,7 +87,7 @@ def callback(code: str, db: Session = Depends(get_db)):
     db.add(token_record)
     db.commit()
     
-    return {"message": "Authenticated successfully"}
+    return RedirectResponse("/")
 
 @app.get("/activities/sync")
 def sync_activities(db: Session = Depends(get_db), full: bool = False):
@@ -129,6 +130,12 @@ def sync_activities(db: Session = Depends(get_db), full: bool = False):
             if existing:
                 if not existing.type:
                     existing.type = act.get("type")
+                if not existing.moving_time:
+                    existing.moving_time = act.get("moving_time", 0)
+                if existing.average_speed is None or existing.average_speed == 0:
+                    existing.average_speed = act.get("average_speed", 0)
+                if existing.max_speed is None or existing.max_speed == 0:
+                    existing.max_speed = act.get("max_speed", 0)
                 continue
             
             poly = act.get("map", {}).get("summary_polyline")
@@ -144,6 +151,9 @@ def sync_activities(db: Session = Depends(get_db), full: bool = False):
                 name=act["name"],
                 type=act.get("type"),
                 distance=act["distance"],
+                moving_time=act.get("moving_time", 0),
+                average_speed=act.get("average_speed", 0),
+                max_speed=act.get("max_speed", 0),
                 total_elevation_gain=act.get("total_elevation_gain", 0),
                 start_date=act["start_date"],
                 geom=geom
@@ -174,26 +184,32 @@ def sync_activities(db: Session = Depends(get_db), full: bool = False):
 def get_activities(db: Session = Depends(get_db)):
     from sqlalchemy import func
     import json
-    from datetime import datetime, timedelta
     
-    # Retornamos todas las actividades de la base de datos
     results = db.query(
         models.Activity.id,
         models.Activity.name,
         models.Activity.type,
         models.Activity.distance,
+        models.Activity.moving_time,
+        models.Activity.average_speed,
+        models.Activity.max_speed,
+        models.Activity.total_elevation_gain,
         models.Activity.start_date,
         func.ST_AsGeoJSON(models.Activity.geom).label("geojson")
     ).order_by(models.Activity.start_date.desc()).all()
     
     activities = []
     for r in results:
-        geojson = json.loads(r.geojson)
+        geojson = json.loads(r.geojson) if r.geojson else {"coordinates": []}
         activities.append({
             "id": r.id,
             "name": r.name,
             "type": r.type,
             "distance": r.distance,
+            "moving_time": r.moving_time,
+            "average_speed": r.average_speed,
+            "max_speed": r.max_speed,
+            "total_elevation_gain": r.total_elevation_gain,
             "start_date": r.start_date,
             "points": geojson["coordinates"]
         })

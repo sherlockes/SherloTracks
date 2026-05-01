@@ -3,7 +3,7 @@ import axios from 'axios';
 import MapView from './components/MapView';
 import { Activity, RefreshCw, Map as MapIcon, Calendar, Filter } from 'lucide-react';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://192.168.10.211:8800';
+const API_URL = '/api';
 
 function App() {
   const [activities, setActivities] = useState([]);
@@ -51,7 +51,10 @@ function App() {
   }, []);
 
   const filteredActivities = activities.filter(a => {
-    const matchesType = selectedTypes.length === 0 || selectedTypes.includes(a.type);
+    // Si no hay nada seleccionado, no mostramos nada
+    if (selectedTypes.length === 0) return false;
+    
+    const matchesType = selectedTypes.includes(a.type);
     if (!matchesType) return false;
 
     if (timeFilter === 'All') return true;
@@ -100,93 +103,179 @@ function App() {
   };
 
   return (
-    <div className="h-screen w-full flex flex-col bg-slate-50 overflow-hidden font-sans">
-      {/* Barra de Menú Superior forzada a repartirse */}
-      <header className="h-20 bg-white border-b border-slate-200 px-8 flex items-center justify-between shadow-sm z-50 w-full">
+    <div style={{ 
+      height: '100vh', 
+      width: '100vw', 
+      display: 'grid', 
+      gridTemplateRows: '80px 1fr', 
+      backgroundColor: '#f8fafc', 
+      overflow: 'hidden' 
+    }}>
+      {/* Barra de Menú Superior con estilos forzados por Inline Styles */}
+      <header 
+        style={{ 
+          display: 'flex', 
+          width: '100%', 
+          height: '80px', 
+          backgroundColor: 'white', 
+          borderBottom: '1px solid #e2e8f0', 
+          padding: '0 1rem', 
+          alignItems: 'center', 
+          justifyContent: 'flex-start', 
+          zIndex: 50,
+          boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)'
+        }}
+      >
         
-        {/* 1. Logo (Izquierda) */}
-        <div className="flex-1 flex justify-start">
-          <h1 className="text-xl font-black italic uppercase tracking-tighter text-slate-900">
-            SherloTracks
-          </h1>
-        </div>
-
-        {/* 2. Selector de Tiempo (Centro-Izquierda) */}
-        <div className="flex-1 flex justify-center border-l border-slate-100">
-          <div className="flex items-center gap-3">
-            <span className="text-[10px] font-bold uppercase text-slate-400 whitespace-nowrap">Ver última:</span>
-            <select 
-              value={timeFilter}
-              onChange={(e) => setTimeFilter(e.target.value)}
-              className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-bold focus:outline-none focus:border-strava/50 cursor-pointer"
-            >
-              {timeOptions.map(opt => (
-                <option key={opt.id} value={opt.id}>{opt.label}</option>
-              ))}
-            </select>
+        {/* Bloque Izquierdo: Logo + Sync + Filtros + Stats */}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          
+          {/* 1. Logo y Botones de Sync */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', paddingRight: '0.75rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', lineHeight: '0.8', cursor: 'default' }}>
+              <span style={{ fontSize: '32px', fontWeight: 900, fontStyle: 'italic', textTransform: 'uppercase', letterSpacing: '-0.05em', color: '#0f172a' }}>Sherlo</span>
+              <span style={{ fontSize: '32px', fontWeight: 900, fontStyle: 'italic', textTransform: 'uppercase', letterSpacing: '-0.05em', color: '#FC4C02' }}>Tracks</span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+              <button 
+                onClick={() => syncActivities(false)}
+                disabled={loading}
+                style={{ width: '80px', padding: '2px 0' }}
+                className="bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-md text-[9px] font-bold uppercase tracking-wider transition-all disabled:opacity-50"
+              >
+                {loading ? '...' : 'Sync'}
+              </button>
+              <button 
+                onClick={() => syncActivities(true)}
+                disabled={loading}
+                style={{ width: '80px', padding: '2px 0' }}
+                className="bg-slate-900 text-white hover:bg-black rounded-md text-[9px] font-bold uppercase tracking-wider transition-all disabled:opacity-50"
+              >
+                {loading ? '...' : 'Archive'}
+              </button>
+            </div>
           </div>
-        </div>
 
-        {/* 3. Checkboxes de Tipo (Centro) */}
-        <div className="flex-[2] flex justify-center border-l border-slate-100">
-          <div className="flex items-center gap-6 overflow-x-auto">
-            {allAvailableTypes.map(t => (
-              <label key={t} className="flex items-center gap-2 cursor-pointer group whitespace-nowrap">
-                <input 
-                  type="checkbox"
-                  checked={selectedTypes.includes(t)}
-                  onChange={() => toggleType(t)}
-                  className="w-4 h-4 rounded border-slate-300 text-strava focus:ring-strava"
-                />
-                <span className="text-xs font-bold text-slate-600 group-hover:text-slate-900 transition-colors">
-                  {typeLabels[t] || t}
+          {/* 2 y 3. Grupo Central apilado: Tiempo (Arriba) y Tipos (Abajo) */}
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', borderLeft: '1px solid #f1f5f9', paddingLeft: '0.75rem', gap: '0.5rem' }}>
+            {/* Fila Superior: Tiempo */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span className="text-[10px] font-bold uppercase text-slate-400 whitespace-nowrap">Ver última:</span>
+              <select 
+                value={timeFilter}
+                onChange={(e) => setTimeFilter(e.target.value)}
+                className="bg-slate-50 border border-slate-200 rounded px-2 py-0.5 text-[10px] font-bold focus:outline-none focus:border-strava/50 cursor-pointer"
+              >
+                {timeOptions.map(opt => (
+                  <option key={opt.id} value={opt.id}>{opt.label}</option>
+                ))}
+              </select>
+            </div>
+            
+            {/* Fila Inferior: Tipos */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <span className="text-[10px] font-bold uppercase text-slate-400 whitespace-nowrap text-strava">Tipos:</span>
+              <div style={{ display: 'flex', gap: '1rem', overflowX: 'auto' }}>
+                {allAvailableTypes.map(t => (
+                  <label key={t} className="flex items-center gap-1.5 cursor-pointer group whitespace-nowrap">
+                    <input 
+                      type="checkbox"
+                      checked={selectedTypes.includes(t)}
+                      onChange={() => toggleType(t)}
+                      className="w-3.5 h-3.5 rounded border-slate-300 text-strava focus:ring-strava"
+                    />
+                    <span className="text-[10px] font-bold text-slate-600 group-hover:text-slate-900 transition-colors">
+                      {typeLabels[t] || t}
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
+
+            {/* 4. Estadísticas (3 Columnas) */}
+          <div style={{ display: 'flex', alignItems: 'center', borderLeft: '1px solid #f1f5f9', marginLeft: '0.75rem' }}>
+            
+            {/* Columna 1: General */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', paddingLeft: '0.75rem' }}>
+              <div className="flex items-center">
+                <span className="text-[9px] font-bold uppercase text-slate-400">Actividades: </span>
+                <span className="text-[11px] font-black ml-1">{filteredActivities.length}</span>
+              </div>
+              <div className="flex items-center">
+                <span className="text-[9px] font-bold uppercase text-slate-400">Distancia: </span>
+                <span className="text-[11px] font-black text-strava ml-1">
+                  {(filteredActivities.reduce((acc, curr) => acc + curr.distance, 0) / 1000).toFixed(0)}km
                 </span>
-              </label>
-            ))}
-          </div>
-        </div>
-
-        {/* 4. Estadísticas (Centro-Derecha) */}
-        <div className="flex-1 flex justify-center border-l border-slate-100">
-          <div className="flex items-center gap-8">
-            <div className="flex flex-col items-center">
-              <span className="text-[9px] font-bold uppercase text-slate-400">Actividades</span>
-              <span className="text-sm font-black leading-tight">{filteredActivities.length}</span>
+              </div>
+              <div className="flex items-center">
+                <span className="text-[9px] font-bold uppercase text-slate-400">Tiempo: </span>
+                <span className="text-[11px] font-black ml-1">
+                  {(() => {
+                    const totalSeconds = filteredActivities.reduce((acc, curr) => acc + (curr.moving_time || 0), 0);
+                    const h = Math.floor(totalSeconds / 3600);
+                    const m = Math.floor((totalSeconds % 3600) / 60);
+                    return h > 0 ? `${h}h ${m}m` : `${m}m`;
+                  })()}
+                </span>
+              </div>
             </div>
-            <div className="flex flex-col items-center">
-              <span className="text-[9px] font-bold uppercase text-slate-400">Distancia</span>
-              <span className="text-sm font-black text-strava leading-tight">
-                {(filteredActivities.reduce((acc, curr) => acc + curr.distance, 0) / 1000).toFixed(0)}km
-              </span>
+
+            {/* Columna 2: Desniveles */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: '1px solid #f8fafc', paddingLeft: '0.75rem', marginLeft: '0.75rem' }}>
+              <div className="flex items-center">
+                <span className="text-[9px] font-bold uppercase text-slate-400">Desnivel Máx: </span>
+                <span className="text-[11px] font-black ml-1">
+                  {Math.max(0, ...filteredActivities.map(a => a.total_elevation_gain || 0)).toFixed(0)}m
+                </span>
+              </div>
+              <div className="flex items-center">
+                <span className="text-[9px] font-bold uppercase text-slate-400">Desnivel Medio: </span>
+                <span className="text-[11px] font-black ml-1">
+                  {filteredActivities.length > 0 
+                    ? (filteredActivities.reduce((acc, a) => acc + (a.total_elevation_gain || 0), 0) / filteredActivities.length).toFixed(0)
+                    : 0}m
+                </span>
+              </div>
+              <div className="flex items-center">
+                <span className="text-[9px] font-bold uppercase text-slate-400">Desnivel Total: </span>
+                <span className="text-[11px] font-black text-strava ml-1">
+                  {filteredActivities.reduce((acc, a) => acc + (a.total_elevation_gain || 0), 0).toFixed(0)}m
+                </span>
+              </div>
+            </div>
+
+            {/* Columna 3: Velocidades */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderLeft: '1px solid #f8fafc', paddingLeft: '0.75rem', marginLeft: '0.75rem' }}>
+              <div className="flex items-center">
+                <span className="text-[9px] font-bold uppercase text-slate-400">Velocidad Máx: </span>
+                <span className="text-[11px] font-black ml-1">
+                  {(Math.max(0, ...filteredActivities.map(a => a.max_speed || 0)) * 3.6).toFixed(1)}km/h
+                </span>
+              </div>
+              <div className="flex items-center">
+                <span className="text-[9px] font-bold uppercase text-slate-400">Media Máx: </span>
+                <span className="text-[11px] font-black ml-1">
+                  {(Math.max(0, ...filteredActivities.map(a => a.average_speed || 0)) * 3.6).toFixed(1)}km/h
+                </span>
+              </div>
+              <div className="flex items-center">
+                <span className="text-[9px] font-bold uppercase text-slate-400">Velocidad Media: </span>
+                <span className="text-[11px] font-black text-strava ml-1">
+                  {filteredActivities.length > 0 
+                    ? ((filteredActivities.reduce((acc, a) => acc + (a.average_speed || 0), 0) / filteredActivities.length) * 3.6).toFixed(1)
+                    : 0}km/h
+                </span>
+              </div>
             </div>
           </div>
-        </div>
-
-        {/* 5. Acciones (Derecha) */}
-        <div className="flex-1 flex justify-end gap-3 border-l border-slate-100 pl-4">
-          <button 
-            onClick={() => syncActivities(false)}
-            disabled={loading}
-            title="Sincronizar últimas"
-            className="p-2.5 bg-slate-50 hover:bg-slate-100 text-slate-500 border border-slate-200 rounded-xl transition-all disabled:opacity-50"
-          >
-            <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
-          </button>
-          <button 
-            onClick={() => syncActivities(true)}
-            disabled={loading}
-            className="px-4 py-2 bg-slate-900 text-white hover:bg-black rounded-xl text-[10px] font-bold uppercase tracking-widest shadow-lg shadow-slate-900/10 transition-all disabled:opacity-50 whitespace-nowrap"
-          >
-            {loading ? '...' : 'Histórico'}
-          </button>
         </div>
 
       </header>
 
       {/* Contenedor del Mapa (Ocupa el resto) */}
       <main 
-        style={{ height: 'calc(100vh - 80px)' }}
-        className="w-full relative"
+        style={{ height: '100%', width: '100%', position: 'relative', overflow: 'hidden' }}
       >
         <MapView activities={filteredActivities} />
       </main>

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { MapContainer, TileLayer, useMap, Polyline } from 'react-leaflet';
 import L from 'leaflet';
 
-// Componente para dibujar las líneas de las rutas
+// Componente para dibujar las líneas de las rutas con efecto Heatmap
 const RouteLines = ({ activities }) => {
   if (!activities || activities.length === 0) return null;
 
@@ -10,19 +10,19 @@ const RouteLines = ({ activities }) => {
     <>
       {activities.map((act) => {
         if (!act.points || act.points.length < 2) return null;
-        
+
         // Convertimos [lon, lat] del backend a [lat, lon] de Leaflet
         const path = act.points.map(p => [p[1], p[0]]);
-        
+
         return (
-          <Polyline 
+          <Polyline
             key={act.id}
             positions={path}
-            pathOptions={{ 
-                color: '#FC4C02', 
-                weight: 3, 
-                opacity: 0.8,
-                lineJoin: 'round'
+            pathOptions={{
+              color: '#FC4C02', // Naranja Strava
+              weight: 1.5,
+              opacity: 0.15,    // Efecto heatmap por superposición
+              lineJoin: 'round'
             }}
           />
         );
@@ -33,32 +33,32 @@ const RouteLines = ({ activities }) => {
 
 // Componente para auto-centrar el mapa
 const AutoCenter = ({ activities }) => {
-    const map = useMap();
-    useEffect(() => {
-        if (activities && activities.length > 0) {
-            try {
-                const allPoints = activities
-                    .flatMap(a => a.points || [])
-                    .filter(p => Array.isArray(p) && p.length >= 2)
-                    .map(p => [p[1], p[0]]);
-                
-                if (allPoints.length > 0) {
-                    const bounds = L.latLngBounds(allPoints);
-                    map.fitBounds(bounds, { padding: [50, 50], animate: true });
-                }
-            } catch (e) {
-                console.error("AutoCenter error:", e);
-            }
+  const map = useMap();
+  useEffect(() => {
+    if (activities && activities.length > 0) {
+      try {
+        const allPoints = activities
+          .flatMap(a => a.points || [])
+          .filter(p => Array.isArray(p) && p.length >= 2)
+          .map(p => [p[1], p[0]]);
+
+        if (allPoints.length > 0) {
+          const bounds = L.latLngBounds(allPoints);
+          map.fitBounds(bounds, { padding: [50, 50], animate: true });
         }
-    }, [activities, map]);
-    return null;
+      } catch (e) {
+        console.error("AutoCenter error:", e);
+      }
+    }
+  }, [activities, map]);
+  return null;
 };
 
 const MapView = ({ activities }) => {
   return (
-    <div 
-        style={{ height: '100%', width: '100%' }}
-        className="relative bg-white"
+    <div
+      style={{ height: '100%', width: '100%' }}
+      className="relative bg-white"
     >
       <div className="absolute top-4 right-4 z-[1000] bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-slate-200 text-xs flex items-center gap-2 shadow-sm">
         <div className="w-2 h-2 rounded-full bg-strava animate-pulse" />
@@ -66,11 +66,12 @@ const MapView = ({ activities }) => {
           {activities.length > 0 ? `Visualizando ${activities.length} recorridos` : 'Cargando...'}
         </span>
       </div>
-      
-      <MapContainer 
-        center={[40.4168, -3.7038]} 
-        zoom={6} 
+
+      <MapContainer
+        center={[40.4168, -3.7038]}
+        zoom={6}
         scrollWheelZoom={true}
+        preferCanvas={true} // Mucho más rápido para cientos de líneas
         style={{ height: '100%', width: '100%', background: '#f1f5f9' }}
       >
         <TileLayer
