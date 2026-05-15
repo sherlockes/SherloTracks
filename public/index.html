@@ -133,6 +133,10 @@
             <span>Puntos: <strong id="valPts">0</strong></span>
             <span>Distancia: <strong id="valDist">0 km</strong></span>
             <span>Desnivel: <strong id="valEle">0 m</strong></span>
+            <label style="display:flex; align-items:center; gap:6px; margin-top:8px; cursor:pointer; font-size:11px; font-weight:600; color:#475569;">
+                <input type="checkbox" id="chkFocusMode" style="accent-color:#10b981; cursor:pointer;" />
+                Ocultar puntos inactivos
+            </label>
         </div>
         <div class="btn-row">
             <button class="btn btn-undo" id="btnUndo" disabled title="Deshacer">
@@ -231,6 +235,12 @@
     btnUnderstand.addEventListener('click', closeHelp);
     helpModal.addEventListener('click', (e) => {
         if (e.target === helpModal) closeHelp();
+    });
+
+    const chkFocusMode = document.getElementById('chkFocusMode');
+
+    chkFocusMode.addEventListener('change', () => {
+        updateUI();
     });
 
     function updateChart() {
@@ -359,26 +369,40 @@
 
         updateProposals();
         
+        const focusMode = chkFocusMode.checked;
+        
         pointCircles.forEach(p => {
             const coordStr = `${p.latlng[0]},${p.latlng[1]}`;
             const isUsed = currentTrack.some(pt => `${pt.lat},${pt.lng}` === coordStr);
             const proposal = proposedPoints.find(prop => `${prop.latlng[0]},${prop.latlng[1]}` === coordStr);
             
-            if (proposal) {
-                p.circle.setStyle({ fillColor: '#4f46e5', color: '#3730a3', fillOpacity: 0.9, opacity: 0.9, weight: 2 });
-                p.circle.setRadius(calculatedRadius * 1.3);
-                if (!p.circle.getTooltip()) {
-                    p.circle.bindTooltip(
-                        `<span style="font-weight:bold;color:#fff;background-color:#4f46e5;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:10px">${proposal.proposalIndex}</span>`, 
-                        { permanent: true, direction: 'center', className: 'custom-proposal-tooltip', interactive: false }
-                    );
+            const shouldBeVisible = isUsed || proposal || !focusMode;
+            
+            if (!shouldBeVisible) {
+                if (map.hasLayer(p.circle)) {
+                    map.removeLayer(p.circle);
                 }
-            } else if (isUsed) {
-                p.circle.setStyle({ fillColor: '#10b981', color: '#047857', fillOpacity: 0.8, opacity: 0.8, weight: 1 });
-                p.circle.setRadius(calculatedRadius);
             } else {
-                p.circle.setStyle({ fillColor: '#f59e0b', color: '#d97706', fillOpacity: 0.5, opacity: 0.5, weight: 1 });
-                p.circle.setRadius(calculatedRadius);
+                if (!map.hasLayer(p.circle)) {
+                    map.addLayer(p.circle);
+                }
+                
+                if (proposal) {
+                    p.circle.setStyle({ fillColor: '#4f46e5', color: '#3730a3', fillOpacity: 0.9, opacity: 0.9, weight: 2 });
+                    p.circle.setRadius(calculatedRadius * 1.3);
+                    if (!p.circle.getTooltip()) {
+                        p.circle.bindTooltip(
+                            `<span style="font-weight:bold;color:#fff;background-color:#4f46e5;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:10px">${proposal.proposalIndex}</span>`, 
+                            { permanent: true, direction: 'center', className: 'custom-proposal-tooltip', interactive: false }
+                        );
+                    }
+                } else if (isUsed) {
+                    p.circle.setStyle({ fillColor: '#10b981', color: '#047857', fillOpacity: 0.8, opacity: 0.8, weight: 1 });
+                    p.circle.setRadius(calculatedRadius);
+                } else {
+                    p.circle.setStyle({ fillColor: '#f59e0b', color: '#d97706', fillOpacity: 0.5, opacity: 0.5, weight: 1 });
+                    p.circle.setRadius(calculatedRadius);
+                }
             }
         });
 
