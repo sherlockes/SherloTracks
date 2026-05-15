@@ -1,15 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import MapView from './components/MapView';
-import { Activity, RefreshCw, Map as MapIcon, Calendar, Filter } from 'lucide-react';
+import { Activity, RefreshCw, Map as MapIcon, Calendar, Filter, GitFork, Trash2, Download, Undo, MapPin } from 'lucide-react';
 
 const API_URL = '/api';
 
 function App() {
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [selectedTypes, setSelectedTypes] = useState([]); // Array para multi-selección
-  const [timeFilter, setTimeFilter] = useState('Year');
+  const [selectedTypes, setSelectedTypes] = useState(() => {
+    const saved = localStorage.getItem('sherlo_selectedTypes');
+    return saved ? JSON.parse(saved) : null; // null nos indica si no hay historial previo
+  });
+  const [timeFilter, setTimeFilter] = useState(() => {
+    const saved = localStorage.getItem('sherlo_timeFilter');
+    return saved || 'Year';
+  });
+  const [segmentMode, setSegmentMode] = useState(false);
+  const [selectedSegments, setSelectedSegments] = useState([]);
+  const [pointsMode, setPointsMode] = useState(false);
+
+  const toggleSegmentMode = () => {
+    if (!segmentMode) setPointsMode(false);
+    setSegmentMode(!segmentMode);
+  };
+
+  const togglePointsMode = () => {
+    if (!pointsMode) setSegmentMode(false);
+    setPointsMode(!pointsMode);
+  };
+
+  // Guardado persistente de cambios en localStorage
+  useEffect(() => {
+    localStorage.setItem('sherlo_timeFilter', timeFilter);
+  }, [timeFilter]);
+
+  useEffect(() => {
+    if (selectedTypes !== null) {
+      localStorage.setItem('sherlo_selectedTypes', JSON.stringify(selectedTypes));
+    }
+  }, [selectedTypes]);
 
   const fetchActivities = async () => {
     setLoading(true);
@@ -17,9 +47,11 @@ function App() {
       const res = await axios.get(`${API_URL}/activities`);
       if (Array.isArray(res.data)) {
         setActivities(res.data);
-        // Inicializar con todos los tipos seleccionados si está vacío
-        const allTypes = [...new Set(res.data.map(a => a.type).filter(t => t))];
-        setSelectedTypes(allTypes);
+        // Si no existían filtros guardados en localStorage, seleccionamos todos por defecto
+        if (selectedTypes === null) {
+          const allTypes = [...new Set(res.data.map(a => a.type).filter(t => t))];
+          setSelectedTypes(allTypes);
+        }
       }
     } catch (err) {
       console.error("Error fetching activities", err);
@@ -50,31 +82,33 @@ function App() {
     fetchActivities();
   }, []);
 
-  const filteredActivities = activities.filter(a => {
-    // Si no hay nada seleccionado, no mostramos nada
-    if (selectedTypes.length === 0) return false;
-    
-    const matchesType = selectedTypes.includes(a.type);
-    if (!matchesType) return false;
+  const filteredActivities = useMemo(() => {
+    return activities.filter(a => {
+      // Si no hay nada seleccionado, no mostramos nada
+      if (!selectedTypes || selectedTypes.length === 0) return false;
+      
+      const matchesType = selectedTypes.includes(a.type);
+      if (!matchesType) return false;
 
-    if (timeFilter === 'All') return true;
-    
-    const date = new Date(a.start_date);
-    const now = new Date();
-    
-    if (timeFilter === 'Latest') {
-        return a.id === activities[0]?.id;
-    }
-    
-    const diffTime = Math.abs(now - date);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
-    if (timeFilter === 'Week') return diffDays <= 7;
-    if (timeFilter === 'Month') return diffDays <= 30;
-    if (timeFilter === 'Year') return diffDays <= 365;
-    
-    return true;
-  });
+      if (timeFilter === 'All') return true;
+      
+      const date = new Date(a.start_date);
+      const now = new Date();
+      
+      if (timeFilter === 'Latest') {
+          return a.id === activities[0]?.id;
+      }
+      
+      const diffTime = Math.abs(now - date);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      
+      if (timeFilter === 'Week') return diffDays <= 7;
+      if (timeFilter === 'Month') return diffDays <= 30;
+      if (timeFilter === 'Year') return diffDays <= 365;
+      
+      return true;
+    });
+  }, [activities, selectedTypes, timeFilter]);
 
   const timeOptions = [
     { id: 'Latest', label: 'Actividad' },
@@ -95,10 +129,11 @@ function App() {
   };
 
   const toggleType = (type) => {
-    if (selectedTypes.includes(type)) {
-      setSelectedTypes(selectedTypes.filter(t => t !== type));
+    const current = selectedTypes || [];
+    if (current.includes(type)) {
+      setSelectedTypes(current.filter(t => t !== type));
     } else {
-      setSelectedTypes([...selectedTypes, type]);
+      setSelectedTypes([...current, type]);
     }
   };
 
@@ -180,7 +215,7 @@ function App() {
                   <label key={t} className="flex items-center gap-1.5 cursor-pointer group whitespace-nowrap">
                     <input 
                       type="checkbox"
-                      checked={selectedTypes.includes(t)}
+                      checked={(selectedTypes || []).includes(t)}
                       onChange={() => toggleType(t)}
                       className="w-3.5 h-3.5 rounded border-slate-300 text-strava focus:ring-strava"
                     />
@@ -271,13 +306,61 @@ function App() {
           </div>
         </div>
 
+        {/* Botón Modo Segmentos a la Derecha */}
+        <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.75rem', alignItems: 'center', paddingRight: '1rem' }}>
+          {segmentMode && (
+            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+              <button 
+                onClick={() => setSelectedSegments([])}
+                disabled={selectedSegments.length === 0}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-red-200 bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold transition-all disabled:opacity-40 cursor-pointer"
+              >
+                <Trash2 size={14} />
+                Limpiar ({selectedSegments.length})
+              </button>
+            </div>
+          )}
+          
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <button 
+              onClick={togglePointsMode}
+              className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider border-2 transition-all shadow-sm cursor-pointer ${
+                pointsMode 
+                  ? 'bg-amber-600 border-amber-600 text-white hover:bg-amber-700' 
+                  : 'bg-white border-slate-200 text-slate-700 hover:border-amber-600 hover:text-amber-600'
+              }`}
+            >
+              <MapPin size={16} className={pointsMode ? 'animate-pulse' : ''} />
+              {pointsMode ? 'Salir Puntos' : 'Modo Puntos'}
+            </button>
+
+            <button 
+              onClick={toggleSegmentMode}
+              className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider border-2 transition-all shadow-sm cursor-pointer ${
+                segmentMode 
+                  ? 'bg-indigo-600 border-indigo-600 text-white hover:bg-indigo-700' 
+                  : 'bg-white border-slate-200 text-slate-700 hover:border-indigo-600 hover:text-indigo-600'
+              }`}
+            >
+              <GitFork size={16} className={segmentMode ? 'animate-pulse' : ''} />
+              {segmentMode ? 'Salir Segmentos' : 'Modo Segmento'}
+            </button>
+          </div>
+        </div>
+
       </header>
 
       {/* Contenedor del Mapa (Ocupa el resto) */}
       <main 
         style={{ height: '100%', width: '100%', position: 'relative', overflow: 'hidden' }}
       >
-        <MapView activities={filteredActivities} />
+        <MapView 
+          activities={filteredActivities} 
+          segmentMode={segmentMode}
+          pointsMode={pointsMode}
+          selectedSegments={selectedSegments}
+          setSelectedSegments={setSelectedSegments}
+        />
       </main>
     </div>
   );

@@ -11,6 +11,9 @@ export default defineConfig({
       host: 'sherlotracks.zgz.sherblog.es',
       clientPort: 80
     },
+    watch: {
+      usePolling: true
+    },
     proxy: {
       '/api': {
         target: 'http://192.168.10.211:8800',

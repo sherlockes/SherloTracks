@@ -10,3 +10,7 @@ python-dotenv
 requests
 pydantic
 pydantic-settings
+numpy
+pandas
+scikit-learn
+scipy
