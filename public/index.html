@@ -198,6 +198,7 @@
     let trackLine = L.polyline([], { color: '#10b981', weight: 4, opacity: 0.9, lineJoin: 'round' }).addTo(map);
     
     let chartInstance = null;
+    let chartHoverMarker = null;
 
     let calculatedRadius = 25;
     const pointSizePercent = 0.3;
@@ -246,6 +247,10 @@
     function updateChart() {
         if (currentTrack.length < 2) {
             chartContainer.style.display = 'none';
+            if (chartHoverMarker) {
+                chartHoverMarker.remove();
+                chartHoverMarker = null;
+            }
             return;
         }
         
@@ -258,7 +263,16 @@
             chartInstance.data.datasets[0].data = data;
             chartInstance.update();
         } else {
-            const ctx = document.getElementById('elevationChart').getContext('2d');
+            const canvas = document.getElementById('elevationChart');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.addEventListener('mouseleave', () => {
+                if (chartHoverMarker) {
+                    chartHoverMarker.remove();
+                    chartHoverMarker = null;
+                }
+            });
+            
             chartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -270,13 +284,58 @@
                         backgroundColor: 'rgba(252, 76, 2, 0.2)',
                         fill: true,
                         tension: 0.4,
-                        pointRadius: 0
+                        pointRadius: 0,
+                        pointHoverRadius: 6,
+                        pointHoverBackgroundColor: '#FC4C02',
+                        pointHoverBorderColor: '#ffffff',
+                        pointHoverBorderWidth: 2
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    onHover: (e, activeElements) => {
+                        if (activeElements && activeElements.length > 0) {
+                            const dataIndex = activeElements[0].index;
+                            const pt = currentTrack[dataIndex];
+                            if (pt) {
+                                const latlng = [pt.lat, pt.lng];
+                                if (!chartHoverMarker) {
+                                    chartHoverMarker = L.circleMarker(latlng, {
+                                        radius: 6,
+                                        fillColor: '#FC4C02',
+                                        color: '#ffffff',
+                                        weight: 2,
+                                        opacity: 1,
+                                        fillOpacity: 1,
+                                        pane: 'tooltipPane'
+                                    }).addTo(map);
+                                } else {
+                                    chartHoverMarker.setLatLng(latlng);
+                                }
+                            }
+                        } else {
+                            if (chartHoverMarker) {
+                                chartHoverMarker.remove();
+                                chartHoverMarker = null;
+                            }
+                        }
+                    },
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: {
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.y + ' m';
+                                }
+                            }
+                        }
+                    },
                     scales: {
                         x: { display: true, ticks: { maxTicksLimit: 8, font: { size: 10 } } },
                         y: { display: true, ticks: { font: { size: 10 } } }
