@@ -78,6 +78,43 @@
             margin-bottom: 12px;
             display: none;
         }
+        .btn-help { background: #3b82f6; }
+        .btn-help:hover:not(:disabled) { background: #2563eb; }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            position: relative;
+        }
+        .modal-content h3 { margin-top: 0; color: #0f172a; font-size: 18px; margin-bottom: 16px; }
+        .modal-content ul { padding-left: 20px; color: #334155; font-size: 14px; line-height: 1.5; margin-bottom: 20px; }
+        .modal-content li { margin-bottom: 10px; }
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #64748b;
+            padding: 4px;
+            display: flex;
+        }
+        .modal-close:hover { color: #0f172a; }
     </style>
 </head>
 <body>
@@ -104,11 +141,30 @@
             <button class="btn btn-clear" id="btnClear" disabled title="Limpiar">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
             </button>
+            <button class="btn btn-help" id="btnHelp" title="Ayuda">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </button>
         </div>
         <div id="chart-container">
             <canvas id="elevationChart"></canvas>
         </div>
-        <button class="btn btn-full" id="btnDownload" disabled>Descargar GPX</button>
+        <button class="btn btn-full" id="btnDownload" disabled>Selecciona el punto de partida</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="helpModal">
+    <div class="modal-content">
+        <button class="modal-close" id="btnCloseHelp">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <h3>Cómo crear tracks</h3>
+        <ul>
+            <li><strong>Clic normal:</strong> Pulsa sobre los puntos naranjas (ya visitados) para añadirlos a tu ruta.</li>
+            <li><strong>Teclas 1, 2, 3:</strong> El sistema sugiere inteligentemente los 3 mejores puntos siguientes resaltados en azul. Pulsa la tecla correspondiente en tu teclado para añadirlo instantáneamente.</li>
+            <li><strong>Ctrl + Clic:</strong> Mantén pulsada la tecla <em>Control</em> y haz clic en <strong>cualquier parte vacía</strong> del mapa para añadir un nuevo punto manual que no hayas visitado previamente.</li>
+            <li><strong>Ctrl + Borrar (Retroceso):</strong> Deshace el último punto añadido a la ruta de forma rápida.</li>
+        </ul>
+        <button class="btn btn-full btn-help" id="btnUnderstand" style="margin-bottom:0;">Entendido</button>
     </div>
 </div>
 
@@ -161,7 +217,21 @@
     const btnDownload = document.getElementById('btnDownload');
     const btnClear = document.getElementById('btnClear');
     const btnUndo = document.getElementById('btnUndo');
+    const btnHelp = document.getElementById('btnHelp');
     const chartContainer = document.getElementById('chart-container');
+    const helpModal = document.getElementById('helpModal');
+    const btnCloseHelp = document.getElementById('btnCloseHelp');
+    const btnUnderstand = document.getElementById('btnUnderstand');
+
+    // Help Modal Logic
+    const openHelp = () => helpModal.style.display = 'flex';
+    const closeHelp = () => helpModal.style.display = 'none';
+    btnHelp.addEventListener('click', openHelp);
+    btnCloseHelp.addEventListener('click', closeHelp);
+    btnUnderstand.addEventListener('click', closeHelp);
+    helpModal.addEventListener('click', (e) => {
+        if (e.target === helpModal) closeHelp();
+    });
 
     function updateChart() {
         if (currentTrack.length < 2) {
@@ -278,6 +348,14 @@
         btnDownload.disabled = currentTrack.length < 2;
         btnClear.disabled = currentTrack.length === 0;
         btnUndo.disabled = currentTrack.length === 0;
+        
+        if (currentTrack.length === 0) {
+            btnDownload.innerText = "Selecciona el punto de partida";
+        } else if (currentTrack.length === 1) {
+            btnDownload.innerText = "Selecciona otro punto";
+        } else {
+            btnDownload.innerText = "Descargar GPX";
+        }
 
         updateProposals();
         
@@ -372,16 +450,25 @@
 
     btnDownload.addEventListener('click', () => {
         if (currentTrack.length < 2) return;
-        let gpx = '<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="SherloTracks Minisite">\n  <trk>\n    <name>Track Personalizado</name>\n    <trkseg>\n';
+        
+        const trackName = prompt("Introduce un título para tu track:", "Mi Track Personalizado");
+        if (trackName === null || trackName.trim() === '') return;
+        
+        const safeName = trackName.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        
+        let gpx = '<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="SherloTracks Minisite">\n  <trk>\n    <name>' + safeName + '</name>\n    <trkseg>\n';
         currentTrack.forEach(pt => {
-            gpx += `      <trkpt lat="${pt.lat}" lon="${pt.lng}">${pt.ele ? `<ele>${pt.ele}</ele>` : ''}</trkpt>\n`;
+            gpx += `      <trkpt lat="${pt.lat}" lon="${pt.lng}"></trkpt>\n`;
         });
         gpx += '    </trkseg>\n  </trk>\n</gpx>';
         const blob = new Blob([gpx], { type: 'application/gpx+xml' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `minisite_track_${new Date().getTime()}.gpx`;
+        
+        const safeFilename = trackName.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/(^_|_$)/g, '');
+        a.download = `${safeFilename || 'track'}_${new Date().getTime()}.gpx`;
+        
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -416,6 +503,12 @@
             isCtrlPressed = true;
             document.getElementById('app').classList.add('ctrl-pressed');
         }
+        
+        if (e.ctrlKey && e.key === 'Backspace') {
+            e.preventDefault();
+            btnUndo.click();
+        }
+        
         if (e.key === '1' && proposedPoints[0]) addPointToTrack(proposedPoints[0].latlng);
         else if (e.key === '2' && proposedPoints[1]) addPointToTrack(proposedPoints[1].latlng);
         else if (e.key === '3' && proposedPoints[2]) addPointToTrack(proposedPoints[2].latlng);
