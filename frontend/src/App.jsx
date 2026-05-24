@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import MapView from './components/MapView';
-import { Activity, RefreshCw, Map as MapIcon, Calendar, Filter, GitFork, Trash2, Download, Undo, MapPin } from 'lucide-react';
+import { Activity, RefreshCw, Map as MapIcon, Calendar, Filter, Download, Undo } from 'lucide-react';
 
 const API_URL = '/api';
 
@@ -16,19 +16,12 @@ function App() {
     const saved = localStorage.getItem('sherlo_timeFilter');
     return saved || 'Year';
   });
-  const [segmentMode, setSegmentMode] = useState(false);
-  const [selectedSegments, setSelectedSegments] = useState([]);
-  const [pointsMode, setPointsMode] = useState(false);
+  const [crucesMode, setCrucesMode] = useState(false);
 
-  const toggleSegmentMode = () => {
-    if (!segmentMode) setPointsMode(false);
-    setSegmentMode(!segmentMode);
+  const toggleCrucesMode = () => {
+    setCrucesMode(!crucesMode);
   };
 
-  const togglePointsMode = () => {
-    if (!pointsMode) setSegmentMode(false);
-    setPointsMode(!pointsMode);
-  };
 
   // Guardado persistente de cambios en localStorage
   useEffect(() => {
@@ -306,44 +299,19 @@ function App() {
           </div>
         </div>
 
-        {/* Botón Modo Segmentos a la Derecha */}
+        {/* Botón Modo Cruces a la Derecha */}
         <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.75rem', alignItems: 'center', paddingRight: '1rem' }}>
-          {segmentMode && (
-            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-              <button 
-                onClick={() => setSelectedSegments([])}
-                disabled={selectedSegments.length === 0}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-red-200 bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold transition-all disabled:opacity-40 cursor-pointer"
-              >
-                <Trash2 size={14} />
-                Limpiar ({selectedSegments.length})
-              </button>
-            </div>
-          )}
-          
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             <button 
-              onClick={togglePointsMode}
+              onClick={toggleCrucesMode}
               className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider border-2 transition-all shadow-sm cursor-pointer ${
-                pointsMode 
-                  ? 'bg-amber-600 border-amber-600 text-white hover:bg-amber-700' 
-                  : 'bg-white border-slate-200 text-slate-700 hover:border-amber-600 hover:text-amber-600'
+                crucesMode 
+                  ? 'bg-emerald-600 border-emerald-600 text-white hover:bg-emerald-700' 
+                  : 'bg-white border-slate-200 text-slate-700 hover:border-emerald-600 hover:text-emerald-600'
               }`}
             >
-              <MapPin size={16} className={pointsMode ? 'animate-pulse' : ''} />
-              {pointsMode ? 'Salir Puntos' : 'Modo Puntos'}
-            </button>
-
-            <button 
-              onClick={toggleSegmentMode}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider border-2 transition-all shadow-sm cursor-pointer ${
-                segmentMode 
-                  ? 'bg-indigo-600 border-indigo-600 text-white hover:bg-indigo-700' 
-                  : 'bg-white border-slate-200 text-slate-700 hover:border-indigo-600 hover:text-indigo-600'
-              }`}
-            >
-              <GitFork size={16} className={segmentMode ? 'animate-pulse' : ''} />
-              {segmentMode ? 'Salir Segmentos' : 'Modo Segmento'}
+              <span className={crucesMode ? 'animate-pulse font-extrabold text-sm' : 'font-extrabold text-sm'}>X</span>
+              {crucesMode ? 'Salir Cruces' : 'Modo Cruces'}
             </button>
           </div>
         </div>
@@ -356,10 +324,7 @@ function App() {
       >
         <MapView 
           activities={filteredActivities} 
-          segmentMode={segmentMode}
-          pointsMode={pointsMode}
-          selectedSegments={selectedSegments}
-          setSelectedSegments={setSelectedSegments}
+          crucesMode={crucesMode}
         />
       </main>
     </div>

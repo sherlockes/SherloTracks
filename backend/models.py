@@ -70,3 +70,10 @@ class NetworkEdge(Base):
     status = Column(String(20), default='active', index=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+
+class Cruce(Base):
+    __tablename__ = "cruces"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    geom = Column(Geometry(geometry_type='POINT', srid=4326), nullable=False, index=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
