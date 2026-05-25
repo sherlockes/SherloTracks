@@ -29,6 +29,10 @@ def migrate_db():
         db.execute(text("ALTER TABLE activities ADD COLUMN IF NOT EXISTS average_speed FLOAT;"))
         db.execute(text("ALTER TABLE activities ADD COLUMN IF NOT EXISTS max_speed FLOAT;"))
         
+        db.execute(text("ALTER TABLE cruces ADD COLUMN IF NOT EXISTS nombre VARCHAR;"))
+        db.execute(text("ALTER TABLE cruces ADD COLUMN IF NOT EXISTS radio_influencia INTEGER DEFAULT 25;"))
+
+        
         # Creamos la función para snapping iterativo secuencial.
         # Esto previene OOM al no materializar los pasos intermedios en un CTE recursivo.
         db.execute(text("""
@@ -263,6 +267,12 @@ class CruceCreate(BaseModel):
     lat: float
     lon: float
 
+class CruceUpdate(BaseModel):
+    lat: float = None
+    lon: float = None
+    nombre: str = None
+    radio_influencia: int = None
+
 class CruceImportItem(BaseModel):
     lat: float
     lon: float
@@ -282,11 +292,18 @@ def create_cruce(req: CruceCreate, db: Session = Depends(get_db)):
     import json
     try:
         db_cruce = models.Cruce(
-            geom=f"SRID=4326;POINT({req.lon} {req.lat})"
+            geom=f"SRID=4326;POINT({req.lon} {req.lat})",
+            radio_influencia=25
         )
         db.add(db_cruce)
         db.commit()
         db.refresh(db_cruce)
+        
+        # Asignar nombre por defecto basado en su ID si está vacío
+        if not db_cruce.nombre:
+            db_cruce.nombre = f"Cruce #{db_cruce.id}"
+            db.commit()
+            db.refresh(db_cruce)
         
         geojson_query = db.query(func.ST_AsGeoJSON(db_cruce.geom)).scalar()
         geojson = json.loads(geojson_query) if geojson_query else {}
@@ -295,7 +312,9 @@ def create_cruce(req: CruceCreate, db: Session = Depends(get_db)):
             "type": "Feature",
             "geometry": geojson,
             "properties": {
-                "id": db_cruce.id
+                "id": db_cruce.id,
+                "nombre": db_cruce.nombre,
+                "radio_influencia": db_cruce.radio_influencia
             }
         }
     except Exception as e:
@@ -358,6 +377,8 @@ def get_cruces(db: Session = Depends(get_db)):
     
     results = db.query(
         models.Cruce.id,
+        models.Cruce.nombre,
+        models.Cruce.radio_influencia,
         func.ST_AsGeoJSON(models.Cruce.geom).label("geojson")
     ).all()
     
@@ -368,7 +389,9 @@ def get_cruces(db: Session = Depends(get_db)):
             "type": "Feature",
             "geometry": geojson,
             "properties": {
-                "id": r.id
+                "id": r.id,
+                "nombre": r.nombre if r.nombre is not None else f"Cruce #{r.id}",
+                "radio_influencia": r.radio_influencia if r.radio_influencia is not None else 25
             }
         })
         
@@ -391,14 +414,36 @@ def delete_cruce(id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.put("/cruces/{id}")
-def update_cruce(id: int, req: CruceCreate, db: Session = Depends(get_db)):
+def update_cruce(id: int, req: CruceUpdate, db: Session = Depends(get_db)):
     db_cruce = db.query(models.Cruce).filter(models.Cruce.id == id).first()
     if not db_cruce:
         raise HTTPException(status_code=404, detail="Cruce not found")
     try:
-        db_cruce.geom = f"SRID=4326;POINT({req.lon} {req.lat})"
+        if req.lat is not None and req.lon is not None:
+            db_cruce.geom = f"SRID=4326;POINT({req.lon} {req.lat})"
+        if req.nombre is not None:
+            db_cruce.nombre = req.nombre
+        if req.radio_influencia is not None:
+            db_cruce.radio_influencia = req.radio_influencia
         db.commit()
-        return {"status": "success", "id": id, "lat": req.lat, "lon": req.lon}
+        db.refresh(db_cruce)
+        
+        from sqlalchemy import func
+        import json
+        geojson_query = db.query(func.ST_AsGeoJSON(db_cruce.geom)).scalar()
+        geojson = json.loads(geojson_query) if geojson_query else {}
+        
+        return {
+            "status": "success",
+            "id": id,
+            "type": "Feature",
+            "geometry": geojson,
+            "properties": {
+                "id": db_cruce.id,
+                "nombre": db_cruce.nombre,
+                "radio_influencia": db_cruce.radio_influencia
+            }
+        }
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=500, detail=str(e))

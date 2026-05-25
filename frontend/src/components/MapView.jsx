@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { MapContainer, TileLayer, useMap, Polyline, LayersControl, Popup, Circle, Tooltip, Marker } from 'react-leaflet';
 import L from 'leaflet';
 import axios from 'axios';
-import { Download, Upload, Trash2, Info, Settings, Sliders, RefreshCw, Plus, Minus, Share2 } from 'lucide-react';
+import { Download, Upload, Trash2, Info, Settings, Sliders, RefreshCw, Plus, Minus, Share2, Check, X, Edit2, Maximize2, Minimize2, Square } from 'lucide-react';
 
 const RouteLine = ({ act, path, dimmed }) => {
   const [hover, setHover] = useState(false);
@@ -186,13 +186,81 @@ const TramoLine = ({ tramo }) => {
   );
 };
 
-const TramosLayer = ({ tramos, crucesMode, creandoTrack }) => {
-  if (!crucesMode || !tramos || tramos.length === 0 || creandoTrack) return null;
+const UnassignedTramoLine = ({ tramo }) => {
+  const [hover, setHover] = useState(false);
+
+  // Convertir puntos de [lon, lat] a [lat, lon]
+  const path = tramo.points.map(p => [p[1], p[0]]);
+
+  // Calcular longitud en metros del tramo
+  let distance = 0;
+  for (let i = 0; i < path.length - 1; i++) {
+    distance += L.latLng(path[i]).distanceTo(L.latLng(path[i+1]));
+  }
+  const distanceStr = distance < 1000 ? `${Math.round(distance)} m` : `${(distance/1000).toFixed(2)} km`;
+
+  return (
+    <Polyline
+      positions={path}
+      eventHandlers={{
+        mouseover: (e) => {
+          setHover(true);
+          e.target.bringToFront();
+        },
+        mouseout: () => setHover(false),
+      }}
+      pathOptions={{
+        color: hover ? '#fb923c' : '#ea580c', // Naranja vibrante
+        weight: hover ? 5.5 : 3.5,
+        opacity: hover ? 0.95 : 0.65,
+        dashArray: '8, 8', // Línea discontinua indicando que está pendiente de asignación
+        lineJoin: 'round'
+      }}
+    >
+      <Popup>
+        <div style={{ padding: '0.5rem', minWidth: '220px', fontFamily: 'sans-serif' }}>
+          <h4 style={{ margin: '0 0 0.375rem 0', fontWeight: 'bold', color: '#ea580c', fontSize: '12px', borderBottom: '1px solid #f1f5f9', paddingBottom: '0.25rem', display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+            <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#ea580c' }}></span>
+            Trayecto Pendiente de Cruces
+          </h4>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', fontSize: '11px', color: '#475569' }}>
+            <p style={{ margin: '0 0 0.5rem 0', color: '#64748b', fontSize: '10px', lineHeight: '1.3' }}>
+              Este trayecto no conecta dos cruces. Agrega cruces (Alt+Click) en sus extremos para convertirlo en tramos válidos.
+            </p>
+            <div>
+              <span style={{ fontWeight: '600', color: '#94a3b8' }}>Longitud: </span>
+              <span style={{ fontWeight: 'bold', color: '#0f172a' }}>{distanceStr}</span>
+            </div>
+            <div style={{ marginTop: '0.375rem', borderTop: '1px solid #f1f5f9', paddingTop: '0.375rem' }}>
+              <span style={{ fontWeight: '600', color: '#ea580c', display: 'block', marginBottom: '0.125rem' }}>Uso por actividades ({tramo.count}):</span>
+              <div style={{ maxHeight: '60px', overflowY: 'auto', fontSize: '10px', color: '#64748b', fontWeight: '500', paddingLeft: '0.25rem' }}>
+                {Array.from(tramo.activityNames).map((name, idx) => (
+                  <div key={idx} style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', borderLeft: '2px solid rgba(234,88,12,0.3)', paddingLeft: '0.25rem', marginBottom: '0.125rem' }} title={name}>
+                    {name}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </Popup>
+    </Polyline>
+  );
+};
+
+const TramosLayer = ({ tramos, unassignedTramos, crucesMode, creandoTrack }) => {
+  if (!crucesMode || creandoTrack) return null;
 
   return (
     <>
-      {tramos.map((tr) => (
+      {/* Tramos válidos entre cruces */}
+      {tramos && tramos.map((tr) => (
         <TramoLine key={tr.id} tramo={tr} />
+      ))}
+
+      {/* Trayectos no asignados a cruces (naranjas discontinuos) */}
+      {unassignedTramos && unassignedTramos.map((tr) => (
+        <UnassignedTramoLine key={tr.id} tramo={tr} />
       ))}
     </>
   );
@@ -318,7 +386,8 @@ const CrucesLayer = ({
   trackCurrentCruce,
   setTrackCurrentCruce,
   setTrackTramos,
-  tramos
+  tramos,
+  editingRadius
 }) => {
   const map = useMap();
   const [calculatedRadius, setCalculatedRadius] = useState(10); // metros
@@ -331,7 +400,7 @@ const CrucesLayer = ({
 
     const cruceCoords = [cruce.geometry.coordinates[1], cruce.geometry.coordinates[0]]; // [lat, lon]
     const cruceLatLng = L.latLng(cruceCoords);
-    const influenceRadius = pointsParams.cruceInfluence || 25;
+    const influenceRadius = cruce.properties.radio_influencia || 25;
 
     // 1. Identificar todos los segmentos del recorrido que entran en la zona de influencia del cruce
     const segmentsInInfluence = [];
@@ -626,6 +695,16 @@ const CrucesLayer = ({
       {cruces.map((c) => {
         if (!c.geometry || !c.geometry.coordinates) return null;
 
+        // Ocultar cruces por los que no pasa ningún segmento (excepto si está seleccionado)
+        const isSelected = selectedCruce && selectedCruce.properties.id === c.properties.id;
+        const hasAnySegment = tramos.some(t => 
+          t.startId === `cruce_${c.properties.id}` || 
+          t.endId === `cruce_${c.properties.id}`
+        );
+        if (!hasAnySegment && !isSelected) {
+          return null; // Ocultar
+        }
+
         // Si estamos en modo de creación de track y ya elegimos un cruce de inicio,
         // sólo mostramos el inicio, el actual, y los extremos de los siguientes tramos candidatos
         if (creandoTrack && trackStartCruce) {
@@ -661,8 +740,7 @@ const CrucesLayer = ({
         }
         
         const position = [c.geometry.coordinates[1], c.geometry.coordinates[0]];
-        const isSelected = selectedCruce && selectedCruce.properties.id === c.properties.id;
-        const influenceRadius = pointsParams.cruceInfluence || 25;
+        const influenceRadius = isSelected ? editingRadius : (c.properties.radio_influencia || 25);
         
         // Personalización de colores y etiquetas en modo creación
         let iconHtml = 'X';
@@ -767,47 +845,11 @@ const CrucesLayer = ({
                 }}
               >
                 {!creandoTrack && (
-                  <Popup
-                    eventHandlers={{
-                      remove: () => {
-                        if (isSelected) setSelectedCruce(null);
-                      }
-                    }}
-                  >
-                    <div className="text-center p-1.5 min-w-[140px] font-sans">
-                      <h4 className="font-bold text-slate-800 text-xs mb-2 border-b border-slate-100 pb-1">Cruce #{c.properties.id}</h4>
-                      <button
-                        onClick={(e) => {
-                          L.DomEvent.stopPropagation(e);
-                          handleAddToTrack(c);
-                        }}
-                        className="w-full flex items-center justify-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[10px] uppercase py-2 px-3 rounded shadow-md transition-all cursor-pointer border-none mb-1.5"
-                      >
-                        <Plus size={12} />
-                        Añadir a track
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          L.DomEvent.stopPropagation(e);
-                          handleRemoveFromTrack(c);
-                        }}
-                        className="w-full flex items-center justify-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[10px] uppercase py-2 px-3 rounded shadow-md transition-all cursor-pointer border-none mb-1.5"
-                      >
-                        <Minus size={12} />
-                        Quitar de track
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          L.DomEvent.stopPropagation(e);
-                          onDeleteCruce(c.properties.id);
-                        }}
-                        className="w-full flex items-center justify-center gap-1.5 bg-red-600 hover:bg-red-700 text-white font-bold text-[10px] uppercase py-2 px-3 rounded shadow-md transition-all cursor-pointer border-none"
-                      >
-                        <Trash2 size={12} />
-                        Borrar Cruce
-                      </button>
-                    </div>
-                  </Popup>
+                  <Tooltip direction="top" offset={[0, -10]} opacity={0.9}>
+                    <span style={{ fontWeight: 'bold', color: '#1e293b' }}>
+                      {c.properties.nombre || `Cruce #${c.properties.id}`}
+                    </span>
+                  </Tooltip>
                 )}
               </Marker>
             ) : (
@@ -846,49 +888,6 @@ const CrucesLayer = ({
                 >
                   <span>{labelText}</span>
                 </Tooltip>
-                {!creandoTrack && (
-                  <Popup
-                    eventHandlers={{
-                      remove: () => {
-                        if (isSelected) setSelectedCruce(null);
-                      }
-                    }}
-                  >
-                    <div className="text-center p-1.5 min-w-[140px] font-sans">
-                      <h4 className="font-bold text-slate-800 text-xs mb-2 border-b border-slate-100 pb-1">Cruce #{c.properties.id}</h4>
-                      <button
-                        onClick={(e) => {
-                          L.DomEvent.stopPropagation(e);
-                          handleAddToTrack(c);
-                        }}
-                        className="w-full flex items-center justify-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[10px] uppercase py-2 px-3 rounded shadow-md transition-all cursor-pointer border-none mb-1.5"
-                      >
-                        <Plus size={12} />
-                        Añadir a track
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          L.DomEvent.stopPropagation(e);
-                          handleRemoveFromTrack(c);
-                        }}
-                        className="w-full flex items-center justify-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[10px] uppercase py-2 px-3 rounded shadow-md transition-all cursor-pointer border-none mb-1.5"
-                      >
-                        <Minus size={12} />
-                        Quitar de track
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          L.DomEvent.stopPropagation(e);
-                          onDeleteCruce(c.properties.id);
-                        }}
-                        className="w-full flex items-center justify-center gap-1.5 bg-red-600 hover:bg-red-700 text-white font-bold text-[10px] uppercase py-2 px-3 rounded shadow-md transition-all cursor-pointer border-none"
-                      >
-                        <Trash2 size={12} />
-                        Borrar Cruce
-                      </button>
-                    </div>
-                  </Popup>
-                )}
               </Circle>
             )}
           </React.Fragment>
@@ -970,6 +969,85 @@ const ViewportPersister = () => {
   return null;
 };
 
+// Componente para el Zoom de Ventana (Box Zoom) con dibujo de recuadro interactivo
+const BoxZoomListener = ({ active, setActive }) => {
+  const map = useMap();
+  const [dragStart, setDragStart] = useState(null);
+  const [rect, setRect] = useState(null);
+
+  useEffect(() => {
+    if (!active || !map) {
+      if (rect) {
+        rect.remove();
+        setRect(null);
+      }
+      setDragStart(null);
+      return;
+    }
+
+    // Desactivar arrastre normal
+    map.dragging.disable();
+    // Puntero en forma de cruz para la selección
+    map.getContainer().style.cursor = 'crosshair';
+
+    const handleMouseDown = (e) => {
+      if (e.originalEvent.button !== 0) return; // Solo click izquierdo
+      setDragStart(e.latlng);
+      
+      const newRect = L.rectangle([e.latlng, e.latlng], {
+        color: '#FC4C02', // Naranja Strava
+        weight: 1.5,
+        dashArray: '5, 5',
+        fillColor: '#FC4C02',
+        fillOpacity: 0.15,
+        interactive: false
+      }).addTo(map);
+      
+      setRect(newRect);
+    };
+
+    const handleMouseMove = (e) => {
+      if (!dragStart || !rect) return;
+      rect.setBounds([dragStart, e.latlng]);
+    };
+
+    const handleMouseUp = (e) => {
+      if (!dragStart || !rect) return;
+      
+      const bounds = rect.getBounds();
+      const startPt = map.latLngToContainerPoint(dragStart);
+      const endPt = map.latLngToContainerPoint(e.latlng);
+      const distance = startPt.distanceTo(endPt);
+
+      if (distance > 10) {
+        map.fitBounds(bounds, { animate: true });
+      }
+
+      rect.remove();
+      setRect(null);
+      setDragStart(null);
+      setActive(false);
+    };
+
+    map.on('mousedown', handleMouseDown);
+    map.on('mousemove', handleMouseMove);
+    map.on('mouseup', handleMouseUp);
+
+    return () => {
+      map.dragging.enable();
+      map.getContainer().style.cursor = '';
+      map.off('mousedown', handleMouseDown);
+      map.off('mousemove', handleMouseMove);
+      map.off('mouseup', handleMouseUp);
+      if (rect) {
+        rect.remove();
+      }
+    };
+  }, [active, dragStart, rect, map, setActive]);
+
+  return null;
+};
+
 // Componente para auto-centrar el mapa
 const AutoCenter = ({ activities }) => {
   const map = useMap();
@@ -1025,6 +1103,8 @@ const MapView = ({
         const parsed = JSON.parse(saved);
         if (parsed.cruceInfluence === undefined) parsed.cruceInfluence = 25;
         if (parsed.similarityTolerance === undefined) parsed.similarityTolerance = 25;
+        if (parsed.minUnassignedLength === undefined) parsed.minUnassignedLength = 100;
+        if (parsed.maxActivitiesToProcess === undefined) parsed.maxActivitiesToProcess = 50;
         return parsed;
       } catch (e) {
         console.error("Error cargando pointsParams:", e);
@@ -1033,23 +1113,65 @@ const MapView = ({
     return {
       pointSizePercent: 0.5, // % de la pantalla
       cruceInfluence: 25, // Radio de influencia en metros por defecto
-      similarityTolerance: 25 // Tolerancia de similitud en metros por defecto
+      similarityTolerance: 25, // Tolerancia de similitud en metros por defecto
+      minUnassignedLength: 100, // Omitir trayectos pendientes menores a 100m por defecto
+      maxActivitiesToProcess: 50 // Máximo de rutas a procesar por defecto
     };
   });
+
+  const [map, setMap] = useState(null);
+  const [zoom, setZoom] = useState(6);
+  const [activationBounds, setActivationBounds] = useState(null);
+
+  useEffect(() => {
+    if (!map) return;
+    const updateZoom = () => {
+      setZoom(map.getZoom());
+    };
+    setZoom(map.getZoom());
+    map.on('zoomend', updateZoom);
+    return () => {
+      map.off('zoomend', updateZoom);
+    };
+  }, [map]);
 
   useEffect(() => {
     localStorage.setItem('sherlo_pointsParams', JSON.stringify(pointsParams));
   }, [pointsParams]);
+
+  const [tempMaxActivities, setTempMaxActivities] = useState(pointsParams.maxActivitiesToProcess || 50);
+  const [tempMinUnassignedLength, setTempMinUnassignedLength] = useState(pointsParams.minUnassignedLength || 100);
+
+  useEffect(() => {
+    setTempMaxActivities(pointsParams.maxActivitiesToProcess || 50);
+  }, [pointsParams.maxActivitiesToProcess]);
+
+  useEffect(() => {
+    setTempMinUnassignedLength(pointsParams.minUnassignedLength !== undefined ? pointsParams.minUnassignedLength : 100);
+  }, [pointsParams.minUnassignedLength]);
+
   const [showSettings, setShowSettings] = useState(false);
+  const [boxZoomActive, setBoxZoomActive] = useState(false);
 
   const [tramos, setTramos] = useState([]);
+  const [unassignedTramos, setUnassignedTramos] = useState([]);
   const [cruces, setCruces] = useState([]);
   const [selectedCruce, setSelectedCruce] = useState(null);
+  const [editingName, setEditingName] = useState("");
+  const [editingRadius, setEditingRadius] = useState(25);
+
+  useEffect(() => {
+    if (selectedCruce) {
+      setEditingName(selectedCruce.properties.nombre || `Cruce #${selectedCruce.properties.id}`);
+      setEditingRadius(selectedCruce.properties.radio_influencia || 25);
+    } else {
+      setEditingName("");
+      setEditingRadius(25);
+    }
+  }, [selectedCruce]);
+
   const [randomActivity, setRandomActivity] = useState(null);
   const [loadingCruces, setLoadingCruces] = useState(false);
-  const [map, setMap] = useState(null);
-  const [zoom, setZoom] = useState(6);
-  const [activationBounds, setActivationBounds] = useState(null);
 
   const [creandoTrack, setCreandoTrack] = useState(false);
   const [trackStartCruce, setTrackStartCruce] = useState(null);
@@ -1378,9 +1500,41 @@ const MapView = ({
       });
       if (response.data) {
         setCruces(prev => [...prev, response.data]);
+        setSelectedCruce(response.data);
       }
     } catch (e) {
       console.error("Error al guardar cruce:", e);
+    }
+  };
+
+  const handleSaveCruceDetails = async () => {
+    if (!selectedCruce) return;
+    try {
+      const response = await axios.put(`/api/cruces/${selectedCruce.properties.id}`, {
+        nombre: editingName,
+        radio_influencia: editingRadius
+      });
+      if (response.data && response.data.status === 'success') {
+        // Actualizar el cruce en el estado local
+        setCruces(prev => prev.map(c => {
+          if (c.properties.id === selectedCruce.properties.id) {
+            return {
+              ...c,
+              properties: {
+                ...c.properties,
+                nombre: editingName,
+                radio_influencia: editingRadius
+              }
+            };
+          }
+          return c;
+        }));
+        
+        setSelectedCruce(null); // Cerrar panel al guardar con éxito
+      }
+    } catch (e) {
+      console.error("Error al guardar detalles del cruce:", e);
+      alert("No se pudieron guardar los cambios del cruce.");
     }
   };
 
@@ -1590,43 +1744,52 @@ const MapView = ({
     }
   }, [crucesMode, fetchCruces, map]);
 
-  const calculateTramos = useCallback(() => {
-    if (!crucesMode || !activities || activities.length === 0 || cruces.length === 0) {
-      setTramos([]);
-      return;
-    }
+  const visibleCruces = useMemo(() => {
+    if (!crucesMode || !cruces || cruces.length === 0) return [];
+    return cruces.filter(c => {
+      if (!activationBounds) return true;
+      if (!c.geometry || !c.geometry.coordinates) return false;
+      const [lon, lat] = c.geometry.coordinates;
+      return activationBounds.contains(L.latLng(lat, lon));
+    });
+  }, [crucesMode, cruces, activationBounds]);
 
-    const influenceRadius = pointsParams.cruceInfluence || 25;
-    const similarityTolerance = pointsParams.similarityTolerance || 25;
-
-    // 1. Obtener la lista de todos los cruces con sus coordenadas Leaflet (filtrados por las zonas visibles en la activación)
-    const crucesList = cruces
-      .map(c => {
-        const [cLon, cLat] = c.geometry.coordinates;
-        return {
-          id: c.properties.id,
-          latlng: L.latLng(cLat, cLon),
-          coords: [cLon, cLat] // [lon, lat]
-        };
-      })
-      .filter(c => {
-        if (!activationBounds) return true;
-        return activationBounds.contains(c.latlng);
-      });
-
-    if (crucesList.length === 0) {
-      setTramos([]);
-      return;
-    }
-
-    // Filtrar actividades: sólo buscamos segmentos en las rutas que cruzan la zona visible en la activación
-    const visibleActivities = activities.filter(act => {
+  const visibleActivities = useMemo(() => {
+    if (!crucesMode || !activities || activities.length === 0) return [];
+    
+    // 1. Filtrar las actividades visibles en pantalla
+    const filtered = activities.filter(act => {
       if (!activationBounds) return true;
       if (!act.points || act.points.length === 0) return false;
       return act.points.some(pt => {
         const latlng = L.latLng(pt[1], pt[0]);
         return activationBounds.contains(latlng);
       });
+    });
+
+    // 2. Limitar a las más recientes según el parámetro maxActivitiesToProcess
+    const limit = pointsParams.maxActivitiesToProcess !== undefined ? pointsParams.maxActivitiesToProcess : 50;
+    return filtered.slice(0, limit);
+  }, [crucesMode, activities, activationBounds, pointsParams.maxActivitiesToProcess]);
+
+  const calculateTramos = useCallback(() => {
+    if (!crucesMode || !activities || activities.length === 0) {
+      setTramos([]);
+      setUnassignedTramos([]);
+      return;
+    }
+
+    const similarityTolerance = pointsParams.similarityTolerance || 25;
+
+    // 1. Obtener la lista de todos los cruces con sus coordenadas Leaflet (filtrados por las zonas visibles)
+    const crucesList = visibleCruces.map(c => {
+      const [cLon, cLat] = c.geometry.coordinates;
+      return {
+        id: c.properties.id,
+        latlng: L.latLng(cLat, cLon),
+        coords: [cLon, cLat], // [lon, lat]
+        radio_influencia: c.properties.radio_influencia || 25
+      };
     });
 
     // 2. Para cada ruta visible, ajustar e insertar los cruces por los que pasa
@@ -1640,6 +1803,7 @@ const MapView = ({
       crucesList.forEach(cruce => {
         const cruceLatLng = cruce.latlng;
         const [cLon, cLat] = cruce.coords;
+        const influenceRadius = cruce.radio_influencia;
 
         // Identificar segmentos en influencia
         const segmentsInInfluence = [];
@@ -1894,8 +2058,18 @@ const MapView = ({
       return maxDist;
     };
 
+    const minLength = pointsParams.minUnassignedLength !== undefined ? pointsParams.minUnassignedLength : 100;
+    const getPathLength = (pts) => {
+      let len = 0;
+      for (let i = 0; i < pts.length - 1; i++) {
+        len += L.latLng(pts[i][1], pts[i][0]).distanceTo(L.latLng(pts[i+1][1], pts[i+1][0]));
+      }
+      return len;
+    };
+
     // Filtrar sub-paths: deben empezar y terminar en cruces físicos y no ser el mismo cruce
     const validSubPaths = [];
+    const unassignedSubPaths = [];
     subPaths.forEach(sp => {
       const startId = getEndpointId(sp.points[0]);
       const endId = getEndpointId(sp.points[sp.points.length - 1]);
@@ -1906,6 +2080,15 @@ const MapView = ({
           startId,
           endId
         });
+      } else {
+        const len = getPathLength(sp.points);
+        if (len >= minLength) {
+          unassignedSubPaths.push({
+            ...sp,
+            startId,
+            endId
+          });
+        }
       }
     });
 
@@ -1939,8 +2122,39 @@ const MapView = ({
       }
     });
 
+    // Consolidación espacial de tramos no asignados
+    const finalUnassigned = [];
+    unassignedSubPaths.forEach(sp => {
+      let isSimilar = false;
+      for (let i = 0; i < finalUnassigned.length; i++) {
+        const existing = finalUnassigned[i];
+        const trajDist = getTrajectoryDistance(sp.points, existing.points);
+        if (trajDist <= similarityTolerance) {
+          isSimilar = true;
+          existing.activityNames.add(sp.activityName);
+          existing.count += 1;
+          if (sp.points.length > existing.points.length) {
+            existing.points = sp.points;
+          }
+          break;
+        }
+      }
+
+      if (!isSimilar) {
+        finalUnassigned.push({
+          id: `unassigned_${finalUnassigned.length}`,
+          points: sp.points,
+          startId: sp.startId,
+          endId: sp.endId,
+          activityNames: new Set([sp.activityName]),
+          count: 1
+        });
+      }
+    });
+
     setTramos(finalTramos);
-  }, [crucesMode, activities, cruces, pointsParams.cruceInfluence, pointsParams.similarityTolerance, activationBounds]);
+    setUnassignedTramos(finalUnassigned);
+  }, [crucesMode, visibleActivities, visibleCruces, pointsParams.similarityTolerance]);
 
   useEffect(() => {
     if (crucesMode) {
@@ -1948,7 +2162,7 @@ const MapView = ({
     } else {
       setTramos([]);
     }
-  }, [crucesMode, activities, cruces, pointsParams.cruceInfluence, pointsParams.similarityTolerance, calculateTramos, activationBounds]);
+  }, [crucesMode, visibleActivities, visibleCruces, pointsParams.similarityTolerance, calculateTramos]);
 
 
   return (
@@ -1994,7 +2208,7 @@ const MapView = ({
           />
           <span style={{ fontWeight: 600, color: '#334155' }}>
             {crucesMode
-              ? `Modo Cruces (${cruces.length} Cruces, ${tramos.length} Tramos)`
+              ? `Modo Cruces (${visibleActivities.length} Actividades, ${visibleCruces.length} Cruces, ${tramos.length} Tramos)`
               : (activities.length > 0 ? `Visualizando ${activities.length} recorridos` : 'Cargando...')}
           </span>
           {crucesMode && (
@@ -2106,19 +2320,6 @@ const MapView = ({
                 <span style={{ fontSize: '9px', color: '#94a3b8', fontWeight: 500, lineHeight: 1.25 }}>Radio de visualización de los cruces. Crece/encoge con el zoom.</span>
               </div>
 
-              {/* Influencia del Cruce */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '10px', fontWeight: 900, textTransform: 'uppercase', color: '#94a3b8' }}>
-                  <span>Influencia (Metros)</span>
-                  <input 
-                    type="number" step="5" min="1"
-                    value={pointsParams.cruceInfluence || 25}
-                    onChange={(e) => setPointsParams(prev => ({ ...prev, cruceInfluence: parseInt(e.target.value, 10) || 1 }))}
-                    style={{ width: '4rem', textAlign: 'right', fontSize: '11px', fontFamily: 'monospace', padding: '0.125rem', border: '1px solid #e2e8f0', borderRadius: '0.25rem' }}
-                  />
-                </div>
-                <span style={{ fontSize: '9px', color: '#94a3b8', fontWeight: 500, lineHeight: 1.25 }}>Radio de la aureola de influencia física del cruce en metros.</span>
-              </div>
 
               {/* Tolerancia Similitud */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
@@ -2132,6 +2333,82 @@ const MapView = ({
                   />
                 </div>
                 <span style={{ fontSize: '9px', color: '#94a3b8', fontWeight: 500, lineHeight: 1.25 }}>Desviación máxima en metros para fundir caminos parecidos en un solo tramo.</span>
+              </div>
+
+              {/* Descartar Pendientes Cortos */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '10px', fontWeight: 900, textTransform: 'uppercase', color: '#94a3b8' }}>
+                  <span>Descartar pendientes &lt; (m)</span>
+                  <input 
+                    type="number" step="10" min="0" max="1000"
+                    value={tempMinUnassignedLength}
+                    onChange={(e) => setTempMinUnassignedLength(parseInt(e.target.value, 10) || 0)}
+                    onBlur={() => setPointsParams(prev => ({ ...prev, minUnassignedLength: tempMinUnassignedLength }))}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        setPointsParams(prev => ({ ...prev, minUnassignedLength: tempMinUnassignedLength }));
+                        e.target.blur();
+                      }
+                    }}
+                    style={{ width: '4rem', textAlign: 'right', fontSize: '11px', fontFamily: 'monospace', padding: '0.125rem', border: '1px solid #e2e8f0', borderRadius: '0.25rem' }}
+                  />
+                </div>
+                <input 
+                  type="range" 
+                  min="0" 
+                  max="500" 
+                  step="10"
+                  value={tempMinUnassignedLength}
+                  onChange={(e) => setTempMinUnassignedLength(parseInt(e.target.value, 10) || 0)}
+                  onMouseUp={() => setPointsParams(prev => ({ ...prev, minUnassignedLength: tempMinUnassignedLength }))}
+                  onTouchEnd={() => setPointsParams(prev => ({ ...prev, minUnassignedLength: tempMinUnassignedLength }))}
+                  style={{ 
+                    width: '100%', 
+                    accentColor: '#10b981',
+                    cursor: 'pointer' 
+                  }}
+                />
+                <span style={{ fontSize: '9px', color: '#94a3b8', fontWeight: 500, lineHeight: 1.25 }}>Oculta trayectos naranjas sin cruces de longitud menor a los metros indicados.</span>
+              </div>
+
+              {/* Límite Rutas a Cargar */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '10px', fontWeight: 900, textTransform: 'uppercase', color: '#94a3b8' }}>
+                  <span>Máx. Rutas a Procesar</span>
+                  <input 
+                    type="number" step="10" min="5" max="5000"
+                    value={tempMaxActivities}
+                    onChange={(e) => setTempMaxActivities(parseInt(e.target.value, 10) || 0)}
+                    onBlur={() => {
+                      const val = Math.max(5, tempMaxActivities);
+                      setPointsParams(prev => ({ ...prev, maxActivitiesToProcess: val }));
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        const val = Math.max(5, tempMaxActivities);
+                        setPointsParams(prev => ({ ...prev, maxActivitiesToProcess: val }));
+                        e.target.blur();
+                      }
+                    }}
+                    style={{ width: '4rem', textAlign: 'right', fontSize: '11px', fontFamily: 'monospace', padding: '0.125rem', border: '1px solid #e2e8f0', borderRadius: '0.25rem' }}
+                  />
+                </div>
+                <input 
+                  type="range" 
+                  min="10" 
+                  max="500" 
+                  step="10"
+                  value={tempMaxActivities}
+                  onChange={(e) => setTempMaxActivities(parseInt(e.target.value, 10) || 10)}
+                  onMouseUp={() => setPointsParams(prev => ({ ...prev, maxActivitiesToProcess: tempMaxActivities }))}
+                  onTouchEnd={() => setPointsParams(prev => ({ ...prev, maxActivitiesToProcess: tempMaxActivities }))}
+                  style={{ 
+                    width: '100%', 
+                    accentColor: '#10b981',
+                    cursor: 'pointer' 
+                  }}
+                />
+                <span style={{ fontSize: '9px', color: '#94a3b8', fontWeight: 500, lineHeight: 1.25 }}>Límite máximo de rutas a procesar en pantalla (más recientes primero) para evitar atascos de rendimiento.</span>
               </div>
 
               {/* Botón para Cargar Ruta al Azar */}
@@ -2279,6 +2556,161 @@ const MapView = ({
                 >
                   <Share2 size={11} />
                   Exportar a minisite
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {crucesMode && selectedCruce && (
+          <div 
+            style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.95)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
+              borderRadius: '1rem',
+              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+              border: '1px solid #f1f5f9',
+              padding: '1.25rem',
+              width: '20rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1rem',
+              fontFamily: 'sans-serif'
+            }}
+          >
+            <h4 style={{ margin: 0, fontWeight: 900, fontSize: '0.75rem', color: '#10b981', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+              <Edit2 size={13} style={{ color: '#10b981' }} />
+              Editar Cruce #{selectedCruce.properties.id}
+            </h4>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              {/* Nombre del Cruce */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                <label style={{ fontSize: '10px', fontWeight: 900, textTransform: 'uppercase', color: '#94a3b8' }}>
+                  Nombre del Cruce
+                </label>
+                <input 
+                  type="text"
+                  value={editingName}
+                  onChange={(e) => setEditingName(e.target.value)}
+                  placeholder="Ej. Cruce de los pinos"
+                  style={{ 
+                    width: '100%', 
+                    boxSizing: 'border-box',
+                    fontSize: '13px', 
+                    padding: '0.5rem', 
+                    border: '1px solid #e2e8f0', 
+                    borderRadius: '0.375rem',
+                    outline: 'none'
+                  }}
+                />
+              </div>
+
+              {/* Radio de Influencia */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '10px', fontWeight: 900, textTransform: 'uppercase', color: '#94a3b8' }}>
+                  <span>Radio de Influencia</span>
+                  <span style={{ fontSize: '11px', fontFamily: 'monospace', color: '#10b981', fontWeight: 700 }}>
+                    {editingRadius} m
+                  </span>
+                </div>
+                <input 
+                  type="range" 
+                  min="5" 
+                  max="100" 
+                  step="1"
+                  value={editingRadius}
+                  onChange={(e) => setEditingRadius(parseInt(e.target.value, 10))}
+                  style={{ 
+                    width: '100%', 
+                    accentColor: '#10b981',
+                    cursor: 'pointer' 
+                  }}
+                />
+                <span style={{ fontSize: '9px', color: '#94a3b8', fontWeight: 500, lineHeight: 1.25 }}>
+                  Modifica el radio en metros. La aureola se actualizará en tiempo real en el mapa.
+                </span>
+              </div>
+
+              {/* Botón de Guardar */}
+              <button
+                onClick={handleSaveCruceDetails}
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.5rem',
+                  padding: '0.625rem',
+                  backgroundColor: '#10b981',
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: '0.5rem',
+                  fontSize: '11px',
+                  fontWeight: 800,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.025em',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 6px -1px rgba(16, 185, 129, 0.3)',
+                  transition: 'all 0.2s'
+                }}
+              >
+                <Check size={12} />
+                Guardar Cambios
+              </button>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
+                {/* Borrar Cruce */}
+                <button
+                  onClick={() => {
+                    if (window.confirm("¿Seguro que deseas borrar este cruce?")) {
+                      handleDeleteCruce(selectedCruce.properties.id);
+                    }
+                  }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.375rem',
+                    padding: '0.5rem',
+                    backgroundColor: '#fef2f2',
+                    border: '1px solid #fecaca',
+                    borderRadius: '0.5rem',
+                    fontSize: '10px',
+                    fontWeight: 800,
+                    color: '#b91c1c',
+                    textTransform: 'uppercase',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  <Trash2 size={11} />
+                  Borrar
+                </button>
+
+                {/* Cancelar */}
+                <button
+                  onClick={() => setSelectedCruce(null)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.375rem',
+                    padding: '0.5rem',
+                    backgroundColor: '#f8fafc',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '0.5rem',
+                    fontSize: '10px',
+                    fontWeight: 800,
+                    color: '#64748b',
+                    textTransform: 'uppercase',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  <X size={11} />
+                  Cancelar
                 </button>
               </div>
             </div>
@@ -2583,7 +3015,9 @@ const MapView = ({
             }}
           >
             <span style={{ fontSize: '7px', color: '#94a3b8', fontWeight: 800, textTransform: 'uppercase', lineHeight: 1, marginBottom: '2px' }}>Zoom</span>
-            <span style={{ fontSize: '13px', lineHeight: 1 }}>{zoom}</span>
+            <span style={{ fontSize: '13px', lineHeight: 1 }}>
+              {typeof zoom === 'number' ? (Number.isInteger(zoom) ? zoom : zoom.toFixed(1)) : zoom}
+            </span>
           </div>
 
           {/* Botón Zoom Out */}
@@ -2608,6 +3042,30 @@ const MapView = ({
           >
             <Minus size={15} strokeWidth={3} />
           </button>
+
+          {/* Botón Zoom Ventana (Box Zoom) */}
+          <button
+            onClick={() => setBoxZoomActive(!boxZoomActive)}
+            style={{
+              width: '2rem',
+              height: '2rem',
+              borderRadius: '0.5rem',
+              border: 'none',
+              backgroundColor: boxZoomActive ? '#ffe4e6' : 'transparent',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              color: boxZoomActive ? '#FC4C02' : '#334155',
+              transition: 'all 0.15s',
+              borderTop: '1px solid #f1f5f9'
+            }}
+            onMouseOver={(e) => { if (!boxZoomActive) e.currentTarget.style.backgroundColor = '#f1f5f9'; }}
+            onMouseOut={(e) => { if (!boxZoomActive) e.currentTarget.style.backgroundColor = 'transparent'; }}
+            title="Zoom Ventana (Modo Ventana)"
+          >
+            <Square size={13} strokeWidth={boxZoomActive ? 3 : 2} style={{ color: boxZoomActive ? '#FC4C02' : '#334155' }} />
+          </button>
         </div>
       )}
 
@@ -2616,8 +3074,8 @@ const MapView = ({
         zoom={6}
         zoomControl={false}
         scrollWheelZoom={true}
-        zoomSnap={1}
-        zoomDelta={1}
+        zoomSnap={0}
+        zoomDelta={0.25}
         wheelPxPerZoomLevel={120}
         preferCanvas={true}
         style={{ height: '100%', width: '100%', background: '#f1f5f9' }}
@@ -2666,9 +3124,11 @@ const MapView = ({
           setTrackCurrentCruce={setTrackCurrentCruce}
           setTrackTramos={setTrackTramos}
           tramos={tramos}
+          editingRadius={editingRadius}
         />
         <TramosLayer 
           tramos={tramos}
+          unassignedTramos={unassignedTramos}
           crucesMode={crucesMode}
           creandoTrack={creandoTrack}
         />
@@ -2685,6 +3145,7 @@ const MapView = ({
         />
         
         <AutoCenter activities={activities} />
+        <BoxZoomListener active={boxZoomActive} setActive={setBoxZoomActive} />
         <MapClickListener 
           crucesMode={crucesMode}
           onMapAltClick={handleMapAltClick}

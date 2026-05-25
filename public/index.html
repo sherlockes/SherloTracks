@@ -646,9 +646,12 @@
 
         // Inicializar Minisite
         function initMinisite() {
-            // Ajustar vista del mapa a todos los cruces cargados
-            if (cruces.length > 0) {
-                const latlngs = cruces.map(c => L.latLng(c.geometry.coordinates[1], c.geometry.coordinates[0]));
+            // Ajustar vista del mapa a los cruces válidos (con segmentos)
+            const validCruces = cruces.filter(c => 
+                tramos.some(t => t.startId === `cruce_${c.properties.id}` || t.endId === `cruce_${c.properties.id}`)
+            );
+            if (validCruces.length > 0) {
+                const latlngs = validCruces.map(c => L.latLng(c.geometry.coordinates[1], c.geometry.coordinates[0]));
                 const bounds = L.latLngBounds(latlngs);
                 map.fitBounds(bounds, { padding: [40, 40] });
             }
@@ -824,6 +827,13 @@
             clearCrossingMarkers();
 
             cruces.forEach(cruce => {
+                // Ocultar cruces por los que no pasa ningún segmento (tramo)
+                const hasAnySegment = tramos.some(t => 
+                    t.startId === `cruce_${cruce.properties.id}` || 
+                    t.endId === `cruce_${cruce.properties.id}`
+                );
+                if (!hasAnySegment) return;
+
                 const [lon, lat] = cruce.geometry.coordinates;
                 const marker = L.circleMarker([lat, lon], {
                     radius: 12,

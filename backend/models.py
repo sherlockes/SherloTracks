@@ -74,6 +74,9 @@ class NetworkEdge(Base):
 class Cruce(Base):
     __tablename__ = "cruces"
     id = Column(Integer, primary_key=True, autoincrement=True)
+    nombre = Column(String, nullable=True)
+    radio_influencia = Column(Integer, default=25)
     geom = Column(Geometry(geometry_type='POINT', srid=4326), nullable=False, index=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
 
