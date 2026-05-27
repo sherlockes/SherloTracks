@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SherloTracks - Creador Móvil</title>
     <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#FC4C02" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="SherloTracks" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;700;800;900&display=swap" rel="stylesheet">
@@ -20,8 +25,8 @@
             --indigo-gradient: linear-gradient(135deg, #6366F1 0%, #4f46e5 100%);
             --text-main: #0f172a;
             --text-slate: #64748b;
-            --bg-glass: rgba(255, 255, 255, 0.93);
-            --border-glass: rgba(241, 245, 249, 0.8);
+            --bg-glass: rgba(255, 255, 255, 0.78);
+            --border-glass: rgba(255, 255, 255, 0.4);
         }
 
         body, html {
@@ -77,33 +82,46 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Banner Superior (Indicaciones) */
+        @keyframes gpsPulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(2.8);
+                opacity: 0;
+            }
+        }
+
+        /* Banner Inferior (Indicaciones) */
         .instruction-banner {
             position: absolute;
-            top: 16px;
+            bottom: 24px;
             left: 50%;
-            transform: translateX(-50%) translateY(-100px);
+            transform: translateX(-50%) translateY(120px); /* Oculto por debajo de la pantalla */
             z-index: 1000;
             background: var(--bg-glass);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--indigo-color);
-            padding: 10px 20px;
-            border-radius: 9999px;
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
-            font-size: 13px;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(99, 102, 241, 0.35);
+            padding: 12px 16px;
+            border-radius: 20px; /* Redondeado elegante a juego con los botones del panel */
+            box-shadow: 0 10px 32px rgba(0, 0, 0, 0.35), 0 2px 10px rgba(0, 0, 0, 0.15); /* Sombra premium muy visible sobre satélite */
+            font-size: 13.5px;
             font-weight: 700;
             color: var(--text-main);
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: space-between;
+            gap: 12px;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            white-space: nowrap;
-            max-width: 90%;
+            width: 90%;
+            max-width: 360px;
+            box-sizing: border-box;
         }
 
         .instruction-banner.active {
-            transform: translateX(-50%) translateY(0);
+            transform: translateX(-50%) translateY(0); /* Visible en la posición original del botón de inicio */
         }
 
         /* Botón Flotante Inicial */
@@ -155,11 +173,11 @@
             right: 0;
             z-index: 1000;
             background: var(--bg-glass);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(226, 232, 240, 0.8); /* Línea divisoria superior muy fina y elegante */
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-top: 1px solid rgba(255, 255, 255, 0.4); /* Línea divisoria superior muy fina y elegante */
             border-radius: 24px 24px 0 0;
-            box-shadow: 0 -8px 24px rgba(15, 23, 42, 0.05); /* Sombra súper suave y sutil, nada pesada */
+            box-shadow: 0 -10px 36px rgba(0, 0, 0, 0.35), 0 -2px 10px rgba(0, 0, 0, 0.15); /* Sombra súper elegante, profunda y visible sobre satélite */
             padding: 12px 20px 24px 20px;
             display: flex;
             flex-direction: column;
@@ -192,10 +210,10 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            background: #f8fafc;
+            background: rgba(248, 250, 252, 0.55);
             border-radius: 16px;
             padding: 12px;
-            border: 1px solid #f1f5f9;
+            border: 1px solid rgba(226, 232, 240, 0.6);
         }
 
         .stat-item {
@@ -464,6 +482,37 @@
         <code>/public/minisite_cruces.json<br>/public/minisite_tramos.json</code>
     </div>
 
+    <!-- Banner de Indicaciones Inferior -->
+    <div class="instruction-banner" id="instruction-banner">
+        <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--brand-color); flex-shrink: 0;">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            <span id="instruction-text" style="font-size: 12.5px; line-height: 1.35; text-align: left; font-family: 'Inter', sans-serif;">Selecciona un cruce naranja en el mapa para iniciar</span>
+        </div>
+        <!-- Botón Cancelar discreto y elegante -->
+        <button id="btn-cancel-init" style="
+            background: rgba(15, 23, 42, 0.06);
+            border: 1px solid rgba(15, 23, 42, 0.1);
+            color: #475569;
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 800;
+            font-family: 'Outfit', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: all 0.2s;
+            outline: none;
+            flex-shrink: 0;
+        ">
+            Cancelar
+        </button>
+    </div>
+
     <!-- Logo Superior Izquierda General (Estilo Desktop de 2 Líneas y Esquinas Cuadradas) -->
     <div class="logo-container" style="
         position: absolute;
@@ -473,15 +522,15 @@
         display: flex;
         flex-direction: column;
         line-height: 0.8;
-        background: rgba(255, 255, 255, 0.92);
+        background: rgba(255, 255, 255, 0.78);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
-        padding: 4px;
-        border-radius: 6px;
-        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
-        border: 1px solid rgba(226, 232, 240, 0.8);
+        padding: 6px 10px;
+        border-radius: 10px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.4);
         pointer-events: none;
-        opacity: 0.8;
+        opacity: 0.95;
     ">
         <span style="font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 900; font-style: italic; text-transform: uppercase; color: #0f172a; letter-spacing: -0.02em;">Sherlo</span>
         <span style="font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 900; font-style: italic; text-transform: uppercase; color: #FC4C02; letter-spacing: -0.02em;">Tracks</span>
@@ -495,12 +544,12 @@
         z-index: 1000;
         width: 90px;
         height: 90px;
-        background: rgba(255, 255, 255, 0.82);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border-radius: 12px;
-        box-shadow: 0 4px 16px rgba(15, 23, 42, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.6);
+        background: rgba(255, 255, 255, 0.78);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-radius: 16px;
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+        border: 1px solid rgba(255, 255, 255, 0.4);
         display: none;
         pointer-events: none;
         overflow: hidden;
@@ -511,6 +560,33 @@
 
     <!-- Contenedor del Mapa -->
     <div id="map"></div>
+
+    <!-- Botón de Geolocalización (GPS) -->
+    <button id="btn-locate" style="
+        position: absolute;
+        bottom: 124px;
+        right: 16px;
+        z-index: 1000;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: var(--bg-glass);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        color: #475569;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        outline: none;
+    " title="Mostrar mi ubicación actual">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+        </svg>
+    </button>
 
     <!-- Botón Inicial -->
     <div class="floating-action-container" id="init-container">
@@ -596,6 +672,21 @@
         const statDist = document.getElementById('stat-dist');
         const statSegments = document.getElementById('stat-segments');
         const statCruce = document.getElementById('stat-cruce');
+
+        // Banner de Indicación
+        const instructionBanner = document.getElementById('instruction-banner');
+        const instructionText = document.getElementById('instruction-text');
+
+        function showInstruction(text) {
+            if (!instructionBanner || !instructionText) return;
+            instructionText.innerText = text;
+            instructionBanner.classList.add('active');
+        }
+
+        function hideInstruction() {
+            if (!instructionBanner) return;
+            instructionBanner.classList.remove('active');
+        }
 
         // Leaflet Map y Capas
         const map = L.map('map', { 
@@ -935,6 +1026,8 @@
 
             initContainer.style.transform = 'translateX(-50%) translateY(100px)';
 
+            showInstruction("Selecciona un cruce naranja en el mapa para iniciar");
+
             drawCrossingSelectionMarkers();
         });
 
@@ -942,6 +1035,15 @@
         btnCancel.addEventListener('click', () => {
             resetCreator();
         });
+
+        // Cancelar desde el banner de indicación inicial en la parte inferior
+        const btnCancelInit = document.getElementById('btn-cancel-init');
+        if (btnCancelInit) {
+            btnCancelInit.addEventListener('click', (e) => {
+                L.DomEvent.stopPropagation(e);
+                resetCreator();
+            });
+        }
 
         // Deshacer (Undo)
         btnUndo.addEventListener('click', () => {
@@ -1000,6 +1102,8 @@
             // Borrar de la caché al cancelar o finalizar con éxito
             localStorage.removeItem('sherlotracks_creator_state');
 
+            hideInstruction();
+
             // Ocultar/limpiar el minimapa
             drawMinimap();
         }
@@ -1045,6 +1149,8 @@
             panel.classList.add('active'); // Mostrar panel inferior
             panel.classList.add('collapsed');
             panel.classList.remove('expanded');
+
+            hideInstruction();
 
             updateCreatorUI();
             saveCreatorState(); // Guardar en caché
@@ -1372,6 +1478,142 @@
                 console.error("Error al restaurar el estado del track guardado:", e);
                 localStorage.removeItem('sherlotracks_creator_state');
             }
+        }
+
+        // --- GEOLOCALIZACIÓN Y SEGUIMIENTO ---
+        const btnLocate = document.getElementById('btn-locate');
+        let userLocationMarker = null;
+        let userLocationAccuracyCircle = null;
+        let watchId = null;
+        let followingUser = false;
+
+        if (btnLocate) {
+            btnLocate.addEventListener('click', (e) => {
+                L.DomEvent.stopPropagation(e);
+                toggleLocateUser();
+            });
+        }
+
+        function toggleLocateUser() {
+            if (watchId !== null) {
+                // Desactivar seguimiento
+                navigator.geolocation.clearWatch(watchId);
+                watchId = null;
+                followingUser = false;
+                btnLocate.style.color = '#475569';
+                btnLocate.style.borderColor = 'rgba(255, 255, 255, 0.4)';
+                if (userLocationMarker) {
+                    userLocationMarker.remove();
+                    userLocationMarker = null;
+                }
+                if (userLocationAccuracyCircle) {
+                    userLocationAccuracyCircle.remove();
+                    userLocationAccuracyCircle = null;
+                }
+                return;
+            }
+
+            // Activar seguimiento
+            if (!navigator.geolocation) {
+                alert("La geolocalización no está soportada por tu navegador.");
+                return;
+            }
+
+            btnLocate.style.color = 'var(--brand-color)';
+            btnLocate.style.borderColor = 'var(--brand-color)';
+            btnLocate.style.transform = 'scale(0.9)';
+            setTimeout(() => { btnLocate.style.transform = 'scale(1)'; }, 150);
+
+            watchId = navigator.geolocation.watchPosition(
+                (position) => {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    const accuracy = position.coords.accuracy;
+
+                    const latlng = L.latLng(lat, lng);
+
+                    if (!userLocationMarker) {
+                        // Círculo de precisión
+                        userLocationAccuracyCircle = L.circle(latlng, {
+                            radius: accuracy,
+                            color: '#3b82f6',
+                            fillColor: '#3b82f6',
+                            fillOpacity: 0.1,
+                            weight: 1,
+                            interactive: false
+                        }).addTo(map);
+
+                        // Marcador de usuario con pulso GPS
+                        const pulseIcon = L.divIcon({
+                            className: 'user-pulse-marker',
+                            html: `
+                                <div style="
+                                    width: 14px;
+                                    height: 14px;
+                                    border-radius: 50%;
+                                    background: #3b82f6;
+                                    border: 2px solid #ffffff;
+                                    box-shadow: 0 0 8px rgba(59, 130, 246, 0.8);
+                                    position: relative;
+                                ">
+                                    <div style="
+                                        position: absolute;
+                                        top: -2px; left: -2px; right: -2px; bottom: -2px;
+                                        border: 2px solid #3b82f6;
+                                        border-radius: 50%;
+                                        animation: gpsPulse 2s infinite ease-out;
+                                    "></div>
+                                </div>
+                            `,
+                            iconSize: [18, 18],
+                            iconAnchor: [9, 9]
+                        });
+
+                        userLocationMarker = L.marker(latlng, {
+                            icon: pulseIcon,
+                            interactive: false
+                        }).addTo(map);
+
+                        map.flyTo(latlng, Math.max(15, map.getZoom()), {
+                            animate: true,
+                            duration: 1.2
+                        });
+                        followingUser = true;
+                    } else {
+                        userLocationMarker.setLatLng(latlng);
+                        userLocationAccuracyCircle.setLatLng(latlng);
+                        userLocationAccuracyCircle.setRadius(accuracy);
+
+                        if (followingUser) {
+                            map.panTo(latlng, { animate: true });
+                        }
+                    }
+                },
+                (error) => {
+                    console.error("Error de GPS:", error);
+                    alert("No se pudo obtener la ubicación. Por favor activa el GPS y otorga permisos.");
+                    
+                    navigator.geolocation.clearWatch(watchId);
+                    watchId = null;
+                    followingUser = false;
+                    btnLocate.style.color = '#475569';
+                    btnLocate.style.borderColor = 'rgba(255, 255, 255, 0.4)';
+                },
+                {
+                    enableHighAccuracy: true,
+                    maximumAge: 5000,
+                    timeout: 15000
+                }
+            );
+        }
+
+        // --- REGISTRO DEL SERVICE WORKER (PWA) ---
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then((reg) => console.log('Service Worker registrado con éxito:', reg.scope))
+                    .catch((err) => console.error('Error al registrar Service Worker:', err));
+            });
         }
 
     </script>
