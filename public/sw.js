@@ -37,6 +37,30 @@ self.addEventListener('fetch', (e) => {
     // Excluir esquemas que no sean http/https (como chrome-extension, gvfs, etc.)
     if (!e.request.url.startsWith('http')) return;
 
+    const isJsonData = e.request.url.includes('.json');
+
+    if (isJsonData) {
+        // Estrategia Network-First para archivos de datos JSON (Cruces y Tramos)
+        // Permite recargar datos frescos al instante si hay internet, y mantiene soporte offline
+        e.respondWith(
+            fetch(e.request).then((networkResponse) => {
+                if (networkResponse && networkResponse.status === 200) {
+                    const responseToCache = networkResponse.clone();
+                    caches.open(CACHE_NAME).then((cache) => {
+                        cache.put(e.request, responseToCache);
+                    });
+                    return networkResponse;
+                }
+                return networkResponse;
+            }).catch(() => {
+                // Fallback offline al caché local
+                return caches.match(e.request);
+            })
+        );
+        return;
+    }
+
+    // Estrategia Cache-First para recursos estáticos (imágenes, scripts, estilos, fuentes)
     e.respondWith(
         caches.match(e.request).then((cachedResponse) => {
             if (cachedResponse) {

@@ -263,12 +263,16 @@
 
         .numbers-row {
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
             gap: 12px;
-            width: 100%;
+            width: calc(100% + 40px); /* Ocupa todo el ancho físico del panel */
+            margin-left: -20px; /* Contrarresta el padding izquierdo del panel inferior */
+            margin-right: -20px; /* Contrarresta el padding derecho del panel inferior */
+            padding: 4px 20px 10px 20px; /* Añade padding interno para alinear los botones en los extremos */
+            box-sizing: border-box;
             overflow-x: auto;
-            padding: 4px 0 10px 0; /* Separar botones de la parte baja en el móvil */
             scrollbar-width: none;
+            -webkit-overflow-scrolling: touch; /* Inercia táctil súper suave en iOS */
         }
         .numbers-row::-webkit-scrollbar { display: none; }
 
@@ -321,7 +325,7 @@
         /* Panel de Acciones Finales */
         .actions-row {
             display: grid;
-            grid-template-columns: 52px 1fr 52px;
+            grid-template-columns: 52px 1fr 1fr 52px;
             gap: 12px;
             width: 100%;
         }
@@ -364,6 +368,38 @@
             background: #fee2e2;
         }
 
+        .btn-share-action {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 16px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 11px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            box-shadow: 0 6px 15px rgba(79, 70, 229, 0.3);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .btn-share-action:active {
+            transform: scale(0.96);
+            box-shadow: 0 3px 8px rgba(79, 70, 229, 0.2);
+        }
+
+        .btn-share-action:disabled {
+            background: #cbd5e1;
+            color: #94a3b8;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
         .btn-finish-action {
             background: var(--active-gradient);
             color: #ffffff;
@@ -371,7 +407,7 @@
             border-radius: 16px;
             font-family: 'Outfit', sans-serif;
             font-weight: 800;
-            font-size: 14px;
+            font-size: 11px;
             letter-spacing: 0.05em;
             text-transform: uppercase;
             box-shadow: 0 6px 15px rgba(16, 185, 129, 0.3);
@@ -379,7 +415,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
             transition: all 0.2s ease;
             outline: none;
         }
@@ -464,6 +500,21 @@
             color: #38bdf8;
             font-size: 12px;
         }
+        /* Acordeón de Controles Superior Izquierda (Logo + GPS/TOPO) */
+        #top-left-accordion.expanded #accordion-body {
+            opacity: 1 !important;
+            max-height: 80px !important;
+            transform: translateY(0px) !important;
+            pointer-events: auto !important;
+        }
+
+        #top-left-accordion.expanded #accordion-arrow {
+            transform: translateX(-50%) rotate(-135deg) !important;
+        }
+
+        #logo-trigger:active {
+            transform: scale(0.96);
+        }
     </style>
 </head>
 <body>
@@ -513,27 +564,133 @@
         </button>
     </div>
 
-    <!-- Logo Superior Izquierda General (Estilo Desktop de 2 Líneas y Esquinas Cuadradas) -->
-    <div class="logo-container" style="
+    <!-- Contenedor Lateral Superior Izquierdo (Logo + GPS + TOPO con Acordeón) -->
+    <div id="top-left-accordion" class="collapsed" style="
         position: absolute;
         top: 16px;
         left: 16px;
         z-index: 1000;
         display: flex;
         flex-direction: column;
-        line-height: 0.8;
-        background: rgba(255, 255, 255, 0.78);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        padding: 6px 10px;
-        border-radius: 10px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        pointer-events: none;
-        opacity: 0.95;
+        gap: 8px;
+        width: 74px; /* Ancho más compacto y optimizado */
     ">
-        <span style="font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 900; font-style: italic; text-transform: uppercase; color: #0f172a; letter-spacing: -0.02em;">Sherlo</span>
-        <span style="font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 900; font-style: italic; text-transform: uppercase; color: #FC4C02; letter-spacing: -0.02em;">Tracks</span>
+        <!-- Logo Superior Izquierda General (Estilo Desktop de 2 Líneas y Esquinas Cuadradas) -->
+        <div id="logo-trigger" style="
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centrar las palabras Sherlo y Tracks */
+            line-height: 0.8;
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 6px 8px 10px 8px; /* Ajuste para dar espacio a la flechita */
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            opacity: 0.95;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            z-index: 1002;
+            user-select: none;
+        ">
+            <span style="font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 900; font-style: italic; text-transform: uppercase; color: #0f172a; letter-spacing: -0.02em;">Sherlo</span>
+            <span style="font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 900; font-style: italic; text-transform: uppercase; color: #FC4C02; letter-spacing: -0.02em;">Tracks</span>
+            
+            <!-- Indicador de acordeón de flechita sutil en la parte inferior central -->
+            <div id="accordion-arrow" style="
+                position: absolute;
+                bottom: 3px;
+                left: 50%;
+                transform: translateX(-50%) rotate(45deg);
+                width: 5px;
+                height: 5px;
+                border-right: 1.5px solid #64748b;
+                border-bottom: 1.5px solid #64748b;
+                transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), bottom 0.3s;
+            "></div>
+        </div>
+
+        <!-- Controles Desplegables (GPS + TOPO) -->
+        <div id="accordion-body" style="
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            opacity: 0;
+            max-height: 0px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(-10px);
+            pointer-events: none;
+            z-index: 1001;
+        ">
+            <!-- Botón de Geolocalización (GPS) -->
+            <button id="btn-locate" style="
+                width: 100%;
+                height: 32px;
+                border-radius: 8px;
+                background: var(--bg-glass);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.4);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+                color: #475569;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 4px;
+                cursor: pointer;
+                transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                outline: none;
+                padding: 0;
+            " title="Mostrar mi ubicación actual">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+                </svg>
+                <span id="gps-status-text" style="
+                    font-size: 9px;
+                    font-weight: 900;
+                    font-family: 'Outfit', sans-serif;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                ">GPS Off</span>
+            </button>
+
+            <!-- Botón de Conmutador de Mapa (Satélite / Topográfico) -->
+            <button id="btn-map-toggle" style="
+                width: 100%;
+                height: 32px;
+                border-radius: 8px;
+                background: var(--bg-glass);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.4);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+                color: #475569;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 4px;
+                cursor: pointer;
+                transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                outline: none;
+                padding: 0;
+            " title="Cambiar tipo de mapa">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon>
+                    <line x1="9" y1="3" x2="9" y2="18"></line>
+                    <line x1="15" y1="6" x2="15" y2="21"></line>
+                </svg>
+                <span id="map-toggle-text" style="
+                    font-size: 9px;
+                    font-weight: 900;
+                    font-family: 'Outfit', sans-serif;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                ">SAT</span>
+            </button>
+        </div>
     </div>
 
     <!-- Minimapa del Recorrido Completo -->
@@ -548,10 +705,11 @@
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
         border-radius: 16px;
-        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
         border: 1px solid rgba(255, 255, 255, 0.4);
         display: none;
-        pointer-events: none;
+        pointer-events: auto;
+        cursor: pointer;
         overflow: hidden;
         transition: all 0.3s ease;
     ">
@@ -560,33 +718,6 @@
 
     <!-- Contenedor del Mapa -->
     <div id="map"></div>
-
-    <!-- Botón de Geolocalización (GPS) -->
-    <button id="btn-locate" style="
-        position: absolute;
-        bottom: 124px;
-        right: 16px;
-        z-index: 1000;
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        background: var(--bg-glass);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-        color: #475569;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        outline: none;
-    " title="Mostrar mi ubicación actual">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
-        </svg>
-    </button>
 
     <!-- Botón Inicial -->
     <div class="floating-action-container" id="init-container">
@@ -664,10 +795,16 @@
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>
             </button>
 
-            <!-- Terminar y Guardar GPX -->
-            <button class="btn-finish-action" id="btn-finish" disabled>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-                Guardar GPX
+            <!-- Compartir GPX -->
+            <button class="btn-share-action" id="btn-share" disabled title="Compartir archivo GPX">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                Compartir
+            </button>
+
+            <!-- Seguir Ruta -->
+            <button class="btn-finish-action" id="btn-follow" disabled title="Seguir esta ruta">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
+                Seguir
             </button>
 
             <!-- Cancelar Creador -->
@@ -694,7 +831,8 @@
         const panel = document.getElementById('panel');
         const btnStartCreator = document.getElementById('btn-start-creator');
         const btnUndo = document.getElementById('btn-undo');
-        const btnFinish = document.getElementById('btn-finish');
+        const btnShare = document.getElementById('btn-share');
+        const btnFollow = document.getElementById('btn-follow');
         const btnCancel = document.getElementById('btn-cancel');
         const numbersRow = document.getElementById('numbers-row');
 
@@ -725,15 +863,29 @@
             wheelPxPerZoomLevel: 120
         }).setView([40.4168, -3.7038], 6);
 
-        // Satélite por defecto
-        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-            attribution: '&copy; Esri'
-        }).addTo(map);
+        // Definición de Estilos de Mapas (Satélite vs Topográfico)
+        const satLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: '&copy; Esri World Imagery'
+        });
+        
+        const topoLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+            attribution: '&copy; Esri World Topo'
+        });
 
-        // Recalcular posiciones de las burbujas numéricas al hacer zoom para mantener la distancia física exacta en pantalla
+        // Activar Satélite por defecto
+        satLayer.addTo(map);
+
+        // Recalcular posiciones, orientaciones de flechas y visibilidad de cruces al hacer zoom
         map.on('zoomend', () => {
-            if (creandoTrack && trackCurrentCruce) {
-                updateCreatorUI();
+            if (creandoTrack) {
+                if (trackStartCruce === null) {
+                    drawCrossingSelectionMarkers();
+                } else {
+                    updateCreatorUI();
+                }
+                if (trackTramos.length > 0) {
+                    updateDirectionMarkers();
+                }
             }
         });
 
@@ -751,17 +903,19 @@
         let candidatePolylines = [];
         let badgeMarkers = [];
         let crossingMarkers = [];
+        let elevationHoverMarker = null; // Marcador dinámico del perfil de elevación en el mapa
+        let trackDirectionMarkers = [];  // Marcadores de flechas indicadoras de dirección del track
 
         // Carga de Datos desde JSONs con validación de modificación de fecha en caché
         let crucesHeaders = null;
 
         Promise.all([
-            fetch('minisite_cruces.json').then(res => {
+            fetch('minisite_cruces.json', { cache: 'no-cache' }).then(res => {
                 if (!res.ok) throw new Error();
                 crucesHeaders = res.headers;
                 return res.json();
             }),
-            fetch('minisite_tramos.json').then(res => {
+            fetch('minisite_tramos.json', { cache: 'no-cache' }).then(res => {
                 if (!res.ok) throw new Error();
                 return res.json();
             })
@@ -1007,6 +1161,56 @@
             ctx.fill();
         }
 
+        // Limpiar marcadores de dirección de la ruta
+        function clearDirectionMarkers() {
+            trackDirectionMarkers.forEach(m => m.remove());
+            trackDirectionMarkers = [];
+        }
+
+        // Dibujar flechas indicadoras de dirección a lo largo de la ruta
+        function updateDirectionMarkers() {
+            clearDirectionMarkers();
+            const coords = getTrackCoordinates();
+            if (coords.length < 2) return;
+
+            // Determinar número de flechas proporcional a la longitud
+            const numArrows = Math.min(8, Math.max(3, Math.floor(coords.length / 15)));
+            const step = Math.floor(coords.length / (numArrows + 1));
+
+            for (let i = 1; i <= numArrows; i++) {
+                const idx = i * step;
+                if (idx >= coords.length - 1) continue;
+
+                const pt1 = coords[idx];
+                const pt2 = coords[idx + 1];
+
+                // Proyectar coordenadas en píxeles del mapa para calcular el ángulo visual exacto de rotación
+                const p1 = map.project(L.latLng(pt1[0], pt1[1]));
+                const p2 = map.project(L.latLng(pt2[0], pt2[1]));
+                const angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+
+                // Icono SVG premium con sombra y rotado en CSS
+                const arrowIcon = L.divIcon({
+                    html: `<div style="transform: rotate(${angle}deg); display: flex; align-items: center; justify-content: center; width: 16px; height: 16px;">
+                             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0px 1px 2px rgba(0,0,0,0.65));">
+                               <polyline points="9 18 15 12 9 6"></polyline>
+                             </svg>
+                           </div>`,
+                    className: 'custom-direction-arrow',
+                    iconSize: [16, 16],
+                    iconAnchor: [8, 8]
+                });
+
+                const marker = L.marker(L.latLng(pt1[0], pt1[1]), { 
+                    icon: arrowIcon, 
+                    interactive: false,
+                    zIndexOffset: 500 
+                }).addTo(map);
+                
+                trackDirectionMarkers.push(marker);
+            }
+        }
+
         function getNextAvailableTramos() {
             if (!trackCurrentCruce) return [];
             const currentId = `cruce_${trackCurrentCruce.properties.id}`;
@@ -1079,10 +1283,29 @@
             handleUndo();
         });
 
-        // Terminar y Guardar
-        btnFinish.addEventListener('click', () => {
+        // Ajustar zoom para mostrar todo el track al pulsar sobre el minimapa flotante
+        const minimapContainer = document.getElementById('minimap-container');
+        if (minimapContainer) {
+            minimapContainer.addEventListener('click', (e) => {
+                L.DomEvent.stopPropagation(e); // Evitar click en el mapa inferior
+                if (!creandoTrack || trackTramos.length === 0) return;
+
+                const coords = getTrackCoordinates();
+                if (coords.length > 0) {
+                    const bounds = L.latLngBounds(coords);
+                    map.fitBounds(bounds, {
+                        padding: [50, 50], // Margen de seguridad para no pegar la línea a los bordes
+                        animate: true,
+                        duration: 1.2 // Transición premium súper fluida
+                    });
+                }
+            });
+        }
+
+        // Acción de Compartir GPX (Web Share API con fallback de descarga)
+        btnShare.addEventListener('click', () => {
             if (trackTramos.length === 0) return;
-            const title = prompt("Escribe el nombre de la ruta:", "Mi Ruta");
+            const title = prompt("Escribe el nombre de la ruta para compartir:", "Mi Ruta");
             if (title === null) return;
             const safeTitle = title.trim() || "Ruta Exportada";
 
@@ -1097,17 +1320,76 @@
             });
             gpx += '    </trkseg>\n  </trk>\n</gpx>';
 
-            const blob = new Blob([gpx], { type: 'application/gpx+xml' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${safeTitle.toLowerCase().replace(/[^a-z0-9]+/g, '_')}_track.gpx`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+            const filename = `${safeTitle.toLowerCase().replace(/[^a-z0-9]+/g, '_')}_track.gpx`;
 
-            resetCreator();
+            // Advertencia amistosa para conexiones HTTP inseguras (donde navigator.share no existe)
+            if (!navigator.share) {
+                alert(`⚠️ Función de Compartir Bloqueada por el Navegador\n\nPor seguridad del sistema, para abrir el menú de "Compartir" de tu móvil, la web debe servirse bajo una conexión segura (HTTPS).\n\nPara no perder tu ruta, hemos procedido a descargar el archivo GPX directamente en tu dispositivo.`);
+                
+                const blob = new Blob([gpx], { type: 'application/gpx+xml' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                return;
+            }
+
+            // Si hay soporte para navigator.share (entorno seguro HTTPS)
+            try {
+                // Usamos MIME type 'text/plain' porque Chrome/Safari bloquean mime-types exóticos en navigator.canShare
+                const file = new File([gpx], filename, { type: 'text/plain' });
+                
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    navigator.share({
+                        files: [file],
+                        title: safeTitle,
+                        text: `Ruta SherloTracks: ${safeTitle}`
+                    }).then(() => {
+                        console.log('Compartir archivo exitoso.');
+                    }).catch((err) => {
+                        console.log('Compartir archivo cancelado o fallido:', err);
+                    });
+                } else {
+                    // Si el navegador no soporta compartir archivos, compartimos el GPX directamente como texto
+                    navigator.share({
+                        title: safeTitle,
+                        text: gpx
+                    }).then(() => {
+                        console.log('Compartir texto exitoso.');
+                    }).catch((err) => {
+                        console.log('Compartir texto cancelado o fallido:', err);
+                    });
+                }
+            } catch (shareErr) {
+                console.error('Error usando Web Share API:', shareErr);
+                // Fallback secundario de descarga en caso de excepción
+                const blob = new Blob([gpx], { type: 'application/gpx+xml' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+        });
+
+        // Acción de Seguir Ruta (Hacer zoom e ir al punto de inicio)
+        btnFollow.addEventListener('click', () => {
+            if (trackTramos.length === 0 || !trackStartCruce) return;
+
+            const coords = trackStartCruce.geometry.coordinates;
+            const startLatLng = L.latLng(coords[1], coords[0]);
+
+            map.flyTo(startLatLng, 17, {
+                animate: true,
+                duration: 1.5
+            });
         });
 
         // Reset Completo del Creador y limpieza de caché
@@ -1133,13 +1415,29 @@
 
             hideInstruction();
 
-            // Ocultar/limpiar el minimapa
+            // Ocultar/limpiar el minimapa y flechas de dirección
             drawMinimap();
+            clearDirectionMarkers();
+            if (elevationHoverMarker) {
+                elevationHoverMarker.remove();
+                elevationHoverMarker = null;
+            }
         }
 
         // Dibujar los marcadores para la selección del inicio
         function drawCrossingSelectionMarkers() {
             clearCrossingMarkers();
+
+            // Ocultar cruces si el zoom es menor de 13 para evitar saturación visual ("maraña de cruces")
+            if (map.getZoom() < 13) {
+                showInstruction("⚠️ Amplía el zoom (acércate más) para ver y seleccionar un cruce de inicio");
+                return;
+            }
+
+            // Si el zoom es apto, mostrar la instrucción normal de selección
+            if (!trackStartCruce) {
+                showInstruction("Selecciona un cruce naranja en el mapa para iniciar");
+            }
 
             cruces.forEach(cruce => {
                 // Ocultar cruces por los que no pasa ningún segmento (tramo)
@@ -1171,6 +1469,7 @@
 
         // Selección de Cruce de Inicio
         function selectStartCruce(cruce) {
+            if (navigator.vibrate) navigator.vibrate(15); // Respuesta háptica
             trackStartCruce = cruce;
             trackCurrentCruce = cruce;
             clearCrossingMarkers();
@@ -1191,6 +1490,7 @@
 
         // Selección de un Tramo Siguiente
         function handleSelectTramo(tramo) {
+            if (navigator.vibrate) navigator.vibrate(15); // Respuesta háptica
             const currentId = `cruce_${trackCurrentCruce.properties.id}`;
             let nextCruceId = tramo.startId === currentId ? tramo.endId : tramo.startId;
             const nextCruceNum = parseInt(nextCruceId.replace('cruce_', ''), 10);
@@ -1236,6 +1536,7 @@
 
         // Acción de Deshacer
         function handleUndo() {
+            if (navigator.vibrate) navigator.vibrate(15); // Respuesta háptica
             if (trackTramos.length === 0) return;
 
             const popped = trackTramos.pop();
@@ -1280,16 +1581,17 @@
 
         // --- MODELO DE ALTITUD Y PERFIL DE ELEVACIÓN ---
         function getCoordinateAltitude(lat, lng) {
-            // Un modelo determinista basado en senos y cosenos para simular relieve real (altitud media 300m - 800m)
-            const val1 = Math.sin(lat * 80) * 120;
-            const val2 = Math.cos(lng * 120) * 180;
-            const val3 = Math.sin((lat + lng) * 200) * 40;
-            const val4 = Math.sin(lat * 400) * 10; // Pequeño ruido de micro-relieve
+            // Calibrado para la región real de las rutas del usuario (Cuenca del Ebro / Caspe / Zaragoza)
+            // Altitud base en torno a los 200m con variaciones locales realistas de +/- 50m
+            const val1 = Math.sin(lat * 150) * 25;
+            const val2 = Math.cos(lng * 180) * 20;
+            const val3 = Math.sin((lat + lng) * 350) * 8;
+            const val4 = Math.sin(lat * 800) * 3; // Micro-relieve local
             
-            return Math.round(550 + val1 + val2 + val3 + val4);
+            return Math.round(195 + val1 + val2 + val3 + val4);
         }
 
-        function drawElevationProfile(coordinates) {
+        function drawElevationProfile(coordinates, activeX = null) {
             const canvas = document.getElementById('elevation-canvas');
             const minMaxIndicator = document.getElementById('ele-min-max');
             if (!canvas) return;
@@ -1424,6 +1726,57 @@
             ctx.moveTo(paddingLeft, getY(midAlt));
             ctx.lineTo(width - paddingRight, getY(midAlt));
             ctx.stroke();
+
+            // 4. Dibujar puntero interactivo si está activo (hover vertical)
+            if (activeX !== null && activeX >= paddingLeft && activeX <= width - paddingRight) {
+                // Línea vertical punteada blanca
+                ctx.beginPath();
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.55)';
+                ctx.lineWidth = 1.2;
+                ctx.setLineDash([4, 3]);
+                ctx.moveTo(activeX, paddingTop);
+                ctx.lineTo(activeX, height - paddingBottom);
+                ctx.stroke();
+                ctx.setLineDash([]); // Restaurar línea continua
+
+                // Calcular el punto del perfil correspondiente a la coordenada X
+                let pct = (activeX - paddingLeft) / plotWidth;
+                pct = Math.max(0, Math.min(1, pct));
+                const activeIdx = Math.round(pct * (pointsData.length - 1));
+                const activePt = pointsData[activeIdx];
+
+                if (activePt) {
+                    const dotX = getX(activePt.dist);
+                    const dotY = getY(activePt.alt);
+
+                    // Anillo de brillo naranja exterior
+                    ctx.beginPath();
+                    ctx.arc(dotX, dotY, 6, 0, 2 * Math.PI);
+                    ctx.fillStyle = 'rgba(252, 76, 2, 0.45)';
+                    ctx.fill();
+
+                    // Círculo blanco intermedio
+                    ctx.beginPath();
+                    ctx.arc(dotX, dotY, 4, 0, 2 * Math.PI);
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fill();
+
+                    // Círculo central naranja Strava
+                    ctx.beginPath();
+                    ctx.arc(dotX, dotY, 2.2, 0, 2 * Math.PI);
+                    ctx.fillStyle = '#FC4C02';
+                    ctx.fill();
+
+                    // Etiqueta flotante con altitud en metros
+                    ctx.font = '900 8.5px "Outfit", sans-serif';
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign = 'center';
+                    ctx.shadowColor = 'rgba(0,0,0,0.8)';
+                    ctx.shadowBlur = 3;
+                    ctx.fillText(`${Math.round(activePt.alt)}m`, dotX, dotY - 8);
+                    ctx.shadowColor = 'transparent'; // Reset sombra
+                }
+            }
         }
 
         // Redibujar en cambios de orientación de pantalla
@@ -1432,6 +1785,73 @@
                 drawElevationProfile(getTrackCoordinates());
             }
         });
+
+        // --- INTERACTIVIDAD DEL CANVAS DEL PERFIL DE ELEVACIÓN (SINCRONIZACIÓN MAPA) ---
+        const eleCanvas = document.getElementById('elevation-canvas');
+        if (eleCanvas) {
+            function handleElevationHover(e) {
+                if (!creandoTrack || trackTramos.length === 0) return;
+                
+                const rect = eleCanvas.getBoundingClientRect();
+                const clientX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : null);
+                if (clientX === null) return;
+                
+                const x = clientX - rect.left;
+                
+                // Mapear posición X a porcentaje
+                const paddingLeft = 6;
+                const paddingRight = 6;
+                const plotWidth = rect.width - paddingLeft - paddingRight;
+                let pct = (x - paddingLeft) / plotWidth;
+                pct = Math.max(0, Math.min(1, pct));
+                
+                const coords = getTrackCoordinates();
+                if (coords.length === 0) return;
+                
+                // Encontrar el punto geográfico correspondiente
+                const idx = Math.round(pct * (coords.length - 1));
+                const pt = coords[idx];
+                const activeLatLng = L.latLng(pt[0], pt[1]);
+                
+                // Dibujar la línea e indicador en el canvas
+                drawElevationProfile(coords, x);
+                
+                // Actualizar o crear marcador en el mapa principal
+                if (!elevationHoverMarker) {
+                    elevationHoverMarker = L.circleMarker(activeLatLng, {
+                        radius: 7,
+                        fillColor: '#FC4C02', // Naranja Strava
+                        color: '#ffffff',
+                        weight: 2.5,
+                        opacity: 1,
+                        fillOpacity: 0.95,
+                        zIndexOffset: 1000
+                    }).addTo(map);
+                } else {
+                    elevationHoverMarker.setLatLng(activeLatLng);
+                }
+            }
+            
+            function handleElevationLeave() {
+                if (!creandoTrack || trackTramos.length === 0) return;
+                
+                // Redibujar perfil sin indicador vertical
+                drawElevationProfile(getTrackCoordinates());
+                
+                // Eliminar marcador flotante del mapa
+                if (elevationHoverMarker) {
+                    elevationHoverMarker.remove();
+                    elevationHoverMarker = null;
+                }
+            }
+            
+            eleCanvas.addEventListener('mousemove', handleElevationHover);
+            eleCanvas.addEventListener('touchmove', handleElevationHover, { passive: true });
+            eleCanvas.addEventListener('touchstart', handleElevationHover, { passive: true });
+            
+            eleCanvas.addEventListener('mouseleave', handleElevationLeave);
+            eleCanvas.addEventListener('touchend', handleElevationLeave);
+        }
 
         // Actualizar Interfaz en Cada Paso
         function updateCreatorUI() {
@@ -1457,14 +1877,26 @@
             // Actualizar perfil de elevación y altitud acumulada
             drawElevationProfile(getTrackCoordinates());
 
+            // Actualizar flechas de dirección a lo largo del recorrido
+            updateDirectionMarkers();
+
             btnUndo.disabled = trackTramos.length === 0;
-            btnFinish.disabled = trackTramos.length === 0;
+            if (btnShare) btnShare.disabled = trackTramos.length === 0;
+            if (btnFollow) btnFollow.disabled = trackTramos.length === 0;
 
             // Determinar si hay backtracking en el menú
             const hasBacktrack = trackTramos.length > 0;
 
             // Renderizar los botones de la parte inferior
             numbersRow.innerHTML = '';
+
+            // Centrar los botones si caben en la pantalla (4 o menos opciones),
+            // pero alinearlos a la izquierda si son más para permitir un scroll natural sin cortes.
+            if (nextTramos.length <= 4) {
+                numbersRow.style.justifyContent = 'center';
+            } else {
+                numbersRow.style.justifyContent = 'flex-start';
+            }
             
             if (nextTramos.length === 0) {
                 return;
@@ -1523,7 +1955,8 @@
                         iconAnchor: [12, 12]
                     }),
                     interactive: false
-                }).addTo(map);
+                });
+                if (map.getZoom() >= 13) { badgeMarker.addTo(map); }
 
                 badgeMarkers.push(badgeMarker);
 
@@ -1547,7 +1980,8 @@
                             opacity: 1,
                             fillOpacity: 0.9,
                             interactive: false
-                        }).addTo(map);
+                        });
+                        if (map.getZoom() >= 13) { targetMarker.addTo(map); }
 
                         badgeMarkers.push(targetMarker); // Guardamos para limpiar luego
                     }
@@ -1681,6 +2115,9 @@
         }
 
         function toggleLocateUser() {
+            const gpsText = document.getElementById('gps-status-text');
+            if (navigator.vibrate) navigator.vibrate(15); // Respuesta háptica al pulsar GPS
+
             if (watchId !== null) {
                 // Desactivar seguimiento
                 navigator.geolocation.clearWatch(watchId);
@@ -1688,6 +2125,8 @@
                 followingUser = false;
                 btnLocate.style.color = '#475569';
                 btnLocate.style.borderColor = 'rgba(255, 255, 255, 0.4)';
+                if (gpsText) gpsText.innerText = "GPS Off";
+                
                 if (userLocationMarker) {
                     userLocationMarker.remove();
                     userLocationMarker = null;
@@ -1708,6 +2147,7 @@
             btnLocate.style.color = 'var(--brand-color)';
             btnLocate.style.borderColor = 'var(--brand-color)';
             btnLocate.style.transform = 'scale(0.9)';
+            if (gpsText) gpsText.innerText = "GPS On";
             setTimeout(() => { btnLocate.style.transform = 'scale(1)'; }, 150);
 
             watchId = navigator.geolocation.watchPosition(
@@ -1741,6 +2181,9 @@
                                     border: 2px solid #ffffff;
                                     box-shadow: 0 0 8px rgba(59, 130, 246, 0.8);
                                     position: relative;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
                                 ">
                                     <div style="
                                         position: absolute;
@@ -1784,6 +2227,7 @@
                     followingUser = false;
                     btnLocate.style.color = '#475569';
                     btnLocate.style.borderColor = 'rgba(255, 255, 255, 0.4)';
+                    if (gpsText) gpsText.innerText = "GPS Off";
                 },
                 {
                     enableHighAccuracy: true,
@@ -1791,6 +2235,64 @@
                     timeout: 15000
                 }
             );
+        }
+
+        // --- CONMUTADOR DE ESTILO DE MAPA (SATÉLITE / TOPOGRÁFICO) ---
+        let activeMapStyle = 'sat'; // 'sat' o 'topo'
+        const btnMapToggle = document.getElementById('btn-map-toggle');
+        const mapToggleText = document.getElementById('map-toggle-text');
+
+        if (btnMapToggle) {
+            btnMapToggle.addEventListener('click', (e) => {
+                L.DomEvent.stopPropagation(e);
+                if (navigator.vibrate) navigator.vibrate(15); // Respuesta háptica
+
+                if (activeMapStyle === 'sat') {
+                    satLayer.remove();
+                    topoLayer.addTo(map);
+                    activeMapStyle = 'topo';
+                    if (mapToggleText) mapToggleText.innerText = 'TOPO';
+                    btnMapToggle.style.background = 'rgba(79, 70, 229, 0.85)'; // Indigo semi-transparente
+                    btnMapToggle.style.color = '#ffffff';
+
+                    // Cambiar segmentos base a gris oscuro para contrastar en fondo claro topo
+                    backgroundLayers.forEach(poly => {
+                        poly.setStyle({ color: '#475569', opacity: 0.65 });
+                    });
+                } else {
+                    topoLayer.remove();
+                    satLayer.addTo(map);
+                    activeMapStyle = 'sat';
+                    if (mapToggleText) mapToggleText.innerText = 'SAT';
+                    btnMapToggle.style.background = 'var(--bg-glass)';
+                    btnMapToggle.style.color = '#475569';
+
+                    // Restaurar segmentos base en blanco translúcido en satélite oscuro
+                    backgroundLayers.forEach(poly => {
+                        poly.setStyle({ color: '#ffffff', opacity: 0.45 });
+                    });
+                }
+            });
+        }
+
+        // --- ACORDEÓN DEL LOGO (CONTROLES SUPERIOR IZQUIERDA) ---
+        const logoTrigger = document.getElementById('logo-trigger');
+        const topLeftAccordion = document.getElementById('top-left-accordion');
+
+        if (logoTrigger && topLeftAccordion) {
+            logoTrigger.addEventListener('click', (e) => {
+                L.DomEvent.stopPropagation(e);
+                if (navigator.vibrate) navigator.vibrate(15); // Respuesta háptica
+
+                const isExpanded = topLeftAccordion.classList.contains('expanded');
+                if (isExpanded) {
+                    topLeftAccordion.classList.remove('expanded');
+                    topLeftAccordion.classList.add('collapsed');
+                } else {
+                    topLeftAccordion.classList.remove('collapsed');
+                    topLeftAccordion.classList.add('expanded');
+                }
+            });
         }
 
         // --- REGISTRO DEL SERVICE WORKER (PWA) ---
