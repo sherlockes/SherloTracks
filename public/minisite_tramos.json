@@ -58,7 +58,7 @@
     "startId": "cruce_112",
     "endId": "cruce_119",
     "activityNames": {},
-    "count": 95
+    "count": 87
   },
   {
     "id": "tramo_1",
@@ -115,7 +115,7 @@
     "startId": "cruce_119",
     "endId": "cruce_192",
     "activityNames": {},
-    "count": 94
+    "count": 87
   },
   {
     "id": "tramo_2",
@@ -136,7 +136,7 @@
     "startId": "cruce_192",
     "endId": "cruce_113",
     "activityNames": {},
-    "count": 90
+    "count": 84
   },
   {
     "id": "tramo_3",
@@ -181,7 +181,7 @@
     "startId": "cruce_113",
     "endId": "cruce_72",
     "activityNames": {},
-    "count": 66
+    "count": 63
   },
   {
     "id": "tramo_4",
@@ -202,34 +202,34 @@
     "startId": "cruce_72",
     "endId": "cruce_66",
     "activityNames": {},
-    "count": 66
+    "count": 64
   },
   {
     "id": "tramo_5",
     "points": [
       [
+        -0.36492995208386564,
+        41.32548033003223
+      ],
+      [
+        -0.36472,
+        41.32503
+      ],
+      [
+        -0.36251,
+        41.32349
+      ],
+      [
+        -0.3618,
+        41.32309
+      ],
+      [
+        -0.36068,
+        41.32264
+      ],
+      [
         -0.36026895,
         41.322290619
-      ],
-      [
-        -0.36059,
-        41.32261
-      ],
-      [
-        -0.36203,
-        41.32324
-      ],
-      [
-        -0.36306,
-        41.32392
-      ],
-      [
-        -0.36474,
-        41.32513
-      ],
-      [
-        -0.364941359,
-        41.325457113
       ]
     ],
     "startId": "cruce_66",
@@ -241,39 +241,6 @@
     "id": "tramo_6",
     "points": [
       [
-        -0.36026895,
-        41.322290619
-      ],
-      [
-        -0.36203,
-        41.3233
-      ],
-      [
-        -0.36477,
-        41.32522
-      ],
-      [
-        -0.36416,
-        41.32616
-      ],
-      [
-        -0.36483,
-        41.32568
-      ],
-      [
-        -0.364941359,
-        41.325457113
-      ]
-    ],
-    "startId": "cruce_66",
-    "endId": "cruce_120",
-    "activityNames": {},
-    "count": 1
-  },
-  {
-    "id": "tramo_7",
-    "points": [
-      [
         -0.362629294,
         41.327177269
       ],
@@ -282,21 +249,17 @@
         41.32592
       ],
       [
-        -0.36481,
-        41.32571
-      ],
-      [
-        -0.364941359,
-        41.325457113
+        -0.36492995208386564,
+        41.32548033003223
       ]
     ],
     "startId": "cruce_120",
     "endId": "cruce_194",
     "activityNames": {},
-    "count": 50
+    "count": 49
   },
   {
-    "id": "tramo_8",
+    "id": "tramo_7",
     "points": [
       [
         -0.355092287,
@@ -346,10 +309,10 @@
     "startId": "cruce_194",
     "endId": "cruce_30",
     "activityNames": {},
-    "count": 45
+    "count": 44
   },
   {
-    "id": "tramo_9",
+    "id": "tramo_8",
     "points": [
       [
         -0.355092287,
@@ -438,7 +401,7 @@
     "count": 5
   },
   {
-    "id": "tramo_10",
+    "id": "tramo_9",
     "points": [
       [
         -0.355092287,
@@ -455,7 +418,7 @@
     "count": 13
   },
   {
-    "id": "tramo_11",
+    "id": "tramo_10",
     "points": [
       [
         -0.355628729,
@@ -573,10 +536,10 @@
     "startId": "cruce_29",
     "endId": "cruce_28",
     "activityNames": {},
-    "count": 10
+    "count": 9
   },
   {
-    "id": "tramo_12",
+    "id": "tramo_11",
     "points": [
       [
         -0.363884568,
@@ -642,10 +605,10 @@
     "startId": "cruce_28",
     "endId": "cruce_27",
     "activityNames": {},
-    "count": 14
+    "count": 13
   },
   {
-    "id": "tramo_13",
+    "id": "tramo_12",
     "points": [
       [
         -0.378642082,
@@ -682,7 +645,7 @@
     "count": 4
   },
   {
-    "id": "tramo_14",
+    "id": "tramo_13",
     "points": [
       [
         -0.381860733,
@@ -776,10 +739,10 @@
     "startId": "cruce_26",
     "endId": "cruce_25",
     "activityNames": {},
-    "count": 10
+    "count": 9
   },
   {
-    "id": "tramo_15",
+    "id": "tramo_14",
     "points": [
       [
         -0.397224426,
@@ -821,10 +784,10 @@
     "startId": "cruce_25",
     "endId": "cruce_24",
     "activityNames": {},
-    "count": 12
+    "count": 11
   },
   {
-    "id": "tramo_16",
+    "id": "tramo_15",
     "points": [
       [
         -0.392273068,
@@ -894,10 +857,10 @@
     "startId": "cruce_24",
     "endId": "cruce_23",
     "activityNames": {},
-    "count": 14
+    "count": 13
   },
   {
-    "id": "tramo_17",
+    "id": "tramo_16",
     "points": [
       [
         -0.384548306,
@@ -927,10 +890,10 @@
     "startId": "cruce_23",
     "endId": "cruce_22",
     "activityNames": {},
-    "count": 6
+    "count": 5
   },
   {
-    "id": "tramo_18",
+    "id": "tramo_17",
     "points": [
       [
         -0.380315781,
@@ -1148,10 +1111,10 @@
     "startId": "cruce_22",
     "endId": "cruce_6",
     "activityNames": {},
-    "count": 6
+    "count": 5
   },
   {
-    "id": "tramo_19",
+    "id": "tramo_18",
     "points": [
       [
         -0.337942243,
@@ -1168,7 +1131,7 @@
     "count": 5
   },
   {
-    "id": "tramo_20",
+    "id": "tramo_19",
     "points": [
       [
         -0.332829952,
@@ -1193,7 +1156,7 @@
     "count": 5
   },
   {
-    "id": "tramo_21",
+    "id": "tramo_20",
     "points": [
       [
         -0.32400012,
@@ -1219,10 +1182,10 @@
     "startId": "cruce_4",
     "endId": "cruce_3",
     "activityNames": {},
-    "count": 15
+    "count": 14
   },
   {
-    "id": "tramo_22",
+    "id": "tramo_21",
     "points": [
       [
         -0.318775177,
@@ -1236,10 +1199,10 @@
     "startId": "cruce_3",
     "endId": "cruce_2",
     "activityNames": {},
-    "count": 16
+    "count": 15
   },
   {
-    "id": "tramo_23",
+    "id": "tramo_22",
     "points": [
       [
         -0.309446454,
@@ -1257,10 +1220,10 @@
     "startId": "cruce_2",
     "endId": "cruce_1",
     "activityNames": {},
-    "count": 25
+    "count": 24
   },
   {
-    "id": "tramo_24",
+    "id": "tramo_23",
     "points": [
       [
         -0.309446454,
@@ -1306,10 +1269,10 @@
     "startId": "cruce_1",
     "endId": "cruce_31",
     "activityNames": {},
-    "count": 8
+    "count": 7
   },
   {
-    "id": "tramo_25",
+    "id": "tramo_24",
     "points": [
       [
         -0.314392447,
@@ -1423,10 +1386,10 @@
     "startId": "cruce_31",
     "endId": "cruce_170",
     "activityNames": {},
-    "count": 6
+    "count": 5
   },
   {
-    "id": "tramo_26",
+    "id": "tramo_25",
     "points": [
       [
         -0.307670832,
@@ -1456,10 +1419,10 @@
     "startId": "cruce_170",
     "endId": "cruce_32",
     "activityNames": {},
-    "count": 6
+    "count": 5
   },
   {
-    "id": "tramo_27",
+    "id": "tramo_26",
     "points": [
       [
         -0.304425359,
@@ -1497,10 +1460,10 @@
     "startId": "cruce_32",
     "endId": "cruce_33",
     "activityNames": {},
-    "count": 7
+    "count": 6
   },
   {
-    "id": "tramo_28",
+    "id": "tramo_27",
     "points": [
       [
         -0.307697654,
@@ -1530,10 +1493,10 @@
     "startId": "cruce_33",
     "endId": "cruce_34",
     "activityNames": {},
-    "count": 23
+    "count": 22
   },
   {
-    "id": "tramo_29",
+    "id": "tramo_28",
     "points": [
       [
         -0.314607024,
@@ -1610,7 +1573,7 @@
     "count": 20
   },
   {
-    "id": "tramo_30",
+    "id": "tramo_29",
     "points": [
       [
         -0.316194892,
@@ -1628,10 +1591,10 @@
     "startId": "cruce_35",
     "endId": "cruce_169",
     "activityNames": {},
-    "count": 25
+    "count": 24
   },
   {
-    "id": "tramo_31",
+    "id": "tramo_30",
     "points": [
       [
         -0.322363973,
@@ -1697,10 +1660,10 @@
     "startId": "cruce_169",
     "endId": "cruce_36",
     "activityNames": {},
-    "count": 25
+    "count": 24
   },
   {
-    "id": "tramo_32",
+    "id": "tramo_31",
     "points": [
       [
         -0.322363973,
@@ -1718,10 +1681,10 @@
     "startId": "cruce_36",
     "endId": "cruce_37",
     "activityNames": {},
-    "count": 29
+    "count": 28
   },
   {
-    "id": "tramo_33",
+    "id": "tramo_32",
     "points": [
       [
         -0.333135724,
@@ -1811,10 +1774,10 @@
     "startId": "cruce_37",
     "endId": "cruce_38",
     "activityNames": {},
-    "count": 26
+    "count": 25
   },
   {
-    "id": "tramo_34",
+    "id": "tramo_33",
     "points": [
       [
         -0.339916348,
@@ -1936,10 +1899,10 @@
     "startId": "cruce_38",
     "endId": "cruce_39",
     "activityNames": {},
-    "count": 38
+    "count": 35
   },
   {
-    "id": "tramo_35",
+    "id": "tramo_34",
     "points": [
       [
         -0.339916348,
@@ -1957,10 +1920,10 @@
     "startId": "cruce_39",
     "endId": "cruce_40",
     "activityNames": {},
-    "count": 41
+    "count": 38
   },
   {
-    "id": "tramo_36",
+    "id": "tramo_35",
     "points": [
       [
         -0.342121124,
@@ -1997,7 +1960,7 @@
     "count": 9
   },
   {
-    "id": "tramo_37",
+    "id": "tramo_36",
     "points": [
       [
         -0.34668088,
@@ -2163,10 +2126,10 @@
     "startId": "cruce_67",
     "endId": "cruce_66",
     "activityNames": {},
-    "count": 15
+    "count": 14
   },
   {
-    "id": "tramo_38",
+    "id": "tramo_37",
     "points": [
       [
         -0.361690521,
@@ -2191,7 +2154,7 @@
     "count": 2
   },
   {
-    "id": "tramo_39",
+    "id": "tramo_38",
     "points": [
       [
         -0.364013314,
@@ -2245,10 +2208,10 @@
     "startId": "cruce_74",
     "endId": "cruce_75",
     "activityNames": {},
-    "count": 4
+    "count": 3
   },
   {
-    "id": "tramo_40",
+    "id": "tramo_39",
     "points": [
       [
         -0.364013314,
@@ -2273,7 +2236,7 @@
     "count": 1
   },
   {
-    "id": "tramo_41",
+    "id": "tramo_40",
     "points": [
       [
         -0.363691449,
@@ -2295,10 +2258,10 @@
     "startId": "cruce_73",
     "endId": "cruce_116",
     "activityNames": {},
-    "count": 8
+    "count": 6
   },
   {
-    "id": "tramo_42",
+    "id": "tramo_41",
     "points": [
       [
         -0.366990566,
@@ -2324,10 +2287,10 @@
     "startId": "cruce_116",
     "endId": "cruce_174",
     "activityNames": {},
-    "count": 5
+    "count": 3
   },
   {
-    "id": "tramo_43",
+    "id": "tramo_42",
     "points": [
       [
         -0.370772481,
@@ -2356,7 +2319,7 @@
     "count": 4
   },
   {
-    "id": "tramo_44",
+    "id": "tramo_43",
     "points": [
       [
         -0.370772481,
@@ -2377,7 +2340,7 @@
     "count": 3
   },
   {
-    "id": "tramo_45",
+    "id": "tramo_44",
     "points": [
       [
         -0.374431014,
@@ -2407,10 +2370,10 @@
     "startId": "cruce_115",
     "endId": "cruce_89",
     "activityNames": {},
-    "count": 8
+    "count": 7
   },
   {
-    "id": "tramo_46",
+    "id": "tramo_45",
     "points": [
       [
         -0.372574925,
@@ -2428,10 +2391,10 @@
     "startId": "cruce_89",
     "endId": "cruce_117",
     "activityNames": {},
-    "count": 26
+    "count": 23
   },
   {
-    "id": "tramo_47",
+    "id": "tramo_46",
     "points": [
       [
         -0.372574925,
@@ -2509,10 +2472,10 @@
     "startId": "cruce_117",
     "endId": "cruce_119",
     "activityNames": {},
-    "count": 5
+    "count": 4
   },
   {
-    "id": "tramo_48",
+    "id": "tramo_47",
     "points": [
       [
         -0.367119312,
@@ -2526,10 +2489,10 @@
     "startId": "cruce_113",
     "endId": "cruce_114",
     "activityNames": {},
-    "count": 23
+    "count": 20
   },
   {
-    "id": "tramo_49",
+    "id": "tramo_48",
     "points": [
       [
         -0.367961526,
@@ -2603,35 +2566,27 @@
     "startId": "cruce_114",
     "endId": "cruce_117",
     "activityNames": {},
-    "count": 26
+    "count": 21
   },
   {
-    "id": "tramo_50",
+    "id": "tramo_49",
     "points": [
-      [
-        -0.361921191,
-        41.320848322
-      ],
-      [
-        -0.3623,
-        41.32086
-      ],
-      [
-        -0.36342,
-        41.32086
-      ],
       [
         -0.363691449,
         41.320973215
+      ],
+      [
+        -0.361921191,
+        41.320848322
       ]
     ],
     "startId": "cruce_73",
     "endId": "cruce_74",
     "activityNames": {},
-    "count": 2
+    "count": 1
   },
   {
-    "id": "tramo_51",
+    "id": "tramo_50",
     "points": [
       [
         -0.367918611,
@@ -2693,10 +2648,10 @@
     "startId": "cruce_75",
     "endId": "cruce_118",
     "activityNames": {},
-    "count": 3
+    "count": 2
   },
   {
-    "id": "tramo_52",
+    "id": "tramo_51",
     "points": [
       [
         -0.367918611,
@@ -2729,7 +2684,7 @@
     "count": 4
   },
   {
-    "id": "tramo_53",
+    "id": "tramo_52",
     "points": [
       [
         -0.368272662,
@@ -2766,7 +2721,7 @@
     "count": 19
   },
   {
-    "id": "tramo_54",
+    "id": "tramo_53",
     "points": [
       [
         -0.365316868,
@@ -2863,7 +2818,7 @@
     "count": 4
   },
   {
-    "id": "tramo_55",
+    "id": "tramo_54",
     "points": [
       [
         -0.376190543,
@@ -2985,10 +2940,10 @@
     "startId": "cruce_143",
     "endId": "cruce_94",
     "activityNames": {},
-    "count": 8
+    "count": 5
   },
   {
-    "id": "tramo_56",
+    "id": "tramo_55",
     "points": [
       [
         -0.389837623,
@@ -3002,10 +2957,10 @@
     "startId": "cruce_94",
     "endId": "cruce_95",
     "activityNames": {},
-    "count": 18
+    "count": 15
   },
   {
-    "id": "tramo_57",
+    "id": "tramo_56",
     "points": [
       [
         -0.401553512,
@@ -3055,10 +3010,10 @@
     "startId": "cruce_132",
     "endId": "cruce_95",
     "activityNames": {},
-    "count": 15
+    "count": 13
   },
   {
-    "id": "tramo_58",
+    "id": "tramo_57",
     "points": [
       [
         -0.390486717,
@@ -3100,10 +3055,10 @@
     "startId": "cruce_95",
     "endId": "cruce_132",
     "activityNames": {},
-    "count": 3
+    "count": 2
   },
   {
-    "id": "tramo_59",
+    "id": "tramo_58",
     "points": [
       [
         -0.401553512,
@@ -3221,10 +3176,10 @@
     "startId": "cruce_132",
     "endId": "cruce_96",
     "activityNames": {},
-    "count": 14
+    "count": 13
   },
   {
-    "id": "tramo_60",
+    "id": "tramo_59",
     "points": [
       [
         -0.396950841,
@@ -3293,7 +3248,7 @@
     "count": 7
   },
   {
-    "id": "tramo_61",
+    "id": "tramo_60",
     "points": [
       [
         -0.389837623,
@@ -3383,10 +3338,10 @@
     "startId": "cruce_94",
     "endId": "cruce_93",
     "activityNames": {},
-    "count": 22
+    "count": 18
   },
   {
-    "id": "tramo_62",
+    "id": "tramo_61",
     "points": [
       [
         -0.387015939,
@@ -3512,10 +3467,10 @@
     "startId": "cruce_93",
     "endId": "cruce_141",
     "activityNames": {},
-    "count": 24
+    "count": 19
   },
   {
-    "id": "tramo_63",
+    "id": "tramo_62",
     "points": [
       [
         -0.387015939,
@@ -3577,10 +3532,10 @@
     "startId": "cruce_141",
     "endId": "cruce_142",
     "activityNames": {},
-    "count": 24
+    "count": 19
   },
   {
-    "id": "tramo_64",
+    "id": "tramo_63",
     "points": [
       [
         -0.382263064,
@@ -3634,10 +3589,10 @@
     "startId": "cruce_142",
     "endId": "cruce_92",
     "activityNames": {},
-    "count": 24
+    "count": 19
   },
   {
-    "id": "tramo_65",
+    "id": "tramo_64",
     "points": [
       [
         -0.378309488,
@@ -3699,10 +3654,10 @@
     "startId": "cruce_92",
     "endId": "cruce_90",
     "activityNames": {},
-    "count": 24
+    "count": 20
   },
   {
-    "id": "tramo_66",
+    "id": "tramo_65",
     "points": [
       [
         -0.378309488,
@@ -3724,10 +3679,10 @@
     "startId": "cruce_90",
     "endId": "cruce_91",
     "activityNames": {},
-    "count": 39
+    "count": 35
   },
   {
-    "id": "tramo_67",
+    "id": "tramo_66",
     "points": [
       [
         -0.374431014,
@@ -3821,10 +3776,10 @@
     "startId": "cruce_91",
     "endId": "cruce_89",
     "activityNames": {},
-    "count": 24
+    "count": 20
   },
   {
-    "id": "tramo_68",
+    "id": "tramo_67",
     "points": [
       [
         -0.384344459,
@@ -3961,7 +3916,7 @@
     "count": 24
   },
   {
-    "id": "tramo_69",
+    "id": "tramo_68",
     "points": [
       [
         -0.378953218,
@@ -4010,7 +3965,7 @@
     "count": 17
   },
   {
-    "id": "tramo_70",
+    "id": "tramo_69",
     "points": [
       [
         -0.378309488,
@@ -4047,7 +4002,7 @@
     "count": 15
   },
   {
-    "id": "tramo_71",
+    "id": "tramo_70",
     "points": [
       [
         -0.371641517,
@@ -4076,7 +4031,7 @@
     "count": 17
   },
   {
-    "id": "tramo_72",
+    "id": "tramo_71",
     "points": [
       [
         -0.365316868,
@@ -4117,7 +4072,7 @@
     "count": 15
   },
   {
-    "id": "tramo_73",
+    "id": "tramo_72",
     "points": [
       [
         -0.35828948,
@@ -4202,7 +4157,7 @@
     "count": 18
   },
   {
-    "id": "tramo_74",
+    "id": "tramo_73",
     "points": [
       [
         -0.303384662,
@@ -4279,7 +4234,7 @@
     "count": 19
   },
   {
-    "id": "tramo_75",
+    "id": "tramo_74",
     "points": [
       [
         -0.286304355,
@@ -4352,7 +4307,7 @@
     "count": 18
   },
   {
-    "id": "tramo_76",
+    "id": "tramo_75",
     "points": [
       [
         -0.277227759,
@@ -4469,7 +4424,7 @@
     "count": 1
   },
   {
-    "id": "tramo_77",
+    "id": "tramo_76",
     "points": [
       [
         -0.277227759,
@@ -4498,7 +4453,7 @@
     "count": 17
   },
   {
-    "id": "tramo_78",
+    "id": "tramo_77",
     "points": [
       [
         -0.280065536,
@@ -4539,7 +4494,7 @@
     "count": 17
   },
   {
-    "id": "tramo_79",
+    "id": "tramo_78",
     "points": [
       [
         -0.319145322,
@@ -4660,7 +4615,7 @@
     "count": 31
   },
   {
-    "id": "tramo_80",
+    "id": "tramo_79",
     "points": [
       [
         -0.32994926,
@@ -4791,8 +4746,21 @@
         41.36601
       ],
       [
-        -0.34239,
-        41.36589
+        -0.342646837,
+        41.365870784
+      ]
+    ],
+    "startId": "cruce_159",
+    "endId": "cruce_221",
+    "activityNames": {},
+    "count": 29
+  },
+  {
+    "id": "tramo_80",
+    "points": [
+      [
+        -0.342646837,
+        41.365870784
       ],
       [
         -0.34295,
@@ -4807,10 +4775,10 @@
         41.364799853
       ]
     ],
-    "startId": "cruce_159",
+    "startId": "cruce_221",
     "endId": "cruce_42",
     "activityNames": {},
-    "count": 29
+    "count": 30
   },
   {
     "id": "tramo_81",
@@ -5166,18 +5134,14 @@
     "startId": "cruce_72",
     "endId": "cruce_73",
     "activityNames": {},
-    "count": 5
+    "count": 4
   },
   {
     "id": "tramo_85",
     "points": [
       [
-        -0.364941359,
-        41.325457113
-      ],
-      [
-        -0.36451,
-        41.32534
+        -0.36492995208386564,
+        41.32548033003223
       ],
       [
         -0.36433,
@@ -5363,7 +5327,7 @@
     "startId": "cruce_120",
     "endId": "cruce_121",
     "activityNames": {},
-    "count": 10
+    "count": 8
   },
   {
     "id": "tramo_86",
@@ -5413,7 +5377,7 @@
     "startId": "cruce_68",
     "endId": "cruce_67",
     "activityNames": {},
-    "count": 6
+    "count": 5
   },
   {
     "id": "tramo_88",
@@ -5614,8 +5578,8 @@
         41.265541596
       ],
       [
-        -0.40484726428985596,
-        41.25708144296019
+        -0.404847264,
+        41.257081443
       ]
     ],
     "startId": "cruce_101",
@@ -5627,8 +5591,8 @@
     "id": "tramo_92",
     "points": [
       [
-        -0.40484726428985596,
-        41.25708144296019
+        -0.404847264,
+        41.257081443
       ],
       [
         -0.38476,
@@ -5989,7 +5953,7 @@
     "startId": "cruce_99",
     "endId": "cruce_104",
     "activityNames": {},
-    "count": 11
+    "count": 10
   },
   {
     "id": "tramo_96",
@@ -6042,7 +6006,7 @@
     "startId": "cruce_104",
     "endId": "cruce_105",
     "activityNames": {},
-    "count": 11
+    "count": 10
   },
   {
     "id": "tramo_97",
@@ -6052,11 +6016,7 @@
         41.295070952
       ],
       [
-        -0.32493,
-        41.29543
-      ],
-      [
-        -0.32776,
+        -0.32775,
         41.29644
       ],
       [
@@ -6067,7 +6027,7 @@
     "startId": "cruce_105",
     "endId": "cruce_106",
     "activityNames": {},
-    "count": 12
+    "count": 10
   },
   {
     "id": "tramo_98",
@@ -6084,7 +6044,7 @@
     "startId": "cruce_106",
     "endId": "cruce_107",
     "activityNames": {},
-    "count": 13
+    "count": 11
   },
   {
     "id": "tramo_99",
@@ -6101,7 +6061,7 @@
     "startId": "cruce_107",
     "endId": "cruce_108",
     "activityNames": {},
-    "count": 7
+    "count": 6
   },
   {
     "id": "tramo_100",
@@ -6130,7 +6090,7 @@
     "startId": "cruce_108",
     "endId": "cruce_109",
     "activityNames": {},
-    "count": 7
+    "count": 6
   },
   {
     "id": "tramo_101",
@@ -6306,7 +6266,7 @@
     "startId": "cruce_162",
     "endId": "cruce_161",
     "activityNames": {},
-    "count": 4
+    "count": 3
   },
   {
     "id": "tramo_105",
@@ -6316,180 +6276,176 @@
         41.303727676
       ],
       [
-        -0.30154,
-        41.30359
+        -0.3015,
+        41.30358
       ],
       [
-        -0.30087,
-        41.30225
+        -0.30131,
+        41.30295
       ],
       [
-        -0.30035,
-        41.30189
+        -0.30032,
+        41.30186
       ],
       [
-        -0.30002,
-        41.3023
+        -0.30001,
+        41.30222
       ],
       [
-        -0.30015,
-        41.30253
+        -0.30011,
+        41.30256
       ],
       [
         -0.29913,
-        41.30285
+        41.30286
       ],
       [
-        -0.29918,
-        41.30345
+        -0.29912,
+        41.30356
       ],
       [
-        -0.29834,
-        41.30447
+        -0.2983,
+        41.30451
       ],
       [
-        -0.29859,
-        41.30488
+        -0.29857,
+        41.30482
       ],
       [
-        -0.29809,
-        41.30529
+        -0.2981,
+        41.3054
       ],
       [
-        -0.2985,
-        41.30577
+        -0.29842,
+        41.30566
       ],
       [
-        -0.2984,
-        41.30618
+        -0.29845,
+        41.306
       ],
       [
-        -0.29776,
-        41.30675
+        -0.29771,
+        41.30681
       ],
       [
         -0.29745,
-        41.30737
+        41.30734
       ],
       [
-        -0.29691,
-        41.30784
+        -0.29693,
+        41.30781
       ],
       [
-        -0.29677,
-        41.30826
+        -0.29673,
+        41.30832
       ],
       [
-        -0.29697,
-        41.30957
+        -0.29696,
+        41.30956
       ],
       [
-        -0.29674,
-        41.31025
+        -0.29671,
+        41.31026
       ],
       [
-        -0.29615,
-        41.31084
+        -0.29613,
+        41.31087
       ],
       [
-        -0.29662,
-        41.31174
+        -0.29659,
+        41.31176
       ],
       [
-        -0.29641,
-        41.31196
+        -0.2964,
+        41.31195
       ],
       [
         -0.29603,
-        41.31203
+        41.31201
       ],
       [
-        -0.29598,
-        41.31223
+        -0.29596,
+        41.3122
       ],
       [
-        -0.29651,
-        41.313
+        -0.29649,
+        41.31296
       ],
       [
-        -0.29658,
-        41.31342
+        -0.29657,
+        41.31339
       ],
       [
-        -0.29707,
-        41.31383
+        -0.29701,
+        41.31372
       ],
       [
-        -0.29703,
-        41.31432
+        -0.29704,
+        41.31433
       ],
       [
-        -0.29737,
-        41.31461
+        -0.29738,
+        41.31462
       ],
       [
-        -0.29739,
-        41.31536
+        -0.29726,
+        41.31494
       ],
       [
-        -0.29789,
-        41.31563
+        -0.29744,
+        41.31542
       ],
       [
-        -0.29924,
-        41.31598
+        -0.29918,
+        41.31591
       ],
       [
-        -0.29924,
-        41.31618
+        -0.29962,
+        41.31655
       ],
       [
-        -0.29966,
-        41.31659
+        -0.3006,
+        41.31696
       ],
       [
-        -0.30041,
-        41.31688
+        -0.30076,
+        41.31729
       ],
       [
-        -0.30077,
-        41.31718
+        -0.30017,
+        41.31778
       ],
       [
-        -0.30064,
-        41.31746
+        -0.30013,
+        41.31804
       ],
       [
-        -0.30016,
-        41.31781
+        -0.30083,
+        41.31829
       ],
       [
-        -0.30022,
-        41.31811
-      ],
-      [
-        -0.30092,
-        41.31834
-      ],
-      [
-        -0.30123,
-        41.31886
+        -0.30117,
+        41.31882
       ],
       [
         -0.30198,
-        41.31931
+        41.31929
       ],
       [
-        -0.30301,
+        -0.30232,
+        41.31932
+      ],
+      [
+        -0.30297,
         41.31911
       ],
       [
-        -0.30407,
-        41.31974
+        -0.30399,
+        41.31977
       ],
       [
-        -0.30574,
-        41.31917
+        -0.30563,
+        41.31918
       ],
       [
         -0.306415558,
@@ -6499,7 +6455,7 @@
     "startId": "cruce_161",
     "endId": "cruce_160",
     "activityNames": {},
-    "count": 7
+    "count": 6
   },
   {
     "id": "tramo_106",
@@ -6746,7 +6702,7 @@
     "startId": "cruce_76",
     "endId": "cruce_38",
     "activityNames": {},
-    "count": 12
+    "count": 10
   },
   {
     "id": "tramo_113",
@@ -6767,7 +6723,7 @@
     "startId": "cruce_40",
     "endId": "cruce_69",
     "activityNames": {},
-    "count": 10
+    "count": 7
   },
   {
     "id": "tramo_114",
@@ -6788,7 +6744,7 @@
     "startId": "cruce_69",
     "endId": "cruce_70",
     "activityNames": {},
-    "count": 10
+    "count": 7
   },
   {
     "id": "tramo_115",
@@ -6809,58 +6765,58 @@
     "startId": "cruce_70",
     "endId": "cruce_121",
     "activityNames": {},
-    "count": 7
+    "count": 5
   },
   {
     "id": "tramo_116",
     "points": [
       [
-        -0.364941359,
-        41.325457113
+        -0.36492995208386564,
+        41.32548033003223
       ],
       [
-        -0.36518,
-        41.32561
-      ],
-      [
-        -0.36519,
-        41.32593
-      ],
-      [
-        -0.36618,
-        41.32713
-      ],
-      [
-        -0.36702,
-        41.32864
-      ],
-      [
-        -0.3673,
-        41.32873
-      ],
-      [
-        -0.36705,
-        41.32898
-      ],
-      [
-        -0.36739,
-        41.33073
-      ],
-      [
-        -0.36712,
-        41.33284
-      ],
-      [
-        -0.36687,
-        41.33345
+        -0.36514,
+        41.3259
       ],
       [
         -0.36599,
-        41.33419
+        41.32687
+      ],
+      [
+        -0.36698,
+        41.32859
+      ],
+      [
+        -0.36728,
+        41.32873
+      ],
+      [
+        -0.36704,
+        41.32903
+      ],
+      [
+        -0.36737,
+        41.33079
+      ],
+      [
+        -0.36705,
+        41.33303
+      ],
+      [
+        -0.36683,
+        41.33346
+      ],
+      [
+        -0.36616,
+        41.3339
       ],
       [
         -0.36592,
-        41.33575
+        41.33429
+      ],
+      [
+        -0.36593,
+        41.33567
       ],
       [
         -0.365145206,
@@ -6924,7 +6880,7 @@
     "startId": "cruce_70",
     "endId": "cruce_68",
     "activityNames": {},
-    "count": 3
+    "count": 2
   },
   {
     "id": "tramo_119",
@@ -7368,8 +7324,21 @@
         41.375025313
       ],
       [
-        -0.42406,
-        41.3748
+        -0.424100161,
+        41.374771709
+      ]
+    ],
+    "startId": "cruce_54",
+    "endId": "cruce_225",
+    "activityNames": {},
+    "count": 1
+  },
+  {
+    "id": "tramo_130",
+    "points": [
+      [
+        -0.424100161,
+        41.374771709
       ],
       [
         -0.42335,
@@ -7404,13 +7373,13 @@
         41.37835428
       ]
     ],
-    "startId": "cruce_54",
+    "startId": "cruce_225",
     "endId": "cruce_53",
     "activityNames": {},
-    "count": 1
+    "count": 2
   },
   {
-    "id": "tramo_130",
+    "id": "tramo_131",
     "points": [
       [
         -0.413585901,
@@ -7449,8 +7418,21 @@
         41.3827
       ],
       [
-        -0.40563,
-        41.38308
+        -0.40561974,
+        41.383043526
+      ]
+    ],
+    "startId": "cruce_53",
+    "endId": "cruce_224",
+    "activityNames": {},
+    "count": 1
+  },
+  {
+    "id": "tramo_132",
+    "points": [
+      [
+        -0.40561974,
+        41.383043526
       ],
       [
         -0.40547,
@@ -7513,13 +7495,13 @@
         41.392940147
       ]
     ],
-    "startId": "cruce_53",
+    "startId": "cruce_224",
     "endId": "cruce_80",
     "activityNames": {},
-    "count": 1
+    "count": 2
   },
   {
-    "id": "tramo_131",
+    "id": "tramo_133",
     "points": [
       [
         -0.405893326,
@@ -7604,7 +7586,7 @@
     "count": 1
   },
   {
-    "id": "tramo_132",
+    "id": "tramo_134",
     "points": [
       [
         -0.383051634,
@@ -7633,7 +7615,7 @@
     "count": 1
   },
   {
-    "id": "tramo_133",
+    "id": "tramo_135",
     "points": [
       [
         -0.377579927,
@@ -7674,7 +7656,7 @@
     "count": 9
   },
   {
-    "id": "tramo_134",
+    "id": "tramo_136",
     "points": [
       [
         -0.373331308,
@@ -7699,7 +7681,7 @@
     "count": 7
   },
   {
-    "id": "tramo_135",
+    "id": "tramo_137",
     "points": [
       [
         -0.36962986,
@@ -7745,10 +7727,10 @@
     "startId": "cruce_7",
     "endId": "cruce_147",
     "activityNames": {},
-    "count": 9
+    "count": 8
   },
   {
-    "id": "tramo_136",
+    "id": "tramo_138",
     "points": [
       [
         -0.360789299,
@@ -7798,10 +7780,10 @@
     "startId": "cruce_147",
     "endId": "cruce_8",
     "activityNames": {},
-    "count": 9
+    "count": 8
   },
   {
-    "id": "tramo_137",
+    "id": "tramo_139",
     "points": [
       [
         -0.35045743,
@@ -7879,10 +7861,10 @@
     "startId": "cruce_8",
     "endId": "cruce_157",
     "activityNames": {},
-    "count": 8
+    "count": 7
   },
   {
-    "id": "tramo_138",
+    "id": "tramo_140",
     "points": [
       [
         -0.329965353,
@@ -7916,34 +7898,47 @@
     "startId": "cruce_157",
     "endId": "cruce_158",
     "activityNames": {},
-    "count": 7
+    "count": 6
   },
   {
-    "id": "tramo_139",
+    "id": "tramo_141",
     "points": [
       [
         -0.325684547,
         41.403724501
       ],
       [
-        -0.3258,
-        41.40282
+        -0.32583,
+        41.40279
       ],
       [
-        -0.32615,
-        41.40259
+        -0.32612,
+        41.40262
       ],
       [
-        -0.32702,
-        41.40124
+        -0.32698,
+        41.40127
       ],
       [
-        -0.32938,
-        41.39919
+        -0.32915,
+        41.39942
       ],
       [
-        -0.32936,
-        41.39896
+        -0.329447217,
+        41.399058655
+      ]
+    ],
+    "startId": "cruce_158",
+    "endId": "cruce_222",
+    "activityNames": {},
+    "count": 7
+  },
+  {
+    "id": "tramo_142",
+    "points": [
+      [
+        -0.329447217,
+        41.399058655
       ],
       [
         -0.32761,
@@ -7962,46 +7957,13 @@
         41.396014675
       ]
     ],
-    "startId": "cruce_158",
+    "startId": "cruce_222",
     "endId": "cruce_146",
     "activityNames": {},
     "count": 8
   },
   {
-    "id": "tramo_140",
-    "points": [
-      [
-        -0.325684547,
-        41.403724501
-      ],
-      [
-        -0.32177,
-        41.40113
-      ],
-      [
-        -0.32095,
-        41.39982
-      ],
-      [
-        -0.32096,
-        41.39963
-      ],
-      [
-        -0.3226,
-        41.39844
-      ],
-      [
-        -0.325303674,
-        41.396014675
-      ]
-    ],
-    "startId": "cruce_158",
-    "endId": "cruce_146",
-    "activityNames": {},
-    "count": 1
-  },
-  {
-    "id": "tramo_141",
+    "id": "tramo_143",
     "points": [
       [
         -0.325303674,
@@ -8019,10 +7981,10 @@
     "startId": "cruce_146",
     "endId": "cruce_4",
     "activityNames": {},
-    "count": 10
+    "count": 9
   },
   {
-    "id": "tramo_142",
+    "id": "tramo_144",
     "points": [
       [
         -0.395539999,
@@ -8051,7 +8013,7 @@
     "count": 4
   },
   {
-    "id": "tramo_143",
+    "id": "tramo_145",
     "points": [
       [
         -0.39272368,
@@ -8237,10 +8199,10 @@
     "startId": "cruce_98",
     "endId": "cruce_99",
     "activityNames": {},
-    "count": 11
+    "count": 10
   },
   {
-    "id": "tramo_144",
+    "id": "tramo_146",
     "points": [
       [
         -0.326644778,
@@ -8259,21 +8221,21 @@
         41.30043
       ],
       [
-        -0.33066809177398687,
-        41.3006246061779
+        -0.330668092,
+        41.300624606
       ]
     ],
     "startId": "cruce_107",
     "endId": "cruce_209",
     "activityNames": {},
-    "count": 10
+    "count": 9
   },
   {
-    "id": "tramo_145",
+    "id": "tramo_147",
     "points": [
       [
-        -0.33066809177398687,
-        41.3006246061779
+        -0.330668092,
+        41.300624606
       ],
       [
         -0.33046,
@@ -8303,10 +8265,10 @@
     "startId": "cruce_209",
     "endId": "cruce_166",
     "activityNames": {},
-    "count": 10
+    "count": 9
   },
   {
-    "id": "tramo_146",
+    "id": "tramo_148",
     "points": [
       [
         -0.333065987,
@@ -8475,7 +8437,7 @@
     "count": 7
   },
   {
-    "id": "tramo_147",
+    "id": "tramo_149",
     "points": [
       [
         -0.329723954,
@@ -8508,7 +8470,7 @@
     "count": 5
   },
   {
-    "id": "tramo_148",
+    "id": "tramo_150",
     "points": [
       [
         -0.326929092,
@@ -8577,7 +8539,7 @@
     "count": 7
   },
   {
-    "id": "tramo_149",
+    "id": "tramo_151",
     "points": [
       [
         -0.319220424,
@@ -8596,8 +8558,8 @@
         41.31166
       ],
       [
-        -0.3180187940597534,
-        41.31177078913775
+        -0.318018794,
+        41.311770789
       ]
     ],
     "startId": "cruce_200",
@@ -8606,11 +8568,11 @@
     "count": 8
   },
   {
-    "id": "tramo_150",
+    "id": "tramo_152",
     "points": [
       [
-        -0.3180187940597534,
-        41.31177078913775
+        -0.318018794,
+        41.311770789
       ],
       [
         -0.317911506,
@@ -8623,15 +8585,15 @@
     "count": 7
   },
   {
-    "id": "tramo_151",
+    "id": "tramo_153",
     "points": [
       [
         -0.317911506,
         41.312004492
       ],
       [
-        -0.31798660755157476,
-        41.31308434968138
+        -0.317986608,
+        41.31308435
       ]
     ],
     "startId": "cruce_131",
@@ -8640,11 +8602,11 @@
     "count": 9
   },
   {
-    "id": "tramo_152",
+    "id": "tramo_154",
     "points": [
       [
-        -0.31798660755157476,
-        41.31308434968138
+        -0.317986608,
+        41.31308435
       ],
       [
         -0.31786859,
@@ -8654,10 +8616,10 @@
     "startId": "cruce_204",
     "endId": "cruce_203",
     "activityNames": {},
-    "count": 8
+    "count": 7
   },
   {
-    "id": "tramo_153",
+    "id": "tramo_155",
     "points": [
       [
         -0.31786859,
@@ -8686,7 +8648,7 @@
     "count": 7
   },
   {
-    "id": "tramo_154",
+    "id": "tramo_156",
     "points": [
       [
         -0.312665105,
@@ -8715,7 +8677,7 @@
     "count": 10
   },
   {
-    "id": "tramo_155",
+    "id": "tramo_157",
     "points": [
       [
         -0.313968658,
@@ -8768,7 +8730,7 @@
     "count": 9
   },
   {
-    "id": "tramo_156",
+    "id": "tramo_158",
     "points": [
       [
         -0.316028595,
@@ -8801,7 +8763,7 @@
     "count": 7
   },
   {
-    "id": "tramo_157",
+    "id": "tramo_159",
     "points": [
       [
         -0.317546725,
@@ -8822,7 +8784,7 @@
     "count": 6
   },
   {
-    "id": "tramo_158",
+    "id": "tramo_160",
     "points": [
       [
         -0.319494009,
@@ -8859,7 +8821,7 @@
     "count": 5
   },
   {
-    "id": "tramo_159",
+    "id": "tramo_161",
     "points": [
       [
         -0.320701003,
@@ -8896,7 +8858,7 @@
     "count": 5
   },
   {
-    "id": "tramo_160",
+    "id": "tramo_162",
     "points": [
       [
         -0.333393216,
@@ -8978,10 +8940,10 @@
     "startId": "cruce_167",
     "endId": "cruce_168",
     "activityNames": {},
-    "count": 14
+    "count": 13
   },
   {
-    "id": "tramo_161",
+    "id": "tramo_163",
     "points": [
       [
         -0.333393216,
@@ -9027,10 +8989,10 @@
     "startId": "cruce_168",
     "endId": "cruce_76",
     "activityNames": {},
-    "count": 8
+    "count": 6
   },
   {
-    "id": "tramo_162",
+    "id": "tramo_164",
     "points": [
       [
         -0.307697654,
@@ -9044,10 +9006,10 @@
     "startId": "cruce_34",
     "endId": "cruce_218",
     "activityNames": {},
-    "count": 3
+    "count": 2
   },
   {
-    "id": "tramo_163",
+    "id": "tramo_165",
     "points": [
       [
         -0.307169651,
@@ -9065,10 +9027,10 @@
     "startId": "cruce_218",
     "endId": "cruce_219",
     "activityNames": {},
-    "count": 4
+    "count": 3
   },
   {
-    "id": "tramo_164",
+    "id": "tramo_166",
     "points": [
       [
         -0.305635273,
@@ -9186,10 +9148,10 @@
     "startId": "cruce_219",
     "endId": "cruce_48",
     "activityNames": {},
-    "count": 3
+    "count": 2
   },
   {
-    "id": "tramo_165",
+    "id": "tramo_167",
     "points": [
       [
         -0.283423662,
@@ -9227,10 +9189,10 @@
     "startId": "cruce_48",
     "endId": "cruce_47",
     "activityNames": {},
-    "count": 3
+    "count": 2
   },
   {
-    "id": "tramo_166",
+    "id": "tramo_168",
     "points": [
       [
         -0.285199285,
@@ -9260,10 +9222,10 @@
     "startId": "cruce_47",
     "endId": "cruce_46",
     "activityNames": {},
-    "count": 4
+    "count": 3
   },
   {
-    "id": "tramo_167",
+    "id": "tramo_169",
     "points": [
       [
         -0.288321376,
@@ -9305,10 +9267,10 @@
     "startId": "cruce_46",
     "endId": "cruce_217",
     "activityNames": {},
-    "count": 5
+    "count": 4
   },
   {
-    "id": "tramo_168",
+    "id": "tramo_170",
     "points": [
       [
         -0.300595164,
@@ -9346,10 +9308,10 @@
     "startId": "cruce_217",
     "endId": "cruce_35",
     "activityNames": {},
-    "count": 5
+    "count": 4
   },
   {
-    "id": "tramo_169",
+    "id": "tramo_171",
     "points": [
       [
         -0.378642082,
@@ -9411,10 +9373,10 @@
     "startId": "cruce_27",
     "endId": "cruce_65",
     "activityNames": {},
-    "count": 10
+    "count": 9
   },
   {
-    "id": "tramo_170",
+    "id": "tramo_172",
     "points": [
       [
         -0.386973023,
@@ -9491,7 +9453,7 @@
     "count": 8
   },
   {
-    "id": "tramo_171",
+    "id": "tramo_173",
     "points": [
       [
         -0.384998918,
@@ -9588,7 +9550,7 @@
     "count": 8
   },
   {
-    "id": "tramo_172",
+    "id": "tramo_174",
     "points": [
       [
         -0.396484137,
@@ -9633,7 +9595,7 @@
     "count": 4
   },
   {
-    "id": "tramo_173",
+    "id": "tramo_175",
     "points": [
       [
         -0.387488008,
@@ -9703,10 +9665,10 @@
     "startId": "cruce_64",
     "endId": "cruce_26",
     "activityNames": {},
-    "count": 6
+    "count": 5
   },
   {
-    "id": "tramo_174",
+    "id": "tramo_176",
     "points": [
       [
         -0.397224426,
@@ -9755,7 +9717,7 @@
     "count": 4
   },
   {
-    "id": "tramo_175",
+    "id": "tramo_177",
     "points": [
       [
         -0.40451467,
@@ -9782,8 +9744,21 @@
         41.37354
       ],
       [
-        -0.40942,
-        41.37356
+        -0.4092621803283692,
+        41.373439264717575
+      ]
+    ],
+    "startId": "cruce_153",
+    "endId": "cruce_227",
+    "activityNames": {},
+    "count": 3
+  },
+  {
+    "id": "tramo_178",
+    "points": [
+      [
+        -0.4092621803283692,
+        41.373439264717575
       ],
       [
         -0.41109,
@@ -9798,13 +9773,13 @@
         41.376993731
       ]
     ],
-    "startId": "cruce_153",
+    "startId": "cruce_227",
     "endId": "cruce_52",
     "activityNames": {},
     "count": 2
   },
   {
-    "id": "tramo_176",
+    "id": "tramo_179",
     "points": [
       [
         -0.4112041,
@@ -9873,7 +9848,7 @@
     "count": 3
   },
   {
-    "id": "tramo_177",
+    "id": "tramo_180",
     "points": [
       [
         -0.384548306,
@@ -9942,7 +9917,7 @@
     "count": 8
   },
   {
-    "id": "tramo_178",
+    "id": "tramo_181",
     "points": [
       [
         -0.373331308,
@@ -10051,7 +10026,7 @@
     "count": 3
   },
   {
-    "id": "tramo_179",
+    "id": "tramo_182",
     "points": [
       [
         -0.378803015,
@@ -10084,7 +10059,7 @@
     "count": 1
   },
   {
-    "id": "tramo_180",
+    "id": "tramo_183",
     "points": [
       [
         -0.358096361,
@@ -10149,7 +10124,7 @@
     "count": 1
   },
   {
-    "id": "tramo_181",
+    "id": "tramo_184",
     "points": [
       [
         -0.396484137,
@@ -10194,7 +10169,7 @@
     "count": 4
   },
   {
-    "id": "tramo_182",
+    "id": "tramo_185",
     "points": [
       [
         -0.378803015,
@@ -10291,7 +10266,7 @@
     "count": 2
   },
   {
-    "id": "tramo_183",
+    "id": "tramo_186",
     "points": [
       [
         -0.396950841,
@@ -10321,10 +10296,10 @@
     "startId": "cruce_96",
     "endId": "cruce_98",
     "activityNames": {},
-    "count": 7
+    "count": 6
   },
   {
-    "id": "tramo_184",
+    "id": "tramo_187",
     "points": [
       [
         -0.317911506,
@@ -10421,7 +10396,7 @@
     "count": 6
   },
   {
-    "id": "tramo_185",
+    "id": "tramo_188",
     "points": [
       [
         -0.313968658,
@@ -10462,7 +10437,7 @@
     "count": 3
   },
   {
-    "id": "tramo_186",
+    "id": "tramo_189",
     "points": [
       [
         -0.314129591,
@@ -10499,7 +10474,7 @@
     "count": 2
   },
   {
-    "id": "tramo_187",
+    "id": "tramo_190",
     "points": [
       [
         -0.315611584,
@@ -10588,7 +10563,7 @@
     "count": 1
   },
   {
-    "id": "tramo_188",
+    "id": "tramo_191",
     "points": [
       [
         -0.315611584,
@@ -10645,7 +10620,7 @@
     "count": 3
   },
   {
-    "id": "tramo_189",
+    "id": "tramo_192",
     "points": [
       [
         -0.320389867,
@@ -10662,7 +10637,7 @@
     "count": 1
   },
   {
-    "id": "tramo_190",
+    "id": "tramo_193",
     "points": [
       [
         -0.320604444,
@@ -10691,7 +10666,7 @@
     "count": 4
   },
   {
-    "id": "tramo_191",
+    "id": "tramo_194",
     "points": [
       [
         -0.342121124,
@@ -10708,7 +10683,7 @@
     "count": 4
   },
   {
-    "id": "tramo_192",
+    "id": "tramo_195",
     "points": [
       [
         -0.36962986,
@@ -10818,10 +10793,10 @@
     "startId": "cruce_7",
     "endId": "cruce_145",
     "activityNames": {},
-    "count": 8
+    "count": 7
   },
   {
-    "id": "tramo_193",
+    "id": "tramo_196",
     "points": [
       [
         -0.340195298,
@@ -10835,10 +10810,10 @@
     "startId": "cruce_145",
     "endId": "cruce_144",
     "activityNames": {},
-    "count": 8
+    "count": 7
   },
   {
-    "id": "tramo_194",
+    "id": "tramo_197",
     "points": [
       [
         -0.338988304,
@@ -10856,10 +10831,10 @@
     "startId": "cruce_144",
     "endId": "cruce_6",
     "activityNames": {},
-    "count": 7
+    "count": 6
   },
   {
-    "id": "tramo_195",
+    "id": "tramo_198",
     "points": [
       [
         -0.37165761,
@@ -10901,10 +10876,10 @@
     "startId": "cruce_115",
     "endId": "cruce_118",
     "activityNames": {},
-    "count": 5
+    "count": 4
   },
   {
-    "id": "tramo_196",
+    "id": "tramo_199",
     "points": [
       [
         -0.403318405,
@@ -11002,10 +10977,10 @@
     "startId": "cruce_93",
     "endId": "cruce_139",
     "activityNames": {},
-    "count": 6
+    "count": 5
   },
   {
-    "id": "tramo_197",
+    "id": "tramo_200",
     "points": [
       [
         -0.403318405,
@@ -11030,7 +11005,7 @@
     "count": 2
   },
   {
-    "id": "tramo_198",
+    "id": "tramo_201",
     "points": [
       [
         -0.364984274,
@@ -11051,7 +11026,7 @@
     "count": 3
   },
   {
-    "id": "tramo_199",
+    "id": "tramo_202",
     "points": [
       [
         -0.364694595,
@@ -11128,7 +11103,7 @@
     "count": 3
   },
   {
-    "id": "tramo_200",
+    "id": "tramo_203",
     "points": [
       [
         -0.367693305,
@@ -11142,10 +11117,10 @@
     "startId": "cruce_175",
     "endId": "cruce_114",
     "activityNames": {},
-    "count": 5
+    "count": 3
   },
   {
-    "id": "tramo_201",
+    "id": "tramo_204",
     "points": [
       [
         -0.379806161,
@@ -11163,10 +11138,10 @@
     "startId": "cruce_92",
     "endId": "cruce_188",
     "activityNames": {},
-    "count": 8
+    "count": 5
   },
   {
-    "id": "tramo_202",
+    "id": "tramo_205",
     "points": [
       [
         -0.37825048,
@@ -11200,10 +11175,10 @@
     "startId": "cruce_188",
     "endId": "cruce_187",
     "activityNames": {},
-    "count": 9
+    "count": 6
   },
   {
-    "id": "tramo_203",
+    "id": "tramo_206",
     "points": [
       [
         -0.376190543,
@@ -11281,10 +11256,10 @@
     "startId": "cruce_187",
     "endId": "cruce_143",
     "activityNames": {},
-    "count": 6
+    "count": 3
   },
   {
-    "id": "tramo_204",
+    "id": "tramo_207",
     "points": [
       [
         -0.304425359,
@@ -11377,52 +11352,40 @@
     "count": 1
   },
   {
-    "id": "tramo_205",
+    "id": "tramo_208",
     "points": [
-      [
-        -0.366185904,
-        41.324353289
-      ],
-      [
-        -0.36655,
-        41.32526
-      ],
-      [
-        -0.36678,
-        41.3253
-      ],
-      [
-        -0.3666,
-        41.32515
-      ],
-      [
-        -0.36686,
-        41.32477
-      ],
-      [
-        -0.36743,
-        41.32463
-      ],
       [
         -0.368084908,
         41.323994744
+      ],
+      [
+        -0.3675,
+        41.32458
+      ],
+      [
+        -0.36681,
+        41.32482
+      ],
+      [
+        -0.36657,
+        41.32528
+      ],
+      [
+        -0.366185904,
+        41.324353289
       ]
     ],
     "startId": "cruce_192",
     "endId": "cruce_193",
     "activityNames": {},
-    "count": 5
+    "count": 3
   },
   {
-    "id": "tramo_206",
+    "id": "tramo_209",
     "points": [
       [
-        -0.364941359,
-        41.325457113
-      ],
-      [
-        -0.36527,
-        41.32565
+        -0.36492995208386564,
+        41.32548033003223
       ],
       [
         -0.36557,
@@ -11444,10 +11407,10 @@
     "startId": "cruce_193",
     "endId": "cruce_120",
     "activityNames": {},
-    "count": 6
+    "count": 4
   },
   {
-    "id": "tramo_207",
+    "id": "tramo_210",
     "points": [
       [
         -0.329965353,
@@ -11528,7 +11491,7 @@
     "count": 1
   },
   {
-    "id": "tramo_208",
+    "id": "tramo_211",
     "points": [
       [
         -0.34349978,
@@ -11573,7 +11536,7 @@
     "count": 3
   },
   {
-    "id": "tramo_209",
+    "id": "tramo_212",
     "points": [
       [
         -0.337228775,
@@ -11614,7 +11577,7 @@
     "count": 3
   },
   {
-    "id": "tramo_210",
+    "id": "tramo_213",
     "points": [
       [
         -0.330963135,
@@ -11669,6 +11632,23 @@
         41.40955
       ],
       [
+        -0.322229862,
+        41.409357407
+      ]
+    ],
+    "startId": "cruce_11",
+    "endId": "cruce_223",
+    "activityNames": {},
+    "count": 1
+  },
+  {
+    "id": "tramo_214",
+    "points": [
+      [
+        -0.322229862,
+        41.409357407
+      ],
+      [
         -0.32435,
         41.40829
       ],
@@ -11681,13 +11661,46 @@
         41.403724501
       ]
     ],
-    "startId": "cruce_11",
+    "startId": "cruce_223",
     "endId": "cruce_158",
+    "activityNames": {},
+    "count": 2
+  },
+  {
+    "id": "tramo_215",
+    "points": [
+      [
+        -0.325684547,
+        41.403724501
+      ],
+      [
+        -0.32177,
+        41.40113
+      ],
+      [
+        -0.32095,
+        41.39982
+      ],
+      [
+        -0.32096,
+        41.39963
+      ],
+      [
+        -0.3226,
+        41.39844
+      ],
+      [
+        -0.325303674,
+        41.396014675
+      ]
+    ],
+    "startId": "cruce_158",
+    "endId": "cruce_146",
     "activityNames": {},
     "count": 1
   },
   {
-    "id": "tramo_211",
+    "id": "tramo_216",
     "points": [
       [
         -0.307670832,
@@ -11832,7 +11845,7 @@
     "count": 1
   },
   {
-    "id": "tramo_212",
+    "id": "tramo_217",
     "points": [
       [
         -0.394531488,
@@ -11901,7 +11914,7 @@
     "count": 7
   },
   {
-    "id": "tramo_213",
+    "id": "tramo_218",
     "points": [
       [
         -0.420173407,
@@ -11974,7 +11987,7 @@
     "count": 2
   },
   {
-    "id": "tramo_214",
+    "id": "tramo_219",
     "points": [
       [
         -0.394531488,
@@ -12047,7 +12060,7 @@
     "count": 5
   },
   {
-    "id": "tramo_215",
+    "id": "tramo_220",
     "points": [
       [
         -0.420173407,
@@ -12096,7 +12109,7 @@
     "count": 7
   },
   {
-    "id": "tramo_216",
+    "id": "tramo_221",
     "points": [
       [
         -0.426567793,
@@ -12169,7 +12182,7 @@
     "count": 6
   },
   {
-    "id": "tramo_217",
+    "id": "tramo_222",
     "points": [
       [
         -0.431706905,
@@ -12198,7 +12211,7 @@
     "count": 6
   },
   {
-    "id": "tramo_218",
+    "id": "tramo_223",
     "points": [
       [
         -0.433729291,
@@ -12255,7 +12268,7 @@
     "count": 3
   },
   {
-    "id": "tramo_219",
+    "id": "tramo_224",
     "points": [
       [
         -0.441926122,
@@ -12352,7 +12365,7 @@
     "count": 5
   },
   {
-    "id": "tramo_220",
+    "id": "tramo_225",
     "points": [
       [
         -0.457752535,
@@ -12389,7 +12402,7 @@
     "count": 6
   },
   {
-    "id": "tramo_221",
+    "id": "tramo_226",
     "points": [
       [
         -0.457752535,
@@ -12510,7 +12523,7 @@
     "count": 4
   },
   {
-    "id": "tramo_222",
+    "id": "tramo_227",
     "points": [
       [
         -0.435858704,
@@ -12555,7 +12568,7 @@
     "count": 4
   },
   {
-    "id": "tramo_223",
+    "id": "tramo_228",
     "points": [
       [
         -0.441392967,
@@ -12668,7 +12681,7 @@
     "count": 2
   },
   {
-    "id": "tramo_224",
+    "id": "tramo_229",
     "points": [
       [
         -0.461001992,
@@ -12689,7 +12702,7 @@
     "count": 1
   },
   {
-    "id": "tramo_225",
+    "id": "tramo_230",
     "points": [
       [
         -0.463190675,
@@ -12722,7 +12735,7 @@
     "count": 2
   },
   {
-    "id": "tramo_226",
+    "id": "tramo_231",
     "points": [
       [
         -0.467343917,
@@ -12811,7 +12824,7 @@
     "count": 2
   },
   {
-    "id": "tramo_227",
+    "id": "tramo_232",
     "points": [
       [
         -0.47102809,
@@ -12844,7 +12857,7 @@
     "count": 1
   },
   {
-    "id": "tramo_228",
+    "id": "tramo_233",
     "points": [
       [
         -0.461736917,
@@ -12889,7 +12902,7 @@
     "count": 3
   },
   {
-    "id": "tramo_229",
+    "id": "tramo_234",
     "points": [
       [
         -0.452371821,
@@ -12906,7 +12919,7 @@
     "count": 2
   },
   {
-    "id": "tramo_230",
+    "id": "tramo_235",
     "points": [
       [
         -0.461736917,
@@ -12967,7 +12980,7 @@
     "count": 2
   },
   {
-    "id": "tramo_231",
+    "id": "tramo_236",
     "points": [
       [
         -0.467343917,
@@ -13016,7 +13029,7 @@
     "count": 2
   },
   {
-    "id": "tramo_232",
+    "id": "tramo_237",
     "points": [
       [
         -0.474827577,
@@ -13089,7 +13102,7 @@
     "count": 3
   },
   {
-    "id": "tramo_233",
+    "id": "tramo_238",
     "points": [
       [
         -0.441926122,
@@ -13154,7 +13167,7 @@
     "count": 1
   },
   {
-    "id": "tramo_234",
+    "id": "tramo_239",
     "points": [
       [
         -0.451309949,
@@ -13179,40 +13192,7 @@
     "count": 2
   },
   {
-    "id": "tramo_235",
-    "points": [
-      [
-        -0.44691503,
-        41.329751376
-      ],
-      [
-        -0.44624,
-        41.32943
-      ],
-      [
-        -0.4439,
-        41.32948
-      ],
-      [
-        -0.44083,
-        41.33068
-      ],
-      [
-        -0.44012,
-        41.33084
-      ],
-      [
-        -0.439238548,
-        41.330887334
-      ]
-    ],
-    "startId": "cruce_155",
-    "endId": "cruce_156",
-    "activityNames": {},
-    "count": 2
-  },
-  {
-    "id": "tramo_236",
+    "id": "tramo_240",
     "points": [
       [
         -0.44691503,
@@ -13235,8 +13215,21 @@
         41.33207
       ],
       [
-        -0.45054,
-        41.33273
+        -0.450621843,
+        41.332772497
+      ]
+    ],
+    "startId": "cruce_155",
+    "endId": "cruce_230",
+    "activityNames": {},
+    "count": 2
+  },
+  {
+    "id": "tramo_241",
+    "points": [
+      [
+        -0.450621843,
+        41.332772497
       ],
       [
         -0.44996,
@@ -13335,13 +13328,13 @@
         41.330887334
       ]
     ],
-    "startId": "cruce_155",
+    "startId": "cruce_230",
     "endId": "cruce_156",
     "activityNames": {},
     "count": 1
   },
   {
-    "id": "tramo_237",
+    "id": "tramo_242",
     "points": [
       [
         -0.439238548,
@@ -13370,7 +13363,7 @@
     "count": 3
   },
   {
-    "id": "tramo_238",
+    "id": "tramo_243",
     "points": [
       [
         -0.461001992,
@@ -13443,7 +13436,7 @@
     "count": 2
   },
   {
-    "id": "tramo_239",
+    "id": "tramo_244",
     "points": [
       [
         -0.441926122,
@@ -13568,7 +13561,7 @@
     "count": 1
   },
   {
-    "id": "tramo_240",
+    "id": "tramo_245",
     "points": [
       [
         -0.435858704,
@@ -13725,7 +13718,7 @@
     "count": 1
   },
   {
-    "id": "tramo_241",
+    "id": "tramo_246",
     "points": [
       [
         -0.333065987,
@@ -13791,10 +13784,10 @@
     "startId": "cruce_166",
     "endId": "cruce_208",
     "activityNames": {},
-    "count": 3
+    "count": 2
   },
   {
-    "id": "tramo_242",
+    "id": "tramo_247",
     "points": [
       [
         -0.338317752,
@@ -13819,7 +13812,7 @@
     "count": 2
   },
   {
-    "id": "tramo_243",
+    "id": "tramo_248",
     "points": [
       [
         -0.340350866,
@@ -13885,10 +13878,10 @@
     "startId": "cruce_207",
     "endId": "cruce_206",
     "activityNames": {},
-    "count": 7
+    "count": 6
   },
   {
-    "id": "tramo_244",
+    "id": "tramo_249",
     "points": [
       [
         -0.336788893,
@@ -13938,10 +13931,10 @@
     "startId": "cruce_206",
     "endId": "cruce_168",
     "activityNames": {},
-    "count": 8
+    "count": 7
   },
   {
-    "id": "tramo_245",
+    "id": "tramo_250",
     "points": [
       [
         -0.317546725,
@@ -13978,7 +13971,7 @@
     "count": 1
   },
   {
-    "id": "tramo_246",
+    "id": "tramo_251",
     "points": [
       [
         -0.321961641,
@@ -14003,7 +13996,7 @@
     "count": 2
   },
   {
-    "id": "tramo_247",
+    "id": "tramo_252",
     "points": [
       [
         -0.32538414,
@@ -14036,7 +14029,7 @@
     "count": 5
   },
   {
-    "id": "tramo_248",
+    "id": "tramo_253",
     "points": [
       [
         -0.366185904,
@@ -14061,7 +14054,7 @@
     "count": 1
   },
   {
-    "id": "tramo_249",
+    "id": "tramo_254",
     "points": [
       [
         -0.441392967,
@@ -14106,7 +14099,7 @@
     "count": 2
   },
   {
-    "id": "tramo_250",
+    "id": "tramo_255",
     "points": [
       [
         -0.450900436,
@@ -14319,7 +14312,7 @@
     "count": 3
   },
   {
-    "id": "tramo_251",
+    "id": "tramo_256",
     "points": [
       [
         -0.428144401,
@@ -14421,10 +14414,10 @@
     "startId": "cruce_195",
     "endId": "cruce_196",
     "activityNames": {},
-    "count": 4
+    "count": 3
   },
   {
-    "id": "tramo_252",
+    "id": "tramo_257",
     "points": [
       [
         -0.418117244,
@@ -14598,10 +14591,10 @@
     "startId": "cruce_196",
     "endId": "cruce_139",
     "activityNames": {},
-    "count": 4
+    "count": 3
   },
   {
-    "id": "tramo_253",
+    "id": "tramo_258",
     "points": [
       [
         -0.474827577,
@@ -14634,7 +14627,7 @@
     "count": 1
   },
   {
-    "id": "tramo_254",
+    "id": "tramo_259",
     "points": [
       [
         -0.481929068,
@@ -14661,8 +14654,21 @@
         41.31791
       ],
       [
-        -0.48982,
-        41.31823
+        -0.489810938,
+        41.31819547
+      ]
+    ],
+    "startId": "cruce_190",
+    "endId": "cruce_228",
+    "activityNames": {},
+    "count": 1
+  },
+  {
+    "id": "tramo_260",
+    "points": [
+      [
+        -0.489810938,
+        41.31819547
       ],
       [
         -0.49041,
@@ -14825,6 +14831,23 @@
         41.33053
       ],
       [
+        -0.455787218,
+        41.328527828
+      ]
+    ],
+    "startId": "cruce_228",
+    "endId": "cruce_229",
+    "activityNames": {},
+    "count": 2
+  },
+  {
+    "id": "tramo_261",
+    "points": [
+      [
+        -0.455787218,
+        41.328527828
+      ],
+      [
         -0.4548,
         41.32793
       ],
@@ -14837,13 +14860,46 @@
         41.328893626
       ]
     ],
-    "startId": "cruce_190",
+    "startId": "cruce_229",
     "endId": "cruce_186",
     "activityNames": {},
     "count": 1
   },
   {
-    "id": "tramo_255",
+    "id": "tramo_262",
+    "points": [
+      [
+        -0.44691503,
+        41.329751376
+      ],
+      [
+        -0.44624,
+        41.32943
+      ],
+      [
+        -0.4439,
+        41.32948
+      ],
+      [
+        -0.44083,
+        41.33068
+      ],
+      [
+        -0.44012,
+        41.33084
+      ],
+      [
+        -0.439238548,
+        41.330887334
+      ]
+    ],
+    "startId": "cruce_155",
+    "endId": "cruce_156",
+    "activityNames": {},
+    "count": 2
+  },
+  {
+    "id": "tramo_263",
     "points": [
       [
         -0.31409204,
@@ -14864,83 +14920,71 @@
     "count": 1
   },
   {
-    "id": "tramo_256",
+    "id": "tramo_264",
     "points": [
       [
         -0.312305689,
         41.297114333
       ],
       [
-        -0.31091,
-        41.2969
+        -0.3107,
+        41.29684
       ],
       [
-        -0.30629,
-        41.29496
+        -0.3063,
+        41.29497
       ],
       [
-        -0.30542,
-        41.29484
+        -0.30562,
+        41.29497
       ],
       [
-        -0.30558,
-        41.29502
+        -0.30532,
+        41.29539
       ],
       [
-        -0.30539,
-        41.29532
+        -0.305,
+        41.29547
       ],
       [
-        -0.30509,
-        41.29546
+        -0.30411,
+        41.29516
       ],
       [
-        -0.30413,
-        41.29517
+        -0.30376,
+        41.29519
       ],
       [
-        -0.30371,
-        41.29521
+        -0.30316,
+        41.29601
       ],
       [
-        -0.30317,
-        41.296
-      ],
-      [
-        -0.30172,
+        -0.30174,
         41.29566
       ],
       [
-        -0.30056,
-        41.29605
+        -0.30058,
+        41.29604
       ],
       [
         -0.30055,
-        41.2962
+        41.29621
       ],
       [
-        -0.3016,
-        41.2964
+        -0.30166,
+        41.29644
       ],
       [
-        -0.30264,
-        41.29788
+        -0.30261,
+        41.29784
       ],
       [
-        -0.30404,
-        41.29831
-      ],
-      [
-        -0.30475,
-        41.29833
+        -0.30403,
+        41.29829
       ],
       [
         -0.30543,
-        41.29854
-      ],
-      [
-        -0.30701,
-        41.29937
+        41.2985
       ],
       [
         -0.307381153,
@@ -14950,10 +14994,10 @@
     "startId": "cruce_164",
     "endId": "cruce_162",
     "activityNames": {},
-    "count": 3
+    "count": 2
   },
   {
-    "id": "tramo_257",
+    "id": "tramo_265",
     "points": [
       [
         -0.316028595,
@@ -14974,15 +15018,11 @@
     "count": 2
   },
   {
-    "id": "tramo_258",
+    "id": "tramo_266",
     "points": [
       [
         -0.343628526,
         41.364799853
-      ],
-      [
-        -0.344,
-        41.36499
       ],
       [
         -0.34473,
@@ -15076,10 +15116,10 @@
     "startId": "cruce_42",
     "endId": "cruce_28",
     "activityNames": {},
-    "count": 5
+    "count": 6
   },
   {
-    "id": "tramo_259",
+    "id": "tramo_267",
     "points": [
       [
         -0.403543711,
@@ -15224,7 +15264,7 @@
     "count": 1
   },
   {
-    "id": "tramo_260",
+    "id": "tramo_268",
     "points": [
       [
         -0.367693305,
@@ -15242,10 +15282,10 @@
     "startId": "cruce_175",
     "endId": "cruce_174",
     "activityNames": {},
-    "count": 3
+    "count": 1
   },
   {
-    "id": "tramo_261",
+    "id": "tramo_269",
     "points": [
       [
         -0.370772481,
@@ -15282,7 +15322,7 @@
     "count": 1
   },
   {
-    "id": "tramo_262",
+    "id": "tramo_270",
     "points": [
       [
         -0.378545523,
@@ -15387,7 +15427,7 @@
     "count": 1
   },
   {
-    "id": "tramo_263",
+    "id": "tramo_271",
     "points": [
       [
         -0.320701003,
@@ -15402,21 +15442,21 @@
         41.31433
       ],
       [
-        -0.31935453414917,
-        41.314015108154784
+        -0.319354534,
+        41.314015108
       ]
     ],
     "startId": "cruce_202",
     "endId": "cruce_167",
     "activityNames": {},
-    "count": 7
+    "count": 6
   },
   {
-    "id": "tramo_264",
+    "id": "tramo_272",
     "points": [
       [
-        -0.31935453414917,
-        41.314015108154784
+        -0.319354534,
+        41.314015108
       ],
       [
         -0.31924,
@@ -15469,7 +15509,7 @@
     "count": 5
   },
   {
-    "id": "tramo_265",
+    "id": "tramo_273",
     "points": [
       [
         -0.386973023,
@@ -15487,10 +15527,10 @@
     "startId": "cruce_65",
     "endId": "cruce_64",
     "activityNames": {},
-    "count": 2
+    "count": 1
   },
   {
-    "id": "tramo_266",
+    "id": "tramo_274",
     "points": [
       [
         -0.306415558,
@@ -15568,10 +15608,10 @@
     "startId": "cruce_160",
     "endId": "cruce_205",
     "activityNames": {},
-    "count": 2
+    "count": 1
   },
   {
-    "id": "tramo_267",
+    "id": "tramo_275",
     "points": [
       [
         -0.309394327,
@@ -15606,34 +15646,34 @@
         41.31252
       ],
       [
-        -0.31798660755157476,
-        41.31308434968138
+        -0.317986608,
+        41.31308435
       ]
     ],
     "startId": "cruce_205",
     "endId": "cruce_204",
     "activityNames": {},
-    "count": 5
+    "count": 4
   },
   {
-    "id": "tramo_268",
+    "id": "tramo_276",
     "points": [
       [
         -0.31786859,
         41.313442955
       ],
       [
-        -0.31935453414917,
-        41.314015108154784
+        -0.319354534,
+        41.314015108
       ]
     ],
     "startId": "cruce_203",
     "endId": "cruce_202",
     "activityNames": {},
-    "count": 3
+    "count": 2
   },
   {
-    "id": "tramo_269",
+    "id": "tramo_277",
     "points": [
       [
         -0.339916348,
@@ -15866,7 +15906,7 @@
     "count": 3
   },
   {
-    "id": "tramo_270",
+    "id": "tramo_278",
     "points": [
       [
         -0.340388417,
@@ -15895,15 +15935,15 @@
     "count": 5
   },
   {
-    "id": "tramo_271",
+    "id": "tramo_279",
     "points": [
       [
         -0.329723954,
         41.308668102
       ],
       [
-        -0.33017992973327637,
-        41.30840215094914
+        -0.33017993,
+        41.308402151
       ]
     ],
     "startId": "cruce_198",
@@ -15912,11 +15952,11 @@
     "count": 2
   },
   {
-    "id": "tramo_272",
+    "id": "tramo_280",
     "points": [
       [
-        -0.33017992973327637,
-        41.30840215094914
+        -0.33017993,
+        41.308402151
       ],
       [
         -0.3308,
@@ -15953,7 +15993,7 @@
     "count": 1
   },
   {
-    "id": "tramo_273",
+    "id": "tramo_281",
     "points": [
       [
         -0.319494009,
@@ -16006,11 +16046,11 @@
     "count": 1
   },
   {
-    "id": "tramo_274",
+    "id": "tramo_282",
     "points": [
       [
-        -0.33066809177398687,
-        41.3006246061779
+        -0.330668092,
+        41.300624606
       ],
       [
         -0.33261,
@@ -16035,7 +16075,7 @@
     "count": 2
   },
   {
-    "id": "tramo_275",
+    "id": "tramo_283",
     "points": [
       [
         -0.300595164,
@@ -16192,7 +16232,7 @@
     "count": 2
   },
   {
-    "id": "tramo_276",
+    "id": "tramo_284",
     "points": [
       [
         -0.285199285,
@@ -16285,7 +16325,7 @@
     "count": 1
   },
   {
-    "id": "tramo_277",
+    "id": "tramo_285",
     "points": [
       [
         -0.305635273,
@@ -16306,7 +16346,7 @@
     "count": 1
   },
   {
-    "id": "tramo_278",
+    "id": "tramo_286",
     "points": [
       [
         -0.307670832,
@@ -16469,81 +16509,17 @@
         41.36507
       ],
       [
-        -0.34286,
-        41.36602
-      ],
-      [
-        -0.34375,
-        41.36519
-      ],
-      [
-        -0.34632,
-        41.36451
-      ],
-      [
-        -0.34818,
-        41.3646
-      ],
-      [
-        -0.34973,
-        41.36413
-      ],
-      [
-        -0.351,
-        41.36464
-      ],
-      [
-        -0.35245,
-        41.36581
-      ],
-      [
-        -0.35302,
-        41.36592
-      ],
-      [
-        -0.3533,
-        41.3658
-      ],
-      [
-        -0.3538,
-        41.36478
-      ],
-      [
-        -0.35446,
-        41.36447
-      ],
-      [
-        -0.35573,
-        41.36483
-      ],
-      [
-        -0.35677,
-        41.3648
-      ],
-      [
-        -0.35906,
-        41.3652
-      ],
-      [
-        -0.36166,
-        41.36382
-      ],
-      [
-        -0.36302,
-        41.36352
-      ],
-      [
-        -0.363884568,
-        41.363012246
+        -0.342646837,
+        41.365870784
       ]
     ],
     "startId": "cruce_170",
-    "endId": "cruce_28",
+    "endId": "cruce_221",
     "activityNames": {},
     "count": 1
   },
   {
-    "id": "tramo_279",
+    "id": "tramo_287",
     "points": [
       [
         -0.316044688,
@@ -16561,10 +16537,10 @@
     "startId": "cruce_109",
     "endId": "cruce_164",
     "activityNames": {},
-    "count": 2
+    "count": 1
   },
   {
-    "id": "tramo_280",
+    "id": "tramo_288",
     "points": [
       [
         -0.309394327,
@@ -16617,7 +16593,7 @@
     "count": 3
   },
   {
-    "id": "tramo_281",
+    "id": "tramo_289",
     "points": [
       [
         -0.32538414,
@@ -16690,7 +16666,7 @@
     "count": 3
   },
   {
-    "id": "tramo_282",
+    "id": "tramo_290",
     "points": [
       [
         -0.34994781,
@@ -16791,7 +16767,7 @@
     "count": 4
   },
   {
-    "id": "tramo_283",
+    "id": "tramo_291",
     "points": [
       [
         -0.35045743,
@@ -16824,7 +16800,7 @@
     "count": 2
   },
   {
-    "id": "tramo_284",
+    "id": "tramo_292",
     "points": [
       [
         -0.330963135,
@@ -16865,7 +16841,7 @@
     "count": 2
   },
   {
-    "id": "tramo_285",
+    "id": "tramo_293",
     "points": [
       [
         -0.326060057,
@@ -16914,7 +16890,7 @@
     "count": 2
   },
   {
-    "id": "tramo_286",
+    "id": "tramo_294",
     "points": [
       [
         -0.317595005,
@@ -16935,7 +16911,7 @@
     "count": 1
   },
   {
-    "id": "tramo_287",
+    "id": "tramo_295",
     "points": [
       [
         -0.314376354,
@@ -16956,7 +16932,7 @@
     "count": 1
   },
   {
-    "id": "tramo_288",
+    "id": "tramo_296",
     "points": [
       [
         -0.314864516,
@@ -17025,7 +17001,7 @@
     "count": 1
   },
   {
-    "id": "tramo_289",
+    "id": "tramo_297",
     "points": [
       [
         -0.276830792,
@@ -17058,7 +17034,7 @@
     "count": 1
   },
   {
-    "id": "tramo_290",
+    "id": "tramo_298",
     "points": [
       [
         -0.277372599,
@@ -17119,7 +17095,7 @@
     "count": 1
   },
   {
-    "id": "tramo_291",
+    "id": "tramo_299",
     "points": [
       [
         -0.279593468,
@@ -17136,7 +17112,7 @@
     "count": 1
   },
   {
-    "id": "tramo_292",
+    "id": "tramo_300",
     "points": [
       [
         -0.28049469,
@@ -17177,7 +17153,7 @@
     "count": 1
   },
   {
-    "id": "tramo_293",
+    "id": "tramo_301",
     "points": [
       [
         -0.326929092,
@@ -17208,8 +17184,8 @@
         41.30795
       ],
       [
-        -0.33017992973327637,
-        41.30840215094914
+        -0.33017993,
+        41.308402151
       ]
     ],
     "startId": "cruce_197",
@@ -17218,7 +17194,7 @@
     "count": 2
   },
   {
-    "id": "tramo_294",
+    "id": "tramo_302",
     "points": [
       [
         -0.47102809,
@@ -17309,164 +17285,21 @@
         41.31444
       ],
       [
-        -0.48975,
-        41.31815
-      ],
+        -0.489810938,
+        41.31819547
+      ]
+    ],
+    "startId": "cruce_182",
+    "endId": "cruce_228",
+    "activityNames": {},
+    "count": 1
+  },
+  {
+    "id": "tramo_303",
+    "points": [
       [
-        -0.49037,
-        41.32092
-      ],
-      [
-        -0.49045,
-        41.3226
-      ],
-      [
-        -0.49177,
-        41.32422
-      ],
-      [
-        -0.49247,
-        41.32589
-      ],
-      [
-        -0.49242,
-        41.32624
-      ],
-      [
-        -0.49144,
-        41.32757
-      ],
-      [
-        -0.49005,
-        41.32913
-      ],
-      [
-        -0.49063,
-        41.33006
-      ],
-      [
-        -0.49025,
-        41.3311
-      ],
-      [
-        -0.49084,
-        41.33291
-      ],
-      [
-        -0.49019,
-        41.33432
-      ],
-      [
-        -0.48991,
-        41.33522
-      ],
-      [
-        -0.4902,
-        41.33594
-      ],
-      [
-        -0.49001,
-        41.33647
-      ],
-      [
-        -0.49026,
-        41.33758
-      ],
-      [
-        -0.48986,
-        41.33799
-      ],
-      [
-        -0.48927,
-        41.33809
-      ],
-      [
-        -0.48806,
-        41.33882
-      ],
-      [
-        -0.48736,
-        41.33895
-      ],
-      [
-        -0.48672,
-        41.33886
-      ],
-      [
-        -0.48362,
-        41.33674
-      ],
-      [
-        -0.48214,
-        41.33632
-      ],
-      [
-        -0.48157,
-        41.33586
-      ],
-      [
-        -0.48063,
-        41.33416
-      ],
-      [
-        -0.47988,
-        41.33383
-      ],
-      [
-        -0.47747,
-        41.33377
-      ],
-      [
-        -0.475,
-        41.3331
-      ],
-      [
-        -0.47286,
-        41.3324
-      ],
-      [
-        -0.47222,
-        41.3319
-      ],
-      [
-        -0.47105,
-        41.33173
-      ],
-      [
-        -0.47037,
-        41.33122
-      ],
-      [
-        -0.46892,
-        41.33064
-      ],
-      [
-        -0.46839,
-        41.33059
-      ],
-      [
-        -0.46738,
-        41.3309
-      ],
-      [
-        -0.46559,
-        41.33046
-      ],
-      [
-        -0.46311,
-        41.33043
-      ],
-      [
-        -0.46143,
-        41.33079
-      ],
-      [
-        -0.46032,
-        41.3306
-      ],
-      [
-        -0.45577,
-        41.32855
+        -0.455787218,
+        41.328527828
       ],
       [
         -0.45523,
@@ -17477,65 +17310,38 @@
         41.33044
       ],
       [
-        -0.45184,
-        41.33261
-      ],
-      [
-        -0.45078,
-        41.33277
-      ],
-      [
-        -0.44968,
-        41.33218
-      ],
-      [
-        -0.44855,
-        41.33101
-      ],
-      [
-        -0.44771,
-        41.33067
-      ],
-      [
-        -0.44731,
-        41.32997
-      ],
-      [
-        -0.44691503,
-        41.329751376
+        -0.451812744,
+        41.332748329
       ]
     ],
-    "startId": "cruce_182",
-    "endId": "cruce_155",
+    "startId": "cruce_229",
+    "endId": "cruce_231",
     "activityNames": {},
     "count": 1
   },
   {
-    "id": "tramo_295",
+    "id": "tramo_304",
     "points": [
       [
-        -0.40451467,
-        41.372195357
+        -0.451812744,
+        41.332748329
       ],
       [
-        -0.40545,
-        41.37236
-      ],
+        -0.450621843,
+        41.332772497
+      ]
+    ],
+    "startId": "cruce_231",
+    "endId": "cruce_230",
+    "activityNames": {},
+    "count": 1
+  },
+  {
+    "id": "tramo_305",
+    "points": [
       [
-        -0.4069,
-        41.37315
-      ],
-      [
-        -0.40767,
-        41.37319
-      ],
-      [
-        -0.40837,
-        41.37349
-      ],
-      [
-        -0.40919,
-        41.37343
+        -0.4092621803283692,
+        41.373439264717575
       ],
       [
         -0.40978,
@@ -17562,37 +17368,34 @@
         41.37414
       ],
       [
-        -0.42275,
-        41.37405
-      ],
-      [
-        -0.42406,
-        41.37473
-      ],
-      [
-        -0.42335,
-        41.37548
-      ],
-      [
-        -0.42212,
-        41.37628
-      ],
-      [
-        -0.41469,
-        41.37789
-      ],
-      [
-        -0.413585901,
-        41.37835428
+        -0.422608852,
+        41.374039069
       ]
     ],
-    "startId": "cruce_153",
-    "endId": "cruce_53",
+    "startId": "cruce_227",
+    "endId": "cruce_226",
     "activityNames": {},
     "count": 1
   },
   {
-    "id": "tramo_296",
+    "id": "tramo_306",
+    "points": [
+      [
+        -0.422608852,
+        41.374039069
+      ],
+      [
+        -0.424100161,
+        41.374771709
+      ]
+    ],
+    "startId": "cruce_226",
+    "endId": "cruce_225",
+    "activityNames": {},
+    "count": 1
+  },
+  {
+    "id": "tramo_307",
     "points": [
       [
         -0.413585901,
@@ -17609,7 +17412,7 @@
     "count": 1
   },
   {
-    "id": "tramo_297",
+    "id": "tramo_308",
     "points": [
       [
         -0.392273068,
@@ -17676,69 +17479,17 @@
         41.38322
       ],
       [
-        -0.40563,
-        41.3831
-      ],
-      [
-        -0.40576,
-        41.38435
-      ],
-      [
-        -0.40556,
-        41.38497
-      ],
-      [
-        -0.40406,
-        41.38592
-      ],
-      [
-        -0.40384,
-        41.386
-      ],
-      [
-        -0.40321,
-        41.38582
-      ],
-      [
-        -0.40128,
-        41.38726
-      ],
-      [
-        -0.39989,
-        41.38794
-      ],
-      [
-        -0.4005,
-        41.38888
-      ],
-      [
-        -0.40132,
-        41.38938
-      ],
-      [
-        -0.40276,
-        41.39102
-      ],
-      [
-        -0.40377,
-        41.39147
-      ],
-      [
-        -0.40402,
-        41.39185
-      ],
-      [
-        -0.405893326,
-        41.392940147
+        -0.40561974,
+        41.383043526
       ]
     ],
     "startId": "cruce_24",
-    "endId": "cruce_80",
+    "endId": "cruce_224",
     "activityNames": {},
     "count": 1
   },
   {
-    "id": "tramo_298",
+    "id": "tramo_309",
     "points": [
       [
         -0.405893326,
@@ -17919,7 +17670,7 @@
     "count": 1
   },
   {
-    "id": "tramo_299",
+    "id": "tramo_310",
     "points": [
       [
         -0.338988304,
@@ -17946,29 +17697,21 @@
         41.39878
       ],
       [
-        -0.32939,
-        41.39897
-      ],
-      [
-        -0.3268,
-        41.39688
-      ],
-      [
-        -0.325303674,
-        41.396014675
+        -0.329447217,
+        41.399058655
       ]
     ],
     "startId": "cruce_144",
-    "endId": "cruce_146",
+    "endId": "cruce_222",
     "activityNames": {},
     "count": 1
   },
   {
-    "id": "tramo_300",
+    "id": "tramo_311",
     "points": [
       [
-        -0.33017992973327637,
-        41.30840215094914
+        -0.33017993,
+        41.308402151
       ],
       [
         -0.33022,
@@ -18045,11 +17788,11 @@
     "count": 1
   },
   {
-    "id": "tramo_301",
+    "id": "tramo_312",
     "points": [
       [
-        -0.3180187940597534,
-        41.31177078913775
+        -0.318018794,
+        41.311770789
       ],
       [
         -0.318,
@@ -18130,7 +17873,7 @@
     "count": 1
   },
   {
-    "id": "tramo_302",
+    "id": "tramo_313",
     "points": [
       [
         -0.371641517,
@@ -18215,7 +17958,7 @@
     "count": 1
   },
   {
-    "id": "tramo_303",
+    "id": "tramo_314",
     "points": [
       [
         -0.366684794,
@@ -18388,7 +18131,7 @@
     "count": 1
   },
   {
-    "id": "tramo_304",
+    "id": "tramo_315",
     "points": [
       [
         -0.329809785,
@@ -18897,7 +18640,7 @@
     "count": 1
   },
   {
-    "id": "tramo_305",
+    "id": "tramo_316",
     "points": [
       [
         -0.317595005,
@@ -19016,29 +18759,17 @@
         41.4097
       ],
       [
-        -0.32234,
-        41.40926
-      ],
-      [
-        -0.32431,
-        41.40839
-      ],
-      [
-        -0.32542,
-        41.40523
-      ],
-      [
-        -0.325684547,
-        41.403724501
+        -0.322229862,
+        41.409357407
       ]
     ],
     "startId": "cruce_13",
-    "endId": "cruce_158",
+    "endId": "cruce_223",
     "activityNames": {},
     "count": 1
   },
   {
-    "id": "tramo_306",
+    "id": "tramo_317",
     "points": [
       [
         -0.314392447,
@@ -19431,701 +19162,6 @@
     ],
     "startId": "cruce_31",
     "endId": "cruce_46",
-    "activityNames": {},
-    "count": 1
-  },
-  {
-    "id": "tramo_307",
-    "points": [
-      [
-        -0.428144401,
-        41.276245752
-      ],
-      [
-        -0.42836,
-        41.27548
-      ],
-      [
-        -0.42855,
-        41.27425
-      ],
-      [
-        -0.42814,
-        41.27295
-      ],
-      [
-        -0.42985,
-        41.27049
-      ],
-      [
-        -0.43074,
-        41.26876
-      ],
-      [
-        -0.4302,
-        41.26696
-      ],
-      [
-        -0.43092,
-        41.2606
-      ],
-      [
-        -0.43154,
-        41.25882
-      ],
-      [
-        -0.43278,
-        41.25714
-      ],
-      [
-        -0.43378,
-        41.25451
-      ],
-      [
-        -0.42545,
-        41.25225
-      ],
-      [
-        -0.42479,
-        41.25222
-      ],
-      [
-        -0.42422,
-        41.25251
-      ],
-      [
-        -0.4239,
-        41.25319
-      ],
-      [
-        -0.42251,
-        41.25385
-      ],
-      [
-        -0.42039,
-        41.25536
-      ],
-      [
-        -0.41856,
-        41.25586
-      ],
-      [
-        -0.41603,
-        41.25575
-      ],
-      [
-        -0.4148,
-        41.25658
-      ],
-      [
-        -0.41372,
-        41.25802
-      ],
-      [
-        -0.41276,
-        41.25874
-      ],
-      [
-        -0.41082,
-        41.25973
-      ],
-      [
-        -0.41041,
-        41.25756
-      ],
-      [
-        -0.41007,
-        41.25731
-      ],
-      [
-        -0.40484726428985596,
-        41.25708144296019
-      ]
-    ],
-    "startId": "cruce_195",
-    "endId": "cruce_220",
-    "activityNames": {},
-    "count": 1
-  },
-  {
-    "id": "tramo_308",
-    "points": [
-      [
-        -0.40484726428985596,
-        41.25708144296019
-      ],
-      [
-        -0.38457,
-        41.25619
-      ],
-      [
-        -0.38187,
-        41.25582
-      ],
-      [
-        -0.37947,
-        41.25631
-      ],
-      [
-        -0.37325,
-        41.25618
-      ],
-      [
-        -0.36978,
-        41.25795
-      ],
-      [
-        -0.36773,
-        41.25792
-      ],
-      [
-        -0.367,
-        41.25785
-      ],
-      [
-        -0.3652,
-        41.25737
-      ],
-      [
-        -0.36341,
-        41.25639
-      ],
-      [
-        -0.36219,
-        41.25548
-      ],
-      [
-        -0.36068,
-        41.25474
-      ],
-      [
-        -0.35906,
-        41.25311
-      ],
-      [
-        -0.35914,
-        41.25199
-      ],
-      [
-        -0.35279,
-        41.2477
-      ],
-      [
-        -0.35206,
-        41.24756
-      ],
-      [
-        -0.35108,
-        41.24771
-      ],
-      [
-        -0.35045,
-        41.24743
-      ],
-      [
-        -0.3482,
-        41.24686
-      ],
-      [
-        -0.34674,
-        41.24694
-      ],
-      [
-        -0.34375,
-        41.24566
-      ],
-      [
-        -0.34231,
-        41.24444
-      ],
-      [
-        -0.34115,
-        41.24395
-      ],
-      [
-        -0.3405,
-        41.24336
-      ],
-      [
-        -0.33978,
-        41.24208
-      ],
-      [
-        -0.33977,
-        41.24147
-      ],
-      [
-        -0.33919,
-        41.24071
-      ],
-      [
-        -0.33833,
-        41.24067
-      ],
-      [
-        -0.33779,
-        41.24084
-      ],
-      [
-        -0.33764,
-        41.24044
-      ],
-      [
-        -0.33654,
-        41.24018
-      ],
-      [
-        -0.33561,
-        41.24066
-      ],
-      [
-        -0.33052,
-        41.23993
-      ],
-      [
-        -0.32739,
-        41.24026
-      ],
-      [
-        -0.3261,
-        41.24016
-      ],
-      [
-        -0.32446,
-        41.24033
-      ],
-      [
-        -0.32292,
-        41.24113
-      ],
-      [
-        -0.32284,
-        41.24176
-      ],
-      [
-        -0.32323,
-        41.24217
-      ],
-      [
-        -0.32286,
-        41.24246
-      ],
-      [
-        -0.32189,
-        41.24148
-      ],
-      [
-        -0.3208,
-        41.24156
-      ],
-      [
-        -0.32025,
-        41.24275
-      ],
-      [
-        -0.32034,
-        41.24379
-      ],
-      [
-        -0.31879,
-        41.24479
-      ],
-      [
-        -0.31737,
-        41.24509
-      ],
-      [
-        -0.31622,
-        41.24452
-      ],
-      [
-        -0.31373,
-        41.24421
-      ],
-      [
-        -0.31083,
-        41.24438
-      ],
-      [
-        -0.3083,
-        41.24317
-      ],
-      [
-        -0.30732,
-        41.24299
-      ],
-      [
-        -0.30649,
-        41.2421
-      ],
-      [
-        -0.30544,
-        41.24144
-      ],
-      [
-        -0.30436,
-        41.24172
-      ],
-      [
-        -0.30237,
-        41.24161
-      ],
-      [
-        -0.29358,
-        41.2405
-      ],
-      [
-        -0.28878,
-        41.24658
-      ],
-      [
-        -0.27917,
-        41.24745
-      ],
-      [
-        -0.28457,
-        41.25438
-      ],
-      [
-        -0.28766,
-        41.25626
-      ],
-      [
-        -0.28852,
-        41.25709
-      ],
-      [
-        -0.29223,
-        41.25963
-      ],
-      [
-        -0.29253,
-        41.26003
-      ],
-      [
-        -0.29614,
-        41.26264
-      ],
-      [
-        -0.29776,
-        41.2642
-      ],
-      [
-        -0.29727,
-        41.26457
-      ],
-      [
-        -0.2959,
-        41.2661
-      ],
-      [
-        -0.29154,
-        41.27135
-      ],
-      [
-        -0.29239,
-        41.27266
-      ],
-      [
-        -0.293,
-        41.27318
-      ],
-      [
-        -0.29405,
-        41.27357
-      ],
-      [
-        -0.29508,
-        41.27319
-      ],
-      [
-        -0.29546,
-        41.27334
-      ],
-      [
-        -0.29553,
-        41.27376
-      ],
-      [
-        -0.29564,
-        41.2734
-      ],
-      [
-        -0.29514,
-        41.27318
-      ],
-      [
-        -0.29407,
-        41.27355
-      ],
-      [
-        -0.293,
-        41.27315
-      ],
-      [
-        -0.29215,
-        41.27241
-      ],
-      [
-        -0.29155,
-        41.27132
-      ],
-      [
-        -0.2973,
-        41.26453
-      ],
-      [
-        -0.29772,
-        41.26431
-      ],
-      [
-        -0.29792,
-        41.26431
-      ],
-      [
-        -0.30354,
-        41.26876
-      ],
-      [
-        -0.30527,
-        41.27048
-      ],
-      [
-        -0.30566,
-        41.27197
-      ],
-      [
-        -0.30549,
-        41.27278
-      ],
-      [
-        -0.30581,
-        41.27433
-      ],
-      [
-        -0.30388,
-        41.27641
-      ],
-      [
-        -0.30214,
-        41.27884
-      ],
-      [
-        -0.29852,
-        41.28153
-      ],
-      [
-        -0.29722,
-        41.28428
-      ],
-      [
-        -0.29711,
-        41.28472
-      ],
-      [
-        -0.29821,
-        41.28518
-      ],
-      [
-        -0.29878,
-        41.28573
-      ],
-      [
-        -0.30079,
-        41.2868
-      ],
-      [
-        -0.3017,
-        41.28699
-      ],
-      [
-        -0.3024,
-        41.2869
-      ],
-      [
-        -0.30511,
-        41.28827
-      ],
-      [
-        -0.30758,
-        41.2884
-      ],
-      [
-        -0.31009,
-        41.28933
-      ],
-      [
-        -0.31078,
-        41.28945
-      ],
-      [
-        -0.31132,
-        41.28919
-      ],
-      [
-        -0.31177,
-        41.28929
-      ],
-      [
-        -0.31171,
-        41.28954
-      ],
-      [
-        -0.31229,
-        41.28909
-      ],
-      [
-        -0.3125,
-        41.28843
-      ],
-      [
-        -0.31246,
-        41.28781
-      ],
-      [
-        -0.31218,
-        41.28723
-      ],
-      [
-        -0.31187,
-        41.28696
-      ],
-      [
-        -0.31044,
-        41.28646
-      ],
-      [
-        -0.30932,
-        41.28527
-      ],
-      [
-        -0.30961,
-        41.28404
-      ],
-      [
-        -0.31094,
-        41.2837
-      ],
-      [
-        -0.31282,
-        41.28638
-      ],
-      [
-        -0.31336,
-        41.28656
-      ],
-      [
-        -0.31414,
-        41.28636
-      ],
-      [
-        -0.31439,
-        41.28628
-      ],
-      [
-        -0.3142,
-        41.28591
-      ],
-      [
-        -0.31395,
-        41.28591
-      ],
-      [
-        -0.31386,
-        41.28647
-      ],
-      [
-        -0.31619,
-        41.28839
-      ],
-      [
-        -0.31667,
-        41.28925
-      ],
-      [
-        -0.31684,
-        41.29029
-      ],
-      [
-        -0.31667,
-        41.29257
-      ],
-      [
-        -0.31737,
-        41.2927
-      ],
-      [
-        -0.31834,
-        41.29326
-      ],
-      [
-        -0.32059,
-        41.29412
-      ],
-      [
-        -0.32115,
-        41.29429
-      ],
-      [
-        -0.32201,
-        41.29426
-      ],
-      [
-        -0.32369,
-        41.29476
-      ],
-      [
-        -0.324177146,
-        41.295070952
-      ]
-    ],
-    "startId": "cruce_220",
-    "endId": "cruce_105",
-    "activityNames": {},
-    "count": 1
-  },
-  {
-    "id": "tramo_309",
-    "points": [
-      [
-        -0.372574925,
-        41.323563681
-      ],
-      [
-        -0.37279,
-        41.32461
-      ],
-      [
-        -0.37238,
-        41.32529
-      ],
-      [
-        -0.37239,
-        41.3256
-      ],
-      [
-        -0.37159,
-        41.32524
-      ],
-      [
-        -0.37099,
-        41.32537
-      ],
-      [
-        -0.37032,
-        41.32526
-      ],
-      [
-        -0.36981,
-        41.32503
-      ],
-      [
-        -0.368084908,
-        41.323994744
-      ]
-    ],
-    "startId": "cruce_117",
-    "endId": "cruce_192",
     "activityNames": {},
     "count": 1
   }
