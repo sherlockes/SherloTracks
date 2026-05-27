@@ -390,19 +390,21 @@
         }
 
         .map-badge-marker {
-            width: 32px;
-            height: 32px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             background: var(--indigo-gradient);
-            border: 2px solid #ffffff;
+            border: 1.5px solid #ffffff;
             color: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: 'Outfit', sans-serif;
             font-weight: 800;
-            font-size: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            font-size: 11px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+            pointer-events: none;
+            user-select: none;
         }
 
         .map-badge-marker.backtrack {
@@ -483,6 +485,28 @@
     ">
         <span style="font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 900; font-style: italic; text-transform: uppercase; color: #0f172a; letter-spacing: -0.02em;">Sherlo</span>
         <span style="font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 900; font-style: italic; text-transform: uppercase; color: #FC4C02; letter-spacing: -0.02em;">Tracks</span>
+    </div>
+
+    <!-- Minimapa del Recorrido Completo -->
+    <div id="minimap-container" style="
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        z-index: 1000;
+        width: 90px;
+        height: 90px;
+        background: rgba(255, 255, 255, 0.82);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(15, 23, 42, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        display: none;
+        pointer-events: none;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    ">
+        <canvas id="minimap-canvas" width="180" height="180" style="width: 100%; height: 100%; display: block;"></canvas>
     </div>
 
     <!-- Contenedor del Mapa -->
@@ -585,6 +609,13 @@
         L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
             attribution: '&copy; Esri'
         }).addTo(map);
+
+        // Recalcular posiciones de las burbujas numéricas al hacer zoom para mantener la distancia física exacta en pantalla
+        map.on('zoomend', () => {
+            if (creandoTrack && trackCurrentCruce) {
+                updateCreatorUI();
+            }
+        });
 
         // Capa de Líneas Base (Gris fino)
         let backgroundLayers = [];
@@ -708,6 +739,154 @@
             return [lastPoint.lat, lastPoint.lng];
         }
 
+        // Obtener la coordenada a una distancia en píxeles de pantalla fija desde el cruce central
+        function getBadgeLatLngAtPixelDistance(points, currentCruce, targetPixelDistance = 45) {
+            if (!points || points.length === 0 || !currentCruce) return [0, 0];
+            const currentCoords = currentCruce.geometry.coordinates;
+            const currentLatLng = L.latLng(currentCoords[1], currentCoords[0]);
+            
+            // Proyectar el centro del cruce a píxeles de pantalla
+            const centerPx = map.latLngToContainerPoint(currentLatLng);
+            
+            // Orientar los puntos del tramo partiendo del cruce actual
+            const latlngs = points.map(p => L.latLng(p[1], p[0]));
+            const startDist = latlngs[0].distanceTo(currentLatLng);
+            const endDist = latlngs[latlngs.length - 1].distanceTo(currentLatLng);
+            const orientedPath = startDist <= endDist ? latlngs : [...latlngs].reverse();
+
+            // Proyectar los puntos a píxeles de pantalla
+            const pathPx = orientedPath.map(ll => map.latLngToContainerPoint(ll));
+
+            // Buscar el punto del camino que cruza exactamente la distancia de píxeles configurada
+            for (let i = 0; i < pathPx.length - 1; i++) {
+                const p1 = pathPx[i];
+                const p2 = pathPx[i + 1];
+                
+                const d1 = p1.distanceTo(centerPx);
+                const d2 = p2.distanceTo(centerPx);
+                
+                if ((d1 <= targetPixelDistance && d2 >= targetPixelDistance) || (d1 >= targetPixelDistance && d2 <= targetPixelDistance)) {
+                    const segmentPxLength = p1.distanceTo(p2);
+                    if (segmentPxLength > 0) {
+                        const t = Math.abs(targetPixelDistance - d1) / Math.abs(d2 - d1);
+                        const lat = orientedPath[i].lat + (orientedPath[i + 1].lat - orientedPath[i].lat) * t;
+                        const lng = orientedPath[i].lng + (orientedPath[i + 1].lng - orientedPath[i].lng) * t;
+                        return [lat, lng];
+                    }
+                }
+            }
+            
+            // Fallback: si todo el camino está más cerca que los píxeles deseados, poner al final del tramo
+            const lastLL = orientedPath[orientedPath.length - 1];
+            return [lastLL.lat, lastLL.lng];
+        }
+
+        // Dibujar el minimapa del track en un canvas de alta fidelidad
+        function drawMinimap() {
+            const container = document.getElementById('minimap-container');
+            const canvas = document.getElementById('minimap-canvas');
+            if (!container || !canvas) return;
+
+            if (!creandoTrack || trackTramos.length === 0) {
+                container.style.display = 'none';
+                return;
+            }
+
+            container.style.display = 'block';
+
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+
+            // Limpiar canvas manteniendo la transparencia del contenedor CSS
+            ctx.clearRect(0, 0, w, h);
+
+            const coords = getTrackCoordinates();
+            if (coords.length < 2) return;
+
+            // Encontrar la caja delimitadora (bounding box) de las coordenadas del track
+            let minLat = Infinity, maxLat = -Infinity;
+            let minLng = Infinity, maxLng = -Infinity;
+
+            coords.forEach(pt => {
+                const lat = pt[0];
+                const lng = pt[1];
+                if (lat < minLat) minLat = lat;
+                if (lat > maxLat) maxLat = lat;
+                if (lng < minLng) minLng = lng;
+                if (lng > maxLng) maxLng = lng;
+            });
+
+            const latSpan = maxLat - minLat;
+            const lngSpan = maxLng - minLng;
+
+            const padding = 20; // Píxeles de margen interior en el canvas para que no toque bordes
+            const drawW = w - 2 * padding;
+            const drawH = h - 2 * padding;
+
+            // Mantener la relación de aspecto geográfica real
+            const centerLat = (minLat + maxLat) / 2;
+            const cosFactor = Math.cos(centerLat * Math.PI / 180);
+
+            const geoW = lngSpan * cosFactor;
+            const geoH = latSpan;
+
+            let scale;
+            if (geoW === 0 && geoH === 0) {
+                scale = 1;
+            } else {
+                scale = Math.min(drawW / geoW, drawH / geoH);
+                if (scale === Infinity || scale === -Infinity || isNaN(scale)) scale = 1;
+            }
+
+            const offsetX = padding + (drawW - geoW * scale) / 2;
+            const offsetY = padding + (drawH - geoH * scale) / 2;
+
+            const getCanvasXY = (lat, lng) => {
+                const x = offsetX + (lng - minLng) * cosFactor * scale;
+                const y = h - (offsetY + (lat - minLat) * scale); // Invertir Y en canvas
+                return [x, y];
+            };
+
+            // Dibujar la línea del trayecto activo
+            ctx.beginPath();
+            ctx.strokeStyle = '#10b981'; // Verde activo de SherloTracks
+            ctx.lineWidth = 5;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            const [startX, startY] = getCanvasXY(coords[0][0], coords[0][1]);
+            ctx.moveTo(startX, startY);
+
+            for (let i = 1; i < coords.length; i++) {
+                const [x, y] = getCanvasXY(coords[i][0], coords[i][1]);
+                ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            // Dibujar punto de inicio (Punto Verde)
+            ctx.beginPath();
+            ctx.arc(startX, startY, 6, 0, 2 * Math.PI);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(startX, startY, 4, 0, 2 * Math.PI);
+            ctx.fillStyle = '#10b981';
+            ctx.fill();
+
+            // Dibujar punto final actual (Punto Naranja Strava)
+            const lastPt = coords[coords.length - 1];
+            const [endX, endY] = getCanvasXY(lastPt[0], lastPt[1]);
+            ctx.beginPath();
+            ctx.arc(endX, endY, 6, 0, 2 * Math.PI);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(endX, endY, 4, 0, 2 * Math.PI);
+            ctx.fillStyle = '#FC4C02';
+            ctx.fill();
+        }
+
         function getNextAvailableTramos() {
             if (!trackCurrentCruce) return [];
             const currentId = `cruce_${trackCurrentCruce.properties.id}`;
@@ -820,6 +999,9 @@
 
             // Borrar de la caché al cancelar o finalizar con éxito
             localStorage.removeItem('sherlotracks_creator_state');
+
+            // Ocultar/limpiar el minimapa
+            drawMinimap();
         }
 
         // Dibujar los marcadores para la selección del inicio
@@ -1031,8 +1213,8 @@
 
                 candidatePolylines.push(candidatePoly);
 
-                // 3. Calcular punto equidistante para la etiqueta numérica
-                const badgePos = getEquidistantPoint(tramo.points, trackCurrentCruce, 70);
+                // 3. Calcular punto equidistante adaptativo por pixeles de pantalla para evitar solapamientos con cualquier nivel de zoom
+                const badgePos = getBadgeLatLngAtPixelDistance(tramo.points, trackCurrentCruce, 45);
 
                 // Crear marcador HTML premium para Leaflet
                 const badgeHtml = `
@@ -1045,16 +1227,11 @@
                     icon: L.divIcon({
                         html: badgeHtml,
                         className: 'custom-badge-tooltip',
-                        iconSize: [32, 32],
-                        iconAnchor: [16, 16]
+                        iconSize: [24, 24],
+                        iconAnchor: [12, 12]
                     }),
-                    interactive: true
+                    interactive: false
                 }).addTo(map);
-
-                badgeMarker.on('click', (e) => {
-                    L.DomEvent.stopPropagation(e);
-                    handleSelectTramo(tramo);
-                });
 
                 badgeMarkers.push(badgeMarker);
 
@@ -1084,6 +1261,9 @@
                     }
                 }
             });
+
+            // Dibujar/actualizar el minimapa del track
+            drawMinimap();
         }
 
         // Atajos de teclado para probar en PCs

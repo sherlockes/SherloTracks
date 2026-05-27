@@ -527,7 +527,17 @@ const CrucesLayer = ({
         }
 
         // Vértices del pase que caen dentro de la circunferencia de influencia
-        const interiorVertices = verticesInPass.filter(v => v.distance <= influenceRadius);
+        const interiorVertices = verticesInPass.filter(v => {
+          if (v.distance > influenceRadius) return false;
+          // Si es un cruce ya existente, NO lo consideramos como vértice interior elegible para reemplazo/borrado
+          const isOtherCruce = cruces.some(c => {
+            if (!c.geometry || !c.geometry.coordinates) return false;
+            const [cLon, cLat] = c.geometry.coordinates;
+            const threshold = 0.000001; // aprox. 11 cm
+            return Math.abs(v.point[0] - cLon) < threshold && Math.abs(v.point[1] - cLat) < threshold;
+          });
+          return !isOtherCruce;
+        });
 
         if (interiorVertices.length > 0) {
           // Si el pase tiene vértices físicos dentro de la influencia (ej. curvas lentas), 
@@ -1105,6 +1115,7 @@ const MapView = ({
         if (parsed.similarityTolerance === undefined) parsed.similarityTolerance = 25;
         if (parsed.minUnassignedLength === undefined) parsed.minUnassignedLength = 100;
         if (parsed.maxActivitiesToProcess === undefined) parsed.maxActivitiesToProcess = 50;
+        if (parsed.discardDuplicateUnder === undefined) parsed.discardDuplicateUnder = 200;
         return parsed;
       } catch (e) {
         console.error("Error cargando pointsParams:", e);
@@ -1115,7 +1126,8 @@ const MapView = ({
       cruceInfluence: 25, // Radio de influencia en metros por defecto
       similarityTolerance: 25, // Tolerancia de similitud en metros por defecto
       minUnassignedLength: 100, // Omitir trayectos pendientes menores a 100m por defecto
-      maxActivitiesToProcess: 50 // Máximo de rutas a procesar por defecto
+      maxActivitiesToProcess: 50, // Máximo de rutas a procesar por defecto
+      discardDuplicateUnder: 200 // Despreciar duplicados con long < 200m por defecto
     };
   });
 
@@ -1141,6 +1153,7 @@ const MapView = ({
 
   const [tempMaxActivities, setTempMaxActivities] = useState(pointsParams.maxActivitiesToProcess || 50);
   const [tempMinUnassignedLength, setTempMinUnassignedLength] = useState(pointsParams.minUnassignedLength || 100);
+  const [tempDiscardDuplicateUnder, setTempDiscardDuplicateUnder] = useState(pointsParams.discardDuplicateUnder || 200);
 
   useEffect(() => {
     setTempMaxActivities(pointsParams.maxActivitiesToProcess || 50);
@@ -1149,6 +1162,10 @@ const MapView = ({
   useEffect(() => {
     setTempMinUnassignedLength(pointsParams.minUnassignedLength !== undefined ? pointsParams.minUnassignedLength : 100);
   }, [pointsParams.minUnassignedLength]);
+
+  useEffect(() => {
+    setTempDiscardDuplicateUnder(pointsParams.discardDuplicateUnder !== undefined ? pointsParams.discardDuplicateUnder : 200);
+  }, [pointsParams.discardDuplicateUnder]);
 
   const [showSettings, setShowSettings] = useState(false);
   const [boxZoomActive, setBoxZoomActive] = useState(false);
@@ -1880,7 +1897,15 @@ const MapView = ({
               });
             }
 
-            const interiorVertices = verticesInPass.filter(v => v.distance <= influenceRadius);
+            const interiorVertices = verticesInPass.filter(v => {
+              if (v.distance > influenceRadius) return false;
+              // Si es un cruce ya existente, NO lo consideramos como vértice interior elegible para reemplazo/borrado
+              const isOtherCruce = crucesList.some(c => {
+                const threshold = 0.000001; // aprox. 11 cm
+                return Math.abs(v.point[0] - c.coords[0]) < threshold && Math.abs(v.point[1] - c.coords[1]) < threshold;
+              });
+              return !isOtherCruce;
+            });
 
             if (interiorVertices.length > 0) {
               const sortedInteriors = [...interiorVertices].sort((a, b) => a.distance - b.distance);
@@ -2152,9 +2177,56 @@ const MapView = ({
       }
     });
 
-    setTramos(finalTramos);
+    // 6. Filtrar duplicados cortos con el mismo inicio y fin si su longitud es inferior a la tolerancia
+    const discardUnder = pointsParams.discardDuplicateUnder !== undefined ? pointsParams.discardDuplicateUnder : 200;
+    
+    // Agrupar por extremos sin importar el orden
+    const tramosByEndpoints = new Map();
+    finalTramos.forEach(t => {
+      const key = [t.startId, t.endId].sort().join('__');
+      if (!tramosByEndpoints.has(key)) {
+        tramosByEndpoints.set(key, []);
+      }
+      tramosByEndpoints.get(key).push(t);
+    });
+
+    const filteredTramos = [];
+    tramosByEndpoints.forEach(group => {
+      if (group.length <= 1) {
+        filteredTramos.push(...group);
+      } else {
+        // Calcular longitudes de cada tramo
+        const withLengths = group.map(t => ({
+          tramo: t,
+          length: getPathLength(t.points)
+        }));
+
+        // Encontrar el más corto (que SIEMPRE se guarda)
+        withLengths.sort((a, b) => a.length - b.length);
+        const shortestItem = withLengths[0];
+        filteredTramos.push(shortestItem.tramo);
+
+        // Para el resto (caminos alternativos duplicados), filtrar si su longitud es inferior a discardUnder
+        for (let i = 1; i < withLengths.length; i++) {
+          const item = withLengths[i];
+          if (item.length >= discardUnder) {
+            filteredTramos.push(item.tramo);
+          } else {
+            console.log(`[Duplicados] Despreciando tramo corto duplicado entre ${item.tramo.startId} y ${item.tramo.endId}. Longitud: ${Math.round(item.length)}m (Límite: < ${discardUnder}m)`);
+          }
+        }
+      }
+    });
+
+    // Reasignar IDs para que sean secuenciales y correctos
+    const finalFilteredTramos = filteredTramos.map((t, idx) => ({
+      ...t,
+      id: `tramo_${idx}`
+    }));
+
+    setTramos(finalFilteredTramos);
     setUnassignedTramos(finalUnassigned);
-  }, [crucesMode, visibleActivities, visibleCruces, pointsParams.similarityTolerance]);
+  }, [crucesMode, visibleActivities, visibleCruces, pointsParams.similarityTolerance, pointsParams.discardDuplicateUnder]);
 
   useEffect(() => {
     if (crucesMode) {
@@ -2162,7 +2234,7 @@ const MapView = ({
     } else {
       setTramos([]);
     }
-  }, [crucesMode, visibleActivities, visibleCruces, pointsParams.similarityTolerance, calculateTramos]);
+  }, [crucesMode, visibleActivities, visibleCruces, pointsParams.similarityTolerance, pointsParams.discardDuplicateUnder, calculateTramos]);
 
 
   return (
@@ -2369,6 +2441,42 @@ const MapView = ({
                   }}
                 />
                 <span style={{ fontSize: '9px', color: '#94a3b8', fontWeight: 500, lineHeight: 1.25 }}>Oculta trayectos naranjas sin cruces de longitud menor a los metros indicados.</span>
+              </div>
+
+              {/* Despreciar Duplicados Cortos */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '10px', fontWeight: 900, textTransform: 'uppercase', color: '#94a3b8' }}>
+                  <span>Despreciar duplicados long. &lt; (m)</span>
+                  <input 
+                    type="number" step="10" min="0" max="2000"
+                    value={tempDiscardDuplicateUnder}
+                    onChange={(e) => setTempDiscardDuplicateUnder(parseInt(e.target.value, 10) || 0)}
+                    onBlur={() => setPointsParams(prev => ({ ...prev, discardDuplicateUnder: tempDiscardDuplicateUnder }))}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        setPointsParams(prev => ({ ...prev, discardDuplicateUnder: tempDiscardDuplicateUnder }));
+                        e.target.blur();
+                      }
+                    }}
+                    style={{ width: '4rem', textAlign: 'right', fontSize: '11px', fontFamily: 'monospace', padding: '0.125rem', border: '1px solid #e2e8f0', borderRadius: '0.25rem' }}
+                  />
+                </div>
+                <input 
+                  type="range" 
+                  min="0" 
+                  max="1000" 
+                  step="10"
+                  value={tempDiscardDuplicateUnder}
+                  onChange={(e) => setTempDiscardDuplicateUnder(parseInt(e.target.value, 10) || 0)}
+                  onMouseUp={() => setPointsParams(prev => ({ ...prev, discardDuplicateUnder: tempDiscardDuplicateUnder }))}
+                  onTouchEnd={() => setPointsParams(prev => ({ ...prev, discardDuplicateUnder: tempDiscardDuplicateUnder }))}
+                  style={{ 
+                    width: '100%', 
+                    accentColor: '#10b981',
+                    cursor: 'pointer' 
+                  }}
+                />
+                <span style={{ fontSize: '9px', color: '#94a3b8', fontWeight: 500, lineHeight: 1.25 }}>Elimina caminos alternativos entre los mismos cruces si su longitud es inferior a estos metros. El segmento más corto siempre se conservará.</span>
               </div>
 
               {/* Límite Rutas a Cargar */}

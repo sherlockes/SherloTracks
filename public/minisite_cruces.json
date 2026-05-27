@@ -1271,7 +1271,7 @@
     "properties": {
       "id": 93,
       "nombre": "Cruce #93",
-      "radio_influencia": 25
+      "radio_influencia": 41
     }
   },
   {
@@ -2389,8 +2389,8 @@
     "geometry": {
       "type": "Point",
       "coordinates": [
-        -0.45936906862285254,
-        41.31655934841931
+        -0.459369069,
+        41.316559348
       ]
     },
     "properties": {
@@ -2404,8 +2404,8 @@
     "geometry": {
       "type": "Point",
       "coordinates": [
-        -0.45775253458848036,
-        41.313449737981124
+        -0.457752535,
+        41.313449738
       ]
     },
     "properties": {
@@ -2427,6 +2427,246 @@
       "id": 173,
       "nombre": "Cruce #173",
       "radio_influencia": 45
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -0.366990566,
+        41.321698394
+      ]
+    },
+    "properties": {
+      "id": 174,
+      "nombre": "Cruce #174",
+      "radio_influencia": 20
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -0.367693305015564,
+        41.32244370959772
+      ]
+    },
+    "properties": {
+      "id": 175,
+      "nombre": "Cruce #175",
+      "radio_influencia": 25
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -0.370772481,
+        41.322008608
+      ]
+    },
+    "properties": {
+      "id": 176,
+      "nombre": "Cruce #176",
+      "radio_influencia": 25
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -0.364694595,
+        41.321505014
+      ]
+    },
+    "properties": {
+      "id": 177,
+      "nombre": "Cruce #177",
+      "radio_influencia": 25
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -0.4509261547423482,
+        41.292455359459055
+      ]
+    },
+    "properties": {
+      "id": 178,
+      "nombre": "Cruce #178",
+      "radio_influencia": 45
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -0.4413929672273898,
+        41.293118814126444
+      ]
+    },
+    "properties": {
+      "id": 179,
+      "nombre": "Cruce #179",
+      "radio_influencia": 25
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -0.474827577,
+        41.315712523
+      ]
+    },
+    "properties": {
+      "id": 180,
+      "nombre": "Cruce #180",
+      "radio_influencia": 25
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -0.467343917,
+        41.308227623
+      ]
+    },
+    "properties": {
+      "id": 181,
+      "nombre": "Cruce #181",
+      "radio_influencia": 25
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -0.4710280895233155,
+        41.30018532856552
+      ]
+    },
+    "properties": {
+      "id": 182,
+      "nombre": "Cruce #182",
+      "radio_influencia": 25
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -0.4617369174957276,
+        41.29538532259885
+      ]
+    },
+    "properties": {
+      "id": 183,
+      "nombre": "Cruce #183",
+      "radio_influencia": 25
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -0.46319067478179937,
+        41.30397349694725
+      ]
+    },
+    "properties": {
+      "id": 184,
+      "nombre": "Cruce #184",
+      "radio_influencia": 25
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -0.46100199222564703,
+        41.3040702132591
+      ]
+    },
+    "properties": {
+      "id": 185,
+      "nombre": "Cruce #185",
+      "radio_influencia": 57
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -0.4513099492412699,
+        41.328893625524955
+      ]
+    },
+    "properties": {
+      "id": 186,
+      "nombre": "Cruce #186",
+      "radio_influencia": 25
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -0.37825047969818115,
+        41.313998991238016
+      ]
+    },
+    "properties": {
+      "id": 187,
+      "nombre": "Cruce #187",
+      "radio_influencia": 25
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -0.378545523,
+        41.316726723
+      ]
+    },
+    "properties": {
+      "id": 188,
+      "nombre": "Cruce #188",
+      "radio_influencia": 40
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -0.3716415166854859,
+        41.316992640154425
+      ]
+    },
+    "properties": {
+      "id": 189,
+      "nombre": "Cruce #189",
+      "radio_influencia": 25
     }
   }
 ]
