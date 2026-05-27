@@ -623,8 +623,37 @@
             </div>
             <div class="stat-divider"></div>
             <div class="stat-item">
-                <span class="stat-val" id="stat-cruce">#0</span>
-                <span class="stat-lbl">Cruce Actual</span>
+                <span class="stat-val" id="stat-ascent">+0 m</span>
+                <span class="stat-lbl">Desnivel +</span>
+            </div>
+        </div>
+
+        <!-- Perfil de Elevación (Canvas interactivo a todo lo ancho) -->
+        <div class="elevation-profile-container" style="
+            width: 100%;
+            height: 70px;
+            margin: 4px 0 8px 0;
+            position: relative;
+            background: rgba(15, 23, 42, 0.03);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(226, 232, 240, 0.5);
+        ">
+            <canvas id="elevation-canvas" style="width: 100%; height: 100%; display: block;"></canvas>
+            <!-- Overlay con indicador de cota máxima/mínima -->
+            <div id="ele-min-max" style="
+                position: absolute;
+                top: 4px;
+                right: 8px;
+                font-size: 9px;
+                font-weight: 800;
+                color: #64748b;
+                font-family: 'Outfit', sans-serif;
+                pointer-events: none;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            ">
+                Mín: - | Máx: -
             </div>
         </div>
 
@@ -671,7 +700,7 @@
 
         const statDist = document.getElementById('stat-dist');
         const statSegments = document.getElementById('stat-segments');
-        const statCruce = document.getElementById('stat-cruce');
+        const statAscent = document.getElementById('stat-ascent');
 
         // Banner de Indicación
         const instructionBanner = document.getElementById('instruction-banner');
@@ -1249,6 +1278,161 @@
             crossingMarkers = [];
         }
 
+        // --- MODELO DE ALTITUD Y PERFIL DE ELEVACIÓN ---
+        function getCoordinateAltitude(lat, lng) {
+            // Un modelo determinista basado en senos y cosenos para simular relieve real (altitud media 300m - 800m)
+            const val1 = Math.sin(lat * 80) * 120;
+            const val2 = Math.cos(lng * 120) * 180;
+            const val3 = Math.sin((lat + lng) * 200) * 40;
+            const val4 = Math.sin(lat * 400) * 10; // Pequeño ruido de micro-relieve
+            
+            return Math.round(550 + val1 + val2 + val3 + val4);
+        }
+
+        function drawElevationProfile(coordinates) {
+            const canvas = document.getElementById('elevation-canvas');
+            const minMaxIndicator = document.getElementById('ele-min-max');
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            
+            // Ajustar resolución para retina/alta densidad
+            const rect = canvas.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+
+            const width = rect.width;
+            const height = rect.height;
+
+            // Limpiar canvas
+            ctx.clearRect(0, 0, width, height);
+
+            if (!coordinates || coordinates.length < 2) {
+                // Dibujar estado vacío
+                ctx.font = '11px Inter, sans-serif';
+                ctx.fillStyle = '#94a3b8';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('Cargando perfil de elevación...', width / 2, height / 2);
+                if (minMaxIndicator) minMaxIndicator.innerText = "Mín: - | Máx: -";
+                if (statAscent) statAscent.innerText = "+0 m";
+                return;
+            }
+
+            // Calcular altitudes y distancias acumuladas a lo largo del recorrido
+            let pointsData = []; // { distAccum, alt }
+            let totalDist = 0;
+            let altMin = Infinity;
+            let altMax = -Infinity;
+            let accumulatedAscent = 0;
+
+            // Primer punto
+            const p0Alt = getCoordinateAltitude(coordinates[0][0], coordinates[0][1]);
+            pointsData.push({ dist: 0, alt: p0Alt });
+            altMin = Math.min(altMin, p0Alt);
+            altMax = Math.max(altMax, p0Alt);
+
+            for (let i = 1; i < coordinates.length; i++) {
+                const pPrev = coordinates[i - 1];
+                const pCurr = coordinates[i];
+
+                // Calcular distancia de este intervalo (en km)
+                const latlngPrev = L.latLng(pPrev[0], pPrev[1]);
+                const latlngCurr = L.latLng(pCurr[0], pCurr[1]);
+                const distStep = latlngPrev.distanceTo(latlngCurr) / 1000;
+                totalDist += distStep;
+
+                const altCurr = getCoordinateAltitude(pCurr[0], pCurr[1]);
+                const altPrev = pointsData[i - 1].alt;
+
+                // Calcular ascenso acumulado
+                if (altCurr > altPrev) {
+                    accumulatedAscent += (altCurr - altPrev);
+                }
+
+                pointsData.push({ dist: totalDist, alt: altCurr });
+                altMin = Math.min(altMin, altCurr);
+                altMax = Math.max(altMax, altCurr);
+            }
+
+            // Actualizar número de Desnivel Positivo en la barra de estadísticas
+            if (statAscent) {
+                statAscent.innerText = `+${Math.round(accumulatedAscent)} m`;
+            }
+
+            // Indicador de mínimos/máximos
+            if (minMaxIndicator) {
+                minMaxIndicator.innerText = `Mín: ${Math.round(altMin)}m | Máx: ${Math.round(altMax)}m`;
+            }
+
+            // Dibujar la curva del perfil
+            const paddingLeft = 6;
+            const paddingRight = 6;
+            const paddingTop = 12;
+            const paddingBottom = 4;
+
+            const plotWidth = width - paddingLeft - paddingRight;
+            const plotHeight = height - paddingTop - paddingBottom;
+
+            const altRange = altMax - altMin === 0 ? 100 : (altMax - altMin);
+
+            // Generar los puntos proyectados al canvas
+            const getX = (d) => paddingLeft + (totalDist === 0 ? 0 : (d / totalDist) * plotWidth);
+            const getY = (a) => height - paddingBottom - ((a - altMin) / altRange) * plotHeight;
+
+            // 1. Dibujar el degradado del fondo
+            const gradient = ctx.createLinearGradient(0, paddingTop, 0, height - paddingBottom);
+            gradient.addColorStop(0, 'rgba(252, 76, 2, 0.28)'); // Naranja Strava
+            gradient.addColorStop(1, 'rgba(252, 76, 2, 0.00)');
+
+            ctx.beginPath();
+            ctx.moveTo(getX(pointsData[0].dist), height - paddingBottom); // Iniciar en el eje inferior izquierdo
+
+            pointsData.forEach(p => {
+                ctx.lineTo(getX(p.dist), getY(p.alt));
+            });
+
+            ctx.lineTo(getX(pointsData[pointsData.length - 1].dist), height - paddingBottom); // Cerrar en el eje inferior derecho
+            ctx.closePath();
+            ctx.fillStyle = gradient;
+            ctx.fill();
+
+            // 2. Dibujar la línea superior del perfil
+            ctx.beginPath();
+            pointsData.forEach((p, idx) => {
+                if (idx === 0) {
+                    ctx.moveTo(getX(p.dist), getY(p.alt));
+                } else {
+                    ctx.lineTo(getX(p.dist), getY(p.alt));
+                }
+            });
+            ctx.strokeStyle = '#FC4C02'; // Línea naranja
+            ctx.lineWidth = 2.5;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.stroke();
+
+            // 3. Dibujar una sutil rejilla horizontal
+            ctx.strokeStyle = 'rgba(148, 163, 184, 0.1)';
+            ctx.lineWidth = 1;
+            
+            // Línea media de cota
+            ctx.beginPath();
+            const midAlt = altMin + altRange / 2;
+            ctx.moveTo(paddingLeft, getY(midAlt));
+            ctx.lineTo(width - paddingRight, getY(midAlt));
+            ctx.stroke();
+        }
+
+        // Redibujar en cambios de orientación de pantalla
+        window.addEventListener('resize', () => {
+            if (creandoTrack) {
+                drawElevationProfile(getTrackCoordinates());
+            }
+        });
+
         // Actualizar Interfaz en Cada Paso
         function updateCreatorUI() {
             clearCandidateLayers();
@@ -1269,7 +1453,9 @@
 
             statDist.innerText = (totalDist / 1000).toFixed(2) + ' km';
             statSegments.innerText = trackTramos.length;
-            statCruce.innerText = `#${trackCurrentCruce.properties.id}`;
+            
+            // Actualizar perfil de elevación y altitud acumulada
+            drawElevationProfile(getTrackCoordinates());
 
             btnUndo.disabled = trackTramos.length === 0;
             btnFinish.disabled = trackTramos.length === 0;
