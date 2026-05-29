@@ -79,12 +79,8 @@ const RouteLine = ({ act, path, dimmed }) => {
 };
 
 // Componente para dibujar las líneas de las rutas con efecto Heatmap
-const RouteLines = ({ activities, crucesMode, randomActivity }) => {
+const RouteLines = ({ activities, crucesMode }) => {
   if (crucesMode) {
-    if (randomActivity && randomActivity.points && randomActivity.points.length >= 2) {
-      const path = randomActivity.points.map(p => [p[1], p[0]]);
-      return <RouteLine act={randomActivity} path={path} dimmed={false} />;
-    }
     return null;
   }
 
@@ -377,8 +373,6 @@ const CrucesLayer = ({
   selectedCruce,
   setSelectedCruce,
   onDeleteCruce,
-  randomActivity,
-  setRandomActivity,
   zoom,
   creandoTrack,
   trackStartCruce,
@@ -811,6 +805,46 @@ const CrucesLayer = ({
           iconAnchor: isSelected ? [12, 12] : [9, 9]
         }) : null;
 
+        let diameterInPixels = 18;
+        if (map && !isDraggableZoom) {
+          try {
+            const latLng = L.latLng(position);
+            const displacedLatLng = map.unproject(map.project(latLng, map.getZoom()).add([10, 0]), map.getZoom());
+            const metersPerPixel = latLng.distanceTo(displacedLatLng) / 10;
+            const radiusInPixels = calculatedRadius / metersPerPixel;
+            diameterInPixels = Math.max(8, Math.round(radiusInPixels * 2));
+            if (isSelected) {
+              diameterInPixels = Math.round(diameterInPixels * 1.3);
+            }
+          } catch (err) {
+            console.error("Error al calcular el diámetro en píxeles:", err);
+          }
+        }
+
+        const lowZoomIcon = !isDraggableZoom ? L.divIcon({
+          className: 'custom-cruce-marker-low',
+          html: `<div style="
+            width: ${diameterInPixels}px;
+            height: ${diameterInPixels}px;
+            background-color: ${bgColor};
+            border: ${isSelected ? '2.5px solid #f59e0b' : '1px solid ' + borderColor};
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-family: sans-serif;
+            font-size: ${Math.max(6, Math.round(diameterInPixels * 0.6))}px;
+            font-weight: 900;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            text-align: center;
+            line-height: ${diameterInPixels}px;
+            cursor: pointer;
+          ">${labelText}</div>`,
+          iconSize: [diameterInPixels, diameterInPixels],
+          iconAnchor: [diameterInPixels / 2, diameterInPixels / 2]
+        }) : null;
+
         return (
           <React.Fragment key={`cruce_group_${c.properties.id}`}>
             {/* Aureola circular de influencia (no interactiva) */}
@@ -857,15 +891,16 @@ const CrucesLayer = ({
                 {!creandoTrack && (
                   <Tooltip direction="top" offset={[0, -10]} opacity={0.9}>
                     <span style={{ fontWeight: 'bold', color: '#1e293b' }}>
-                      {c.properties.nombre || `Cruce #${c.properties.id}`}
+                      {`Cruce #${c.properties.id}`}
                     </span>
                   </Tooltip>
                 )}
               </Marker>
             ) : (
-              <Circle
-                center={position}
-                radius={isSelected ? calculatedRadius * 1.3 : calculatedRadius}
+              <Marker
+                position={position}
+                icon={lowZoomIcon}
+                draggable={false}
                 eventHandlers={{
                   click: (e) => {
                     L.DomEvent.stopPropagation(e);
@@ -880,25 +915,15 @@ const CrucesLayer = ({
                     }
                   }
                 }}
-                interactive={true}
-                pathOptions={{
-                  fillColor: bgColor,
-                  fillOpacity: isSelected ? 0.95 : 0.8,
-                  color: borderColor,
-                  weight: isSelected ? 3.5 : 1.5,
-                  opacity: isSelected ? 1.0 : 0.8,
-                  className: 'leaflet-interactive-cruce'
-                }}
               >
-                <Tooltip 
-                  permanent 
-                  direction="center" 
-                  className="cruce-tooltip"
-                  interactive={false}
-                >
-                  <span>{labelText}</span>
-                </Tooltip>
-              </Circle>
+                {!creandoTrack && (
+                  <Tooltip direction="top" offset={[0, -Math.round(diameterInPixels/2)]} opacity={0.9}>
+                    <span style={{ fontWeight: 'bold', color: '#1e293b' }}>
+                      {`Cruce #${c.properties.id}`}
+                    </span>
+                  </Tooltip>
+                )}
+              </Marker>
             )}
           </React.Fragment>
         );
@@ -907,22 +932,7 @@ const CrucesLayer = ({
   );
 };
 
-// Componente para auto-centrar el mapa en la ruta al azar cargada
-const AutoCenterRandomRoute = ({ randomActivity }) => {
-  const map = useMap();
-  useEffect(() => {
-    if (randomActivity && randomActivity.points && randomActivity.points.length > 0) {
-      try {
-        const allPoints = randomActivity.points.map(p => [p[1], p[0]]);
-        const bounds = L.latLngBounds(allPoints);
-        map.fitBounds(bounds, { padding: [50, 50], animate: true });
-      } catch (e) {
-        console.error("AutoCenterRandomRoute error:", e);
-      }
-    }
-  }, [randomActivity, map]);
-  return null;
-};
+
 
 // Componente auxiliar para capturar y exponer la instancia del mapa al componente padre MapView
 const MapReferenceTracker = ({ setMap }) => {
@@ -1106,6 +1116,7 @@ const MapView = ({
   activities, 
   crucesMode
 }) => {
+  const parallelSens = 10;
   const [pointsParams, setPointsParams] = useState(() => {
     const saved = localStorage.getItem('sherlo_pointsParams');
     if (saved) {
@@ -1174,23 +1185,21 @@ const MapView = ({
   const [unassignedTramos, setUnassignedTramos] = useState([]);
   const [cruces, setCruces] = useState([]);
   const [selectedCruce, setSelectedCruce] = useState(null);
-  const [editingName, setEditingName] = useState("");
   const [editingRadius, setEditingRadius] = useState(25);
 
   useEffect(() => {
     if (selectedCruce) {
-      setEditingName(selectedCruce.properties.nombre || `Cruce #${selectedCruce.properties.id}`);
       setEditingRadius(selectedCruce.properties.radio_influencia || 25);
     } else {
-      setEditingName("");
       setEditingRadius(25);
     }
   }, [selectedCruce]);
 
-  const [randomActivity, setRandomActivity] = useState(null);
   const [loadingCruces, setLoadingCruces] = useState(false);
 
   const [creandoTrack, setCreandoTrack] = useState(false);
+  const [parallelMatches, setParallelMatches] = useState([]);
+  const [currentMatchIndex, setCurrentMatchIndex] = useState(-1);
   const [trackStartCruce, setTrackStartCruce] = useState(null);
   const [trackCurrentCruce, setTrackCurrentCruce] = useState(null);
   const [trackTramos, setTrackTramos] = useState([]);
@@ -1528,7 +1537,6 @@ const MapView = ({
     if (!selectedCruce) return;
     try {
       const response = await axios.put(`/api/cruces/${selectedCruce.properties.id}`, {
-        nombre: editingName,
         radio_influencia: editingRadius
       });
       if (response.data && response.data.status === 'success') {
@@ -1539,7 +1547,6 @@ const MapView = ({
               ...c,
               properties: {
                 ...c.properties,
-                nombre: editingName,
                 radio_influencia: editingRadius
               }
             };
@@ -1719,47 +1726,27 @@ const MapView = ({
     }
   };
 
-  const handleLoadRandomRoute = async () => {
-    let params = {};
-    if (map) {
-      const bounds = map.getBounds();
-      params = {
-        min_lat: bounds.getSouth(),
-        min_lon: bounds.getWest(),
-        max_lat: bounds.getNorth(),
-        max_lon: bounds.getEast()
-      };
-    }
-    try {
-      const response = await axios.get('/api/activities/random', { params });
-      if (response.data) {
-        setRandomActivity(response.data);
-      }
-    } catch (e) {
-      console.error("Error al cargar ruta al azar:", e);
-      if (e.response && e.response.status === 404) {
-        alert("No se encontraron rutas con inicio o fin en la zona delimitada de la pantalla.");
-      } else {
-        alert("No se pudo cargar una ruta al azar.");
-      }
-    }
-  };
-
   // Carga inicial y limpieza de cruces al alternar el modo
   useEffect(() => {
     if (crucesMode) {
       fetchCruces();
-      setRandomActivity(null);
       if (map) {
         setActivationBounds(map.getBounds());
       }
     } else {
       setCruces([]);
       setSelectedCruce(null);
-      setRandomActivity(null);
       setActivationBounds(null);
+      setParallelMatches([]);
+      setCurrentMatchIndex(-1);
     }
   }, [crucesMode, fetchCruces, map]);
+
+  // Resetear coincidencias paralelas cuando cambian los tramos calculados
+  useEffect(() => {
+    setParallelMatches([]);
+    setCurrentMatchIndex(-1);
+  }, [tramos]);
 
   const visibleCruces = useMemo(() => {
     if (!crucesMode || !cruces || cruces.length === 0) return [];
@@ -2236,6 +2223,152 @@ const MapView = ({
     }
   }, [crucesMode, visibleActivities, visibleCruces, pointsParams.similarityTolerance, pointsParams.discardDuplicateUnder, calculateTramos]);
 
+  // Algoritmo geométrico para buscar tramos de segmentos paralelos sin cruces
+  const findParallelSegments = useCallback(() => {
+    if (!map) return [];
+
+    const allSegments = [];
+    const addTramoSegments = (tramoList) => {
+      tramoList.forEach(tramo => {
+        if (!tramo.points || tramo.points.length < 2) return;
+        for (let i = 0; i < tramo.points.length - 1; i++) {
+          allSegments.push({
+            p1: tramo.points[i], // [lon, lat]
+            p2: tramo.points[i+1],
+            tramoId: tramo.id,
+            activityNames: tramo.activityNames
+          });
+        }
+      });
+    };
+    addTramoSegments(tramos);
+
+    if (allSegments.length === 0) return [];
+
+    const mapCenter = map.getCenter();
+    const centerLat = mapCenter.lat;
+
+    const toMeters = (pt) => {
+      const latRad = centerLat * Math.PI / 180;
+      return {
+        x: pt[0] * 111320 * Math.cos(latRad),
+        y: pt[1] * 111320
+      };
+    };
+
+    const getPointToSegmentDistance = (p, c, d) => {
+      const dx = d.x - c.x;
+      const dy = d.y - c.y;
+      const len2 = dx * dx + dy * dy;
+      if (len2 === 0) {
+        return { distance: Math.sqrt((p.x - c.x)**2 + (p.y - c.y)**2), t: 0 };
+      }
+      let t = ((p.x - c.x) * dx + (p.y - c.y) * dy) / len2;
+      t = Math.max(0, Math.min(1, t));
+      const projX = c.x + t * dx;
+      const projY = c.y + t * dy;
+      return { distance: Math.sqrt((p.x - projX)**2 + (p.y - projY)**2), t };
+    };
+
+    const isNearExistingCruce = (pt) => {
+      const latlng = L.latLng(pt[1], pt[0]);
+      return cruces.some(c => {
+        if (!c.geometry || !c.geometry.coordinates) return false;
+        const [cLon, cLat] = c.geometry.coordinates;
+        const cLatLng = L.latLng(cLat, cLon);
+        return latlng.distanceTo(cLatLng) < 35; // 35 metros de margen
+      });
+    };
+
+    const results = [];
+
+    for (let i = 0; i < allSegments.length; i++) {
+      const s1 = allSegments[i];
+      const A = toMeters(s1.p1);
+      const B = toMeters(s1.p2);
+      const L1 = Math.sqrt((B.x - A.x)**2 + (B.y - A.y)**2);
+      if (L1 < 2) continue;
+
+      const u = { x: (B.x - A.x) / L1, y: (B.y - A.y) / L1 };
+      const M1 = { x: (A.x + B.x) / 2, y: (A.y + B.y) / 2 };
+      const M1_coords = [(s1.p1[0] + s1.p2[0]) / 2, (s1.p1[1] + s1.p2[1]) / 2];
+
+      if (isNearExistingCruce(M1_coords)) continue;
+
+      for (let j = i + 1; j < allSegments.length; j++) {
+        const s2 = allSegments[j];
+        
+        if (s1.tramoId === s2.tramoId) continue;
+
+        const C = toMeters(s2.p1);
+        const D = toMeters(s2.p2);
+        const L2 = Math.sqrt((D.x - C.x)**2 + (D.y - C.y)**2);
+        if (L2 < 2) continue;
+
+        const v = { x: (D.x - C.x) / L2, y: (D.y - C.y) / L2 };
+
+        const dot = u.x * v.x + u.y * v.y;
+        if (Math.abs(dot) < 0.95) continue; // Desviación angular > 18 grados
+
+        const M2 = { x: (C.x + D.x) / 2, y: (C.y + D.y) / 2 };
+        const distMidpoints = Math.sqrt((M2.x - M1.x)**2 + (M2.y - M1.y)**2);
+        if (distMidpoints < 3 || distMidpoints > parallelSens) continue;
+
+        const { distance: d1, t: t1 } = getPointToSegmentDistance(M1, C, D);
+        if (t1 < 0.05 || t1 > 0.95) continue;
+
+        if (d1 >= 3 && d1 <= parallelSens) {
+          const matchPt = [
+            (M1_coords[0] + (s2.p1[0] + s2.p2[0]) / 2) / 2,
+            (M1_coords[1] + (s2.p1[1] + s2.p2[1]) / 2) / 2
+          ];
+          results.push({
+            point: [matchPt[1], matchPt[0]], // [lat, lon]
+            distance: d1
+          });
+        }
+      }
+    }
+
+    return results;
+  }, [map, tramos, unassignedTramos, cruces, parallelSens]);
+
+  const handleSearchParallel = useCallback(() => {
+    const matches = findParallelSegments();
+    if (matches.length === 0) {
+      alert("No se encontraron tramos de segmentos paralelos sin cruce en la zona.");
+      setParallelMatches([]);
+      setCurrentMatchIndex(-1);
+      return;
+    }
+
+    setParallelMatches(matches);
+
+    let nextIndex = 0;
+    if (matches.length > 1) {
+      // Si hay más de una coincidencia, elegimos una aleatoria que sea diferente a la actual
+      let randomIndex;
+      let attempts = 0;
+      do {
+        randomIndex = Math.floor(Math.random() * matches.length);
+        attempts++;
+      } while (randomIndex === currentMatchIndex && attempts < 100);
+      nextIndex = randomIndex;
+    } else {
+      nextIndex = 0;
+    }
+
+    setCurrentMatchIndex(nextIndex);
+    const match = matches[nextIndex];
+
+    if (map) {
+      map.flyTo(match.point, 18, {
+        animate: true,
+        duration: 1.5
+      });
+    }
+  }, [findParallelSegments, parallelMatches, currentMatchIndex, map]);
+
 
   return (
     <div
@@ -2519,9 +2652,9 @@ const MapView = ({
                 <span style={{ fontSize: '9px', color: '#94a3b8', fontWeight: 500, lineHeight: 1.25 }}>Límite máximo de rutas a procesar en pantalla (más recientes primero) para evitar atascos de rendimiento.</span>
               </div>
 
-              {/* Botón para Cargar Ruta al Azar */}
+              {/* Botón para Buscar Paralelos */}
               <button
-                onClick={handleLoadRandomRoute}
+                onClick={handleSearchParallel}
                 style={{
                   width: '100%',
                   marginTop: '0.5rem',
@@ -2530,7 +2663,7 @@ const MapView = ({
                   justifyContent: 'center',
                   gap: '0.5rem',
                   padding: '0.625rem',
-                  backgroundColor: '#10b981',
+                  backgroundColor: '#7c3aed',
                   color: '#ffffff',
                   border: 'none',
                   borderRadius: '0.5rem',
@@ -2539,21 +2672,21 @@ const MapView = ({
                   textTransform: 'uppercase',
                   letterSpacing: '0.025em',
                   cursor: 'pointer',
-                  boxShadow: '0 4px 6px -1px rgba(16, 185, 129, 0.3)',
+                  boxShadow: '0 4px 6px -1px rgba(124, 58, 237, 0.3)',
                   transition: 'all 0.2s'
                 }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.backgroundColor = '#6d28d9';
+                  e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(109, 40, 217, 0.4)';
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.backgroundColor = '#7c3aed';
+                  e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(124, 58, 237, 0.3)';
+                }}
               >
-                <RefreshCw size={12} />
-                Mostrar Ruta al Azar
+                <span style={{ fontSize: '11px', fontWeight: 'bold' }}>||</span>
+                Buscar Tramos Paralelos
               </button>
-
-              {randomActivity && (
-                <div style={{ backgroundColor: '#f8fafc', padding: '0.75rem', borderRadius: '0.5rem', border: '1px solid #e2e8f0', marginTop: '0.25rem' }}>
-                  <div style={{ fontSize: '8px', fontWeight: 900, textTransform: 'uppercase', color: '#94a3b8', marginBottom: '0.25rem' }}>Ruta Cargada</div>
-                  <div style={{ fontSize: '11px', fontWeight: 700, color: '#1e293b', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{randomActivity.name}</div>
-                  <div style={{ fontSize: '9px', color: '#64748b', marginTop: '0.125rem' }}>{(randomActivity.distance / 1000).toFixed(2)} km</div>
-                </div>
-              )}
 
               {/* Divisor estético */}
               <div style={{ height: '1px', backgroundColor: '#f1f5f9', margin: '0.25rem 0' }}></div>
@@ -2693,27 +2826,6 @@ const MapView = ({
             </h4>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {/* Nombre del Cruce */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-                <label style={{ fontSize: '10px', fontWeight: 900, textTransform: 'uppercase', color: '#94a3b8' }}>
-                  Nombre del Cruce
-                </label>
-                <input 
-                  type="text"
-                  value={editingName}
-                  onChange={(e) => setEditingName(e.target.value)}
-                  placeholder="Ej. Cruce de los pinos"
-                  style={{ 
-                    width: '100%', 
-                    boxSizing: 'border-box',
-                    fontSize: '13px', 
-                    padding: '0.5rem', 
-                    border: '1px solid #e2e8f0', 
-                    borderRadius: '0.375rem',
-                    outline: 'none'
-                  }}
-                />
-              </div>
 
               {/* Radio de Influencia */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
@@ -3212,7 +3324,6 @@ const MapView = ({
         <RouteLines 
           activities={activities} 
           crucesMode={crucesMode}
-          randomActivity={randomActivity}
         />
         <CrucesLayer 
           crucesMode={crucesMode}
@@ -3222,8 +3333,6 @@ const MapView = ({
           selectedCruce={selectedCruce}
           setSelectedCruce={setSelectedCruce}
           onDeleteCruce={handleDeleteCruce}
-          randomActivity={randomActivity}
-          setRandomActivity={setRandomActivity}
           zoom={zoom}
           creandoTrack={creandoTrack}
           trackStartCruce={trackStartCruce}
@@ -3240,6 +3349,34 @@ const MapView = ({
           crucesMode={crucesMode}
           creandoTrack={creandoTrack}
         />
+        {/* Resaltado de tramo paralelo encontrado */}
+        {crucesMode && currentMatchIndex >= 0 && parallelMatches[currentMatchIndex] && (
+          <Circle
+            center={parallelMatches[currentMatchIndex].point}
+            radius={20}
+            pathOptions={{
+              fillColor: '#8b5cf6', // Violeta intenso
+              fillOpacity: 0.25,
+              color: '#ef4444', // Rojo advertencia
+              weight: 2.5,
+              dashArray: '4, 6'
+            }}
+          >
+            <Popup permanent>
+              <div style={{ padding: '4px', fontFamily: 'sans-serif', minWidth: '160px' }}>
+                <div style={{ fontWeight: 'bold', color: '#b91c1c', fontSize: '11px', marginBottom: '2px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  ⚠️ Posible cruce faltante
+                </div>
+                <div style={{ fontSize: '10px', color: '#475569', lineHeight: 1.3 }}>
+                  Se detectaron segmentos paralelos a unos <strong>{Math.round(parallelMatches[currentMatchIndex].distance)} metros</strong> de distancia.
+                  <div style={{ marginTop: '6px', color: '#10b981', fontWeight: 'bold' }}>
+                    💡 Pulsa Ctrl + Click aquí para añadir el cruce.
+                  </div>
+                </div>
+              </div>
+            </Popup>
+          </Circle>
+        )}
         <TrackCreatorLayer
           creandoTrack={creandoTrack}
           trackStartCruce={trackStartCruce}
