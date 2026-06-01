@@ -165,6 +165,91 @@
             box-shadow: 0 4px 10px rgba(252, 76, 2, 0.3);
         }
 
+        /* Tarjeta de Configuración de Ruta Incrustada */
+        .config-card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--border-glass);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 10px 32px rgba(0, 0, 0, 0.35), 0 2px 10px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            box-sizing: border-box;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            transform: scale(0.95);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+            display: none;
+        }
+
+        .config-card.active {
+            transform: scale(1);
+            opacity: 1;
+            pointer-events: auto;
+            display: flex;
+        }
+
+        .toggle-btn {
+            background: transparent;
+            color: var(--text-slate);
+            border: none;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .toggle-btn.active {
+            background: #ffffff;
+            color: var(--brand-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .btn-secondary {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            color: var(--text-main);
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:active {
+            transform: scale(0.97);
+            background: #f1f5f9;
+        }
+
+        .btn-primary {
+            flex: 2;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            background: var(--brand-gradient);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 13px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(252, 76, 2, 0.25);
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.97);
+            box-shadow: 0 2px 6px rgba(252, 76, 2, 0.15);
+        }
+
+
         /* Panel de Control Inferior (Durante la Creación) */
         .bottom-panel {
             position: absolute;
@@ -519,6 +604,78 @@
         #logo-trigger:active {
             transform: scale(0.96);
         }
+
+        /* Modal de Advertencia de Ruta Automática */
+        .auto-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 24px;
+            box-sizing: border-box;
+        }
+
+        .auto-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .auto-modal-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 28px;
+            padding: 28px 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .auto-modal-overlay.active .auto-modal-card {
+            transform: scale(1);
+        }
+
+        .auto-modal-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(252, 76, 2, 0.1);
+            color: #d97706; /* Amber-600 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse-amber 2s infinite;
+        }
+
+        @keyframes pulse-amber {
+            0% {
+                box-shadow: 0 0 0 0 rgba(252, 76, 2, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(252, 76, 2, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(252, 76, 2, 0);
+            }
+        }
     </style>
 </head>
 <body>
@@ -756,13 +913,89 @@
     <!-- Contenedor del Mapa -->
     <div id="map"></div>
 
-    <!-- Botón Inicial -->
+    <!-- Botón Inicial y Tarjeta de Configuración -->
     <div class="floating-action-container" id="init-container">
         <button class="btn-gradient" id="btn-start-creator">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
             Crear Nuevo Track
         </button>
+        
+        <!-- Tarjeta de Configuración Incrustada -->
+        <div class="config-card" id="creator-config-card">
+            <div style="font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 800; text-align: center; color: var(--brand-color); letter-spacing: 0.02em;">CREAR NUEVO TRACK</div>
+            
+            <!-- Selector de Modo -->
+            <div>
+                <label style="font-size: 10px; font-weight: 700; color: var(--text-slate); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 6px;">Modo de Creación</label>
+                <div class="toggle-group" style="display: flex; background: rgba(15, 23, 42, 0.05); padding: 4px; border-radius: 12px; gap: 4px;">
+                    <button type="button" id="btn-mode-manual" class="toggle-btn active" style="flex: 1;">Manual</button>
+                    <button type="button" id="btn-mode-auto" class="toggle-btn" style="flex: 1;">Automático</button>
+                </div>
+            </div>
+
+            <!-- Mensaje Informativo para Modo Auto (Aviso de dificultad en subida) -->
+            <div id="auto-warning-message" style="
+                display: none;
+                background: rgba(252, 76, 2, 0.08);
+                border: 1px solid rgba(252, 76, 2, 0.25);
+                border-radius: 14px;
+                padding: 10px 12px;
+                font-size: 10.5px;
+                line-height: 1.4;
+                color: #b45309;
+                font-weight: 500;
+                align-items: flex-start;
+                gap: 8px;
+            ">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <span><strong>Aviso de ruta:</strong> La ruta automática podría incluir tramos técnicos o sendas de bajada complicadas de superar en subida montado sobre la bicicleta.</span>
+            </div>
+
+            
+            <!-- Tipo de Ruta (Sólo visible si Auto) -->
+            <div id="auto-type-section" style="display: none;">
+                <label style="font-size: 10px; font-weight: 700; color: var(--text-slate); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 6px;">Tipo de Ruta</label>
+                <div class="toggle-group" style="display: flex; background: rgba(15, 23, 42, 0.05); padding: 4px; border-radius: 12px; gap: 4px;">
+                    <button type="button" id="btn-type-circular" class="toggle-btn active" style="flex: 1;">Bucle Circular</button>
+                    <button type="button" id="btn-type-lineal" class="toggle-btn" style="flex: 1;">Ruta Lineal</button>
+                </div>
+            </div>
+            
+            <!-- Slider de Distancia (Sólo visible si Auto) -->
+            <div id="auto-distance-section" style="display: none; flex-direction: column; gap: 6px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <label style="font-size: 10px; font-weight: 700; color: var(--text-slate); text-transform: uppercase; letter-spacing: 0.05em;">Distancia Objetivo</label>
+                    <span id="lbl-distance-value" style="font-size: 14px; font-weight: 800; color: var(--brand-color); font-family: 'Outfit', sans-serif;">20 km</span>
+                </div>
+                <input type="range" id="slider-distance" min="10" max="60" step="1" value="20" style="width: 100%; accent-color: var(--brand-color); height: 6px; border-radius: 3px; cursor: pointer;" />
+            </div>
+            
+            <!-- Botones de Acción -->
+            <div style="display: flex; gap: 10px; margin-top: 6px;">
+                <button type="button" id="btn-config-cancel" class="btn-secondary">Cancelar</button>
+                <button type="button" id="btn-config-start" class="btn-primary">Empezar</button>
+            </div>
+        </div>
     </div>
+
+    <!-- Modal de Advertencia de Ruta Automática -->
+    <div class="auto-modal-overlay" id="auto-route-warning-modal">
+        <div class="auto-modal-card">
+            <div class="auto-modal-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+            </div>
+            <h2 style="margin: 0; font-family: 'Outfit', sans-serif; font-size: 19px; font-weight: 800; color: #b45309; letter-spacing: 0.01em;">Aviso Importante</h2>
+            <p style="margin: 0; font-family: 'Inter', sans-serif; font-size: 13px; line-height: 1.45; color: var(--text-main); font-weight: 500; text-align: center;">
+                Esta ruta ha sido generada automáticamente. Ten en cuenta que podría incluir tramos de sendas de bajada complicados de subir montado sobre la bicicleta.
+            </p>
+            <button type="button" id="btn-auto-modal-accept" class="btn-primary" style="width: 100%; max-width: 160px; flex: none; padding: 10px; border-radius: 10px; margin-top: 4px;">Entendido</button>
+        </div>
+    </div>
+
 
     <!-- Panel de Creación Inferior -->
     <div class="bottom-panel collapsed" id="panel">
@@ -794,6 +1027,25 @@
                 <span class="stat-val" id="stat-ascent">+0 m</span>
                 <span class="stat-lbl">Desnivel +</span>
             </div>
+        </div>
+
+        <!-- Aviso de Ruta Automática en el Panel -->
+        <div id="panel-auto-warning" style="
+            display: none;
+            background: rgba(252, 76, 2, 0.06);
+            border: 1px solid rgba(252, 76, 2, 0.2);
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-size: 10px;
+            line-height: 1.35;
+            color: #b45309;
+            font-weight: 500;
+            align-items: center;
+            gap: 6px;
+            margin: 2px 0;
+        ">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span><strong>Aviso:</strong> La ruta automática podría incluir sendas de bajada complicadas de subir montado.</span>
         </div>
 
         <!-- Perfil de Elevación (Canvas interactivo a todo lo ancho) -->
@@ -867,6 +1119,12 @@
         let lastUserLatLng = null;
         let onGPSLocationReceived = null;
 
+        // Variables de Estado del Asistente Automático
+        let modoCreacion = 'manual'; // 'manual' o 'auto'
+        let tipoRutaAuto = 'circular'; // 'circular' o 'lineal'
+        let distanciaObjetivoAuto = 20000; // en metros
+        let grafoAdyacencia = {}; // Grafo topológico para búsqueda de rutas
+
         // Elementos UI
         const loadingScreen = document.getElementById('loading-screen');
         const initContainer = document.getElementById('init-container');
@@ -879,6 +1137,25 @@
         const btnHeadingToggle = document.getElementById('btn-heading-toggle');
         const headingToggleText = document.getElementById('heading-toggle-text');
         const numbersRow = document.getElementById('numbers-row');
+
+        // Elementos UI del Configurador Incrustado
+        const creatorConfigCard = document.getElementById('creator-config-card');
+        const btnModeManual = document.getElementById('btn-mode-manual');
+        const btnModeAuto = document.getElementById('btn-mode-auto');
+        const autoTypeSection = document.getElementById('auto-type-section');
+        const autoDistanceSection = document.getElementById('auto-distance-section');
+        const btnTypeCircular = document.getElementById('btn-type-circular');
+        const btnTypeLineal = document.getElementById('btn-type-lineal');
+        const sliderDistance = document.getElementById('slider-distance');
+        const lblDistanceValue = document.getElementById('lbl-distance-value');
+        const btnConfigCancel = document.getElementById('btn-config-cancel');
+        const btnConfigStart = document.getElementById('btn-config-start');
+
+        // Configuración temporal del creador automático
+        let tempModoCreacion = 'manual';
+        let tempTipoRutaAuto = 'circular';
+        let tempDistanciaObjetivoAuto = 20000;
+
 
         const statDist = document.getElementById('stat-dist');
         const statSegments = document.getElementById('stat-segments');
@@ -997,6 +1274,9 @@
 
         // Inicializar Minisite
         function initMinisite() {
+            // Construir el grafo topológico en memoria
+            construirGrafo();
+
             // Ajustar vista del mapa a los cruces válidos (con segmentos)
             const validCruces = cruces.filter(c => 
                 tramos.some(t => t.startId === `cruce_${c.properties.id}` || t.endId === `cruce_${c.properties.id}`)
@@ -1019,6 +1299,314 @@
                 backgroundLayers.push(poly);
             });
         }
+
+        // --- ASISTENTE DE ENRUTAMIENTO AUTOMÁTICO INTELIGENTE ---
+
+        // Construir Grafo Topológico en Memoria
+        function construirGrafo() {
+            grafoAdyacencia = {};
+            tramos.forEach(t => {
+                const start = t.startId;
+                const end = t.endId;
+                
+                // Calcular longitud física en metros
+                let dist = 0;
+                const pts = t.points;
+                for (let i = 0; i < pts.length - 1; i++) {
+                    dist += L.latLng(pts[i][1], pts[i][0]).distanceTo(L.latLng(pts[i+1][1], pts[i+1][0]));
+                }
+                
+                // Calcular desnivel positivo
+                let desnivel = 0;
+                for (let i = 0; i < pts.length - 1; i++) {
+                    const a1 = getCoordinateAltitude(pts[i][1], pts[i][0]);
+                    const a2 = getCoordinateAltitude(pts[i+1][1], pts[i+1][0]);
+                    if (a2 > a1) {
+                        desnivel += (a2 - a1);
+                    }
+                }
+
+                // Determinar orientación dinámica basándose en la distancia real para evitar saltos y dobles tramos
+                const startPt = L.latLng(pts[0][1], pts[0][0]);
+                const endPt = L.latLng(pts[pts.length - 1][1], pts[pts.length - 1][0]);
+
+                let reversedStartToEnd = false;
+                let reversedEndToStart = true;
+
+                const startCruceNum = parseInt(start.replace('cruce_', ''), 10);
+                const startCruce = cruces.find(c => c.properties.id === startCruceNum);
+                if (startCruce) {
+                    const [lon, lat] = startCruce.geometry.coordinates;
+                    const startLatLng = L.latLng(lat, lon);
+                    reversedStartToEnd = startPt.distanceTo(startLatLng) > endPt.distanceTo(startLatLng);
+                }
+
+                const endCruceNum = parseInt(end.replace('cruce_', ''), 10);
+                const endCruce = cruces.find(c => c.properties.id === endCruceNum);
+                if (endCruce) {
+                    const [lon, lat] = endCruce.geometry.coordinates;
+                    const endLatLng = L.latLng(lat, lon);
+                    reversedEndToStart = startPt.distanceTo(endLatLng) > endPt.distanceTo(endLatLng);
+                }
+
+                if (!grafoAdyacencia[start]) grafoAdyacencia[start] = [];
+                grafoAdyacencia[start].push({
+                    destino: end,
+                    tramo: t,
+                    distancia: dist,
+                    desnivel: desnivel,
+                    reversed: reversedStartToEnd
+                });
+
+                if (!grafoAdyacencia[end]) grafoAdyacencia[end] = [];
+                grafoAdyacencia[end].push({
+                    destino: start,
+                    tramo: t,
+                    distancia: dist,
+                    desnivel: desnivel,
+                    reversed: reversedEndToStart
+                });
+            });
+        }
+
+
+        // Planificar Bucle Circular Automático (DFS con Backtracking - 10 intentos aleatorios para máxima precisión de distancia)
+        function planearRutaCircularAuto(startNode, targetDistM, targetAscentM) {
+            const allPaths = [];
+            const startTime = Date.now();
+            const maxTotalTimeMs = 1500; // 1.5 segundos de tiempo de ejecución límite para evitar bloqueos
+            const maxSolutions = 500; // Permitir más candidatos para optimizar la aproximación
+
+            // Hacemos 10 intentos independientes de DFS para explorar diferentes áreas y combinaciones aleatorias
+            for (let intento = 0; intento < 10; intento++) {
+                if (Date.now() - startTime > maxTotalTimeMs || allPaths.length >= maxSolutions) {
+                    break;
+                }
+
+                function dfs(currentNode, currentPath, currentDistance, currentAscent, visitedNodes, visitedTramos) {
+                    if (Date.now() - startTime > maxTotalTimeMs || allPaths.length >= maxSolutions) return;
+                    if (currentDistance > targetDistM * 1.3) return; // Limitar exceso a un máximo del 30% para mayor cercanía al objetivo
+
+                    const vecinos = grafoAdyacencia[currentNode] || [];
+                    const shuffledVecinos = [...vecinos];
+                    for (let i = shuffledVecinos.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [shuffledVecinos[i], shuffledVecinos[j]] = [shuffledVecinos[j], shuffledVecinos[i]];
+                    }
+
+                    for (let i = 0; i < shuffledVecinos.length; i++) {
+                        const edge = shuffledVecinos[i];
+                        const nextNode = edge.destino;
+                        const tramoId = edge.tramo.id;
+
+                        if (visitedTramos.has(tramoId)) continue;
+
+                        if (nextNode === startNode && currentPath.length >= 3) {
+                            const path = currentPath.concat([{ tramo: edge.tramo, reversed: edge.reversed, fromCruce: cruces.find(c => c.properties.id === parseInt(currentNode.replace('cruce_', ''), 10)) }]);
+                            allPaths.push({
+                                tramosList: path,
+                                totalDist: currentDistance + edge.distancia,
+                                totalAscent: currentAscent + edge.desnivel
+                            });
+                            continue;
+                        }
+
+                        if (visitedNodes.has(nextNode)) continue;
+
+                        visitedNodes.add(nextNode);
+                        visitedTramos.add(tramoId);
+                        currentPath.push({ tramo: edge.tramo, reversed: edge.reversed, fromCruce: cruces.find(c => c.properties.id === parseInt(currentNode.replace('cruce_', ''), 10)) });
+
+                        dfs(nextNode, currentPath, currentDistance + edge.distancia, currentAscent + edge.desnivel, visitedNodes, visitedTramos);
+
+                        currentPath.pop();
+                        visitedTramos.delete(tramoId);
+                        visitedNodes.delete(nextNode);
+                    }
+                }
+
+                dfs(startNode, [], 0, 0, new Set([startNode]), new Set());
+            }
+
+            if (allPaths.length === 0) {
+                // Relajado: permitir repetir cruces (5 intentos independientes)
+                for (let intento = 0; intento < 5; intento++) {
+                    if (Date.now() - startTime > maxTotalTimeMs) break;
+
+                    function dfsRelaxed(currentNode, currentPath, currentDistance, currentAscent, visitedTramos) {
+                        if (Date.now() - startTime > maxTotalTimeMs || allPaths.length >= 200) return;
+                        if (currentDistance > targetDistM * 1.3) return;
+
+                        const vecinos = grafoAdyacencia[currentNode] || [];
+                        const shuffledVecinos = [...vecinos];
+                        for (let i = shuffledVecinos.length - 1; i > 0; i--) {
+                            const j = Math.floor(Math.random() * (i + 1));
+                            [shuffledVecinos[i], shuffledVecinos[j]] = [shuffledVecinos[j], shuffledVecinos[i]];
+                        }
+
+                        for (let i = 0; i < shuffledVecinos.length; i++) {
+                            const edge = shuffledVecinos[i];
+                            const nextNode = edge.destino;
+                            const tramoId = edge.tramo.id;
+
+                            if (visitedTramos.has(tramoId)) continue;
+
+                            if (nextNode === startNode && currentPath.length >= 3) {
+                                const path = currentPath.concat([{ tramo: edge.tramo, reversed: edge.reversed, fromCruce: cruces.find(c => c.properties.id === parseInt(currentNode.replace('cruce_', ''), 10)) }]);
+                                allPaths.push({
+                                    tramosList: path,
+                                    totalDist: currentDistance + edge.distancia,
+                                    totalAscent: currentAscent + edge.desnivel
+                                });
+                                continue;
+                            }
+
+                            visitedTramos.add(tramoId);
+                            currentPath.push({ tramo: edge.tramo, reversed: edge.reversed, fromCruce: cruces.find(c => c.properties.id === parseInt(currentNode.replace('cruce_', ''), 10)) });
+
+                            dfsRelaxed(nextNode, currentPath, currentDistance + edge.distancia, currentAscent + edge.desnivel, visitedTramos);
+
+                            currentPath.pop();
+                            visitedTramos.delete(tramoId);
+                        }
+                    }
+                    dfsRelaxed(startNode, [], 0, 0, new Set());
+                }
+            }
+
+            if (allPaths.length === 0) return [];
+
+            let mejorCamino = null;
+            let mejorPuntuacion = Infinity;
+            allPaths.forEach(path => {
+                const distDiff = Math.abs(path.totalDist - targetDistM) / targetDistM;
+                if (distDiff < mejorPuntuacion) {
+                    mejorPuntuacion = distDiff;
+                    mejorCamino = path;
+                }
+            });
+
+            return mejorCamino ? mejorCamino.tramosList : [];
+        }
+
+
+        // Planificar Ruta Lineal Automática (DFS con Backtracking - 10 intentos aleatorios para máxima precisión de distancia)
+        function planearRutaLinealAuto(startNode, endNode, targetDistM, targetAscentM) {
+            const allPaths = [];
+            const startTime = Date.now();
+            const maxTotalTimeMs = 1500; // 1.5 segundos de tiempo de ejecución límite para evitar bloqueos
+            const maxSolutions = 500; // Permitir más candidatos para optimizar la aproximación
+
+            // Hacemos 10 intentos independientes de DFS para explorar diferentes áreas y combinaciones aleatorias
+            for (let intento = 0; intento < 10; intento++) {
+                if (Date.now() - startTime > maxTotalTimeMs || allPaths.length >= maxSolutions) {
+                    break;
+                }
+
+                function dfs(currentNode, currentPath, currentDistance, currentAscent, visitedNodes, visitedTramos) {
+                    if (Date.now() - startTime > maxTotalTimeMs || allPaths.length >= maxSolutions) return;
+                    if (currentDistance > targetDistM * 1.3) return; // Limitar exceso a un máximo del 30% para mayor cercanía al objetivo
+
+                    if (currentNode === endNode) {
+                        allPaths.push({
+                            tramosList: [...currentPath],
+                            totalDist: currentDistance,
+                            totalAscent: currentAscent
+                        });
+                        return;
+                    }
+
+                    const vecinos = grafoAdyacencia[currentNode] || [];
+                    const shuffledVecinos = [...vecinos];
+                    for (let i = shuffledVecinos.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [shuffledVecinos[i], shuffledVecinos[j]] = [shuffledVecinos[j], shuffledVecinos[i]];
+                    }
+
+                    for (let i = 0; i < shuffledVecinos.length; i++) {
+                        const edge = shuffledVecinos[i];
+                        const nextNode = edge.destino;
+                        const tramoId = edge.tramo.id;
+
+                        if (visitedNodes.has(nextNode) || visitedTramos.has(tramoId)) continue;
+
+                        visitedNodes.add(nextNode);
+                        visitedTramos.add(tramoId);
+                        currentPath.push({ tramo: edge.tramo, reversed: edge.reversed, fromCruce: cruces.find(c => c.properties.id === parseInt(currentNode.replace('cruce_', ''), 10)) });
+
+                        dfs(nextNode, currentPath, currentDistance + edge.distancia, currentAscent + edge.desnivel, visitedNodes, visitedTramos);
+
+                        currentPath.pop();
+                        visitedTramos.delete(tramoId);
+                        visitedNodes.delete(nextNode);
+                    }
+                }
+
+                dfs(startNode, [], 0, 0, new Set([startNode]), new Set());
+            }
+
+            if (allPaths.length === 0) {
+                // Relajado: permitir repetir cruces (5 intentos independientes)
+                for (let intento = 0; intento < 5; intento++) {
+                    if (Date.now() - startTime > maxTotalTimeMs) break;
+
+                    function dfsRelaxed(currentNode, currentPath, currentDistance, currentAscent, visitedTramos) {
+                        if (Date.now() - startTime > maxTotalTimeMs || allPaths.length >= 200) return;
+                        if (currentDistance > targetDistM * 1.3) return;
+
+                        if (currentNode === endNode) {
+                            allPaths.push({
+                                tramosList: [...currentPath],
+                                totalDist: currentDistance,
+                                totalAscent: currentAscent
+                            });
+                            return;
+                        }
+
+                        const vecinos = grafoAdyacencia[currentNode] || [];
+                        const shuffledVecinos = [...vecinos];
+                        for (let i = shuffledVecinos.length - 1; i > 0; i--) {
+                            const j = Math.floor(Math.random() * (i + 1));
+                            [shuffledVecinos[i], shuffledVecinos[j]] = [shuffledVecinos[j], shuffledVecinos[i]];
+                        }
+
+                        for (let i = 0; i < shuffledVecinos.length; i++) {
+                            const edge = shuffledVecinos[i];
+                            const nextNode = edge.destino;
+                            const tramoId = edge.tramo.id;
+
+                            if (visitedTramos.has(tramoId)) continue;
+
+                            visitedTramos.add(tramoId);
+                            currentPath.push({ tramo: edge.tramo, reversed: edge.reversed, fromCruce: cruces.find(c => c.properties.id === parseInt(currentNode.replace('cruce_', ''), 10)) });
+
+                            dfsRelaxed(nextNode, currentPath, currentDistance + edge.distancia, currentAscent + edge.desnivel, visitedTramos);
+
+                            currentPath.pop();
+                            visitedTramos.delete(tramoId);
+                        }
+                    }
+                    dfsRelaxed(startNode, [], 0, 0, new Set());
+                }
+            }
+
+            if (allPaths.length === 0) return [];
+
+            let mejorCamino = null;
+            let mejorPuntuacion = Infinity;
+            allPaths.forEach(path => {
+                const distDiff = Math.abs(path.totalDist - targetDistM) / targetDistM;
+                if (distDiff < mejorPuntuacion) {
+                    mejorPuntuacion = distDiff;
+                    mejorCamino = path;
+                }
+            });
+
+            return mejorCamino ? mejorCamino.tramosList : [];
+        }
+
+        // (Sistema de depuración interactiva removido a petición del usuario para consolidación automática directa)
+
 
         // --- LÓGICA DE GEOMETRÍA Y CÁLCULOS ---
 
@@ -1382,6 +1970,12 @@
 
         function getNextAvailableTramos() {
             if (!trackCurrentCruce) return [];
+
+            // Si la ruta ha cerrado en bucle circular (ha vuelto al cruce de inicio), no ofrecer más tramos
+            if (trackStartCruce && trackTramos.length > 0 && trackCurrentCruce.properties.id === trackStartCruce.properties.id) {
+                return [];
+            }
+
             const currentId = `cruce_${trackCurrentCruce.properties.id}`;
             let available = tramos.filter(t => t.startId === currentId || t.endId === currentId);
 
@@ -1419,19 +2013,94 @@
 
         // --- FLUJO DE EVENTOS ---
 
-        // Iniciar Modo Creación
+        // Iniciar Modo Creación (Abre la tarjeta de configuración incrustada)
         btnStartCreator.addEventListener('click', () => {
+            btnStartCreator.style.display = 'none';
+            creatorConfigCard.classList.add('active');
+        });
+
+        // Manejadores de la Tarjeta de Configuración de Ruta
+        btnModeManual.addEventListener('click', () => {
+            btnModeManual.classList.add('active');
+            btnModeAuto.classList.remove('active');
+            autoTypeSection.style.display = 'none';
+            autoDistanceSection.style.display = 'none';
+            document.getElementById('auto-warning-message').style.display = 'none';
+            tempModoCreacion = 'manual';
+        });
+
+        btnModeAuto.addEventListener('click', () => {
+            btnModeAuto.classList.add('active');
+            btnModeManual.classList.remove('active');
+            autoTypeSection.style.display = 'block';
+            autoDistanceSection.style.display = 'flex';
+            document.getElementById('auto-warning-message').style.display = 'flex';
+            tempModoCreacion = 'auto';
+        });
+
+
+        btnTypeCircular.addEventListener('click', () => {
+            btnTypeCircular.classList.add('active');
+            btnTypeLineal.classList.remove('active');
+            tempTipoRutaAuto = 'circular';
+        });
+
+        btnTypeLineal.addEventListener('click', () => {
+            btnTypeLineal.classList.add('active');
+            btnTypeCircular.classList.remove('active');
+            tempTipoRutaAuto = 'lineal';
+        });
+
+        sliderDistance.addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value);
+            lblDistanceValue.textContent = `${val.toFixed(1)} km`;
+            tempDistanciaObjetivoAuto = val * 1000;
+        });
+
+        btnConfigCancel.addEventListener('click', () => {
+            creatorConfigCard.classList.remove('active');
+            btnStartCreator.style.display = 'flex';
+        });
+
+        btnConfigStart.addEventListener('click', () => {
+            creatorConfigCard.classList.remove('active');
+            btnStartCreator.style.display = 'flex';
+
             creandoTrack = true;
             trackStartCruce = null;
             trackCurrentCruce = null;
             trackTramos = [];
 
+            modoCreacion = tempModoCreacion;
+            tipoRutaAuto = tempTipoRutaAuto;
+            distanciaObjetivoAuto = tempDistanciaObjetivoAuto;
+
+            if (modoCreacion === 'auto') {
+                if (tipoRutaAuto === 'circular') {
+                    showInstruction("Selecciona un cruce en el mapa para iniciar tu BUCLE CIRCULAR");
+                } else {
+                    showInstruction("Selecciona un cruce en el mapa para el INICIO de tu ruta lineal");
+                }
+            } else {
+                modoCreacion = 'manual';
+                showInstruction("Selecciona un cruce naranja en el mapa para iniciar");
+            }
+
             initContainer.style.transform = 'translateX(-50%) translateY(100px)';
-
-            showInstruction("Selecciona un cruce naranja en el mapa para iniciar");
-
             drawCrossingSelectionMarkers();
         });
+
+        // Aceptar advertencia de ruta automática
+        const btnAutoModalAccept = document.getElementById('btn-auto-modal-accept');
+        if (btnAutoModalAccept) {
+            btnAutoModalAccept.addEventListener('click', () => {
+                const warningModal = document.getElementById('auto-route-warning-modal');
+                if (warningModal) {
+                    warningModal.classList.remove('active');
+                }
+            });
+        }
+
 
         // Cancelar Creación
         btnCancel.addEventListener('click', () => {
@@ -1674,6 +2343,12 @@
                 elevationHoverMarker.remove();
                 elevationHoverMarker = null;
             }
+
+            // Ocultar modal de advertencia si estuviera activo
+            const warningModal = document.getElementById('auto-route-warning-modal');
+            if (warningModal) {
+                warningModal.classList.remove('active');
+            }
         }
 
         // Dibujar los marcadores para la selección del inicio
@@ -1719,25 +2394,113 @@
             });
         }
 
+        // Consolidar Ruta Auto y actualizar UI de inmediato sin modo de confirmación
+        function consolidarRutaAuto(loopTramos) {
+            trackTramos = loopTramos;
+            
+            // Determinar de forma secuencial cuál es el cruce actual después de recorrer todo el camino
+            let currentId = `cruce_${trackStartCruce.properties.id}`;
+            loopTramos.forEach(item => {
+                const tramo = item.tramo;
+                currentId = tramo.startId === currentId ? tramo.endId : tramo.startId;
+            });
+            
+            const finalCruceNum = parseInt(currentId.replace('cruce_', ''), 10);
+            trackCurrentCruce = cruces.find(c => c.properties.id === finalCruceNum);
+
+            activeTrackPolyline.setLatLngs(getTrackCoordinates());
+            saveCreatorState();
+            updateCreatorUI();
+
+            // Mostrar el aviso de ruta automática
+            const warningModal = document.getElementById('auto-route-warning-modal');
+            if (warningModal) {
+                warningModal.classList.add('active');
+            }
+        }
+
         // Selección de Cruce de Inicio
         function selectStartCruce(cruce) {
             if (navigator.vibrate) navigator.vibrate(15); // Respuesta háptica
-            trackStartCruce = cruce;
-            trackCurrentCruce = cruce;
-            clearCrossingMarkers();
+            
+            if (modoCreacion === 'auto') {
+                if (tipoRutaAuto === 'circular') {
+                    trackStartCruce = cruce;
+                    trackCurrentCruce = cruce;
+                    clearCrossingMarkers();
+                    
+                    const loopTramos = planearRutaCircularAuto(`cruce_${cruce.properties.id}`, distanciaObjetivoAuto, 0);
+                    if (loopTramos && loopTramos.length > 0) {
+                        panel.classList.add('active');
+                        panel.classList.add('collapsed');
+                        panel.classList.remove('expanded');
+                        hideInstruction();
+                        
+                        // Centrar mapa
+                        const [lon, lat] = cruce.geometry.coordinates;
+                        map.panTo([lat, lon]);
+                        
+                        consolidarRutaAuto(loopTramos);
+                    } else {
+                        alert("No se pudo generar un bucle circular para esa distancia en esta zona. Prueba con otros valores.");
+                        resetCreator();
+                    }
+                } else {
+                    // Lineal
+                    if (!trackStartCruce) {
+                        trackStartCruce = cruce;
+                        trackCurrentCruce = cruce;
+                        
+                        // Resaltar cruce de inicio pintándolo temporalmente de azul
+                        const [lon, lat] = cruce.geometry.coordinates;
+                        L.circleMarker([lat, lon], {
+                            radius: 14,
+                            fillColor: '#6366f1',
+                            color: '#ffffff',
+                            weight: 3,
+                            opacity: 1,
+                            fillOpacity: 0.95
+                        }).addTo(map);
 
-            panel.classList.add('active'); // Mostrar panel inferior
-            panel.classList.add('collapsed');
-            panel.classList.remove('expanded');
+                        showInstruction("Selecciona el cruce de DESTINO en el mapa");
+                    } else {
+                        // Cruce de destino seleccionado
+                        const endCruce = cruce;
+                        clearCrossingMarkers();
+                        
+                        const linealTramos = planearRutaLinealAuto(`cruce_${trackStartCruce.properties.id}`, `cruce_${endCruce.properties.id}`, distanciaObjetivoAuto, 0);
+                        if (linealTramos && linealTramos.length > 0) {
+                            panel.classList.add('active');
+                            panel.classList.add('collapsed');
+                            panel.classList.remove('expanded');
+                            hideInstruction();
+                            
+                            consolidarRutaAuto(linealTramos);
+                        } else {
+                            alert("No se pudo generar una ruta lineal para esa distancia en esta zona. Prueba con otros valores.");
+                            resetCreator();
+                        }
+                    }
+                }
+            } else {
+                // Modo manual estándar
+                trackStartCruce = cruce;
+                trackCurrentCruce = cruce;
+                clearCrossingMarkers();
 
-            hideInstruction();
+                panel.classList.add('active'); // Mostrar panel inferior
+                panel.classList.add('collapsed');
+                panel.classList.remove('expanded');
 
-            updateCreatorUI();
-            saveCreatorState(); // Guardar en caché
+                hideInstruction();
 
-            // Centrado de cámara suave inicial
-            const [lon, lat] = cruce.geometry.coordinates;
-            map.panTo([lat, lon], { animate: true, duration: 0.8 });
+                updateCreatorUI();
+                saveCreatorState(); // Guardar en caché
+
+                // Centrado de cámara suave inicial
+                const [lon, lat] = cruce.geometry.coordinates;
+                map.panTo([lat, lon], { animate: true, duration: 0.8 });
+            }
         }
 
         // Selección de un Tramo Siguiente
@@ -2110,6 +2873,12 @@
             clearCandidateLayers();
 
             const nextTramos = getNextAvailableTramos();
+
+            // Mostrar u ocultar aviso de ruta automática en el panel inferior
+            const panelAutoWarning = document.getElementById('panel-auto-warning');
+            if (panelAutoWarning) {
+                panelAutoWarning.style.display = (modoCreacion === 'auto' && trackTramos.length > 0) ? 'flex' : 'none';
+            }
 
             // Actualizar estadísticas del panel
             let totalDist = 0;
