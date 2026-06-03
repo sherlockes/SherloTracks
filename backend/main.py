@@ -618,56 +618,6 @@ def classify_tramos(req: ClassifyTramosRequest, db: Session = Depends(get_db)):
 def export_minisite(req: ExportMinisiteRequest, db: Session = Depends(get_db)):
     import json
     try:
-        # Classify tramos before exporting
-        lats = []
-        lons = []
-        for tramo in req.tramos:
-            if "points" in tramo:
-                for pt in tramo["points"]:
-                    lons.append(pt[0])
-                    lats.append(pt[1])
-        
-        if lats and lons:
-            min_lat = min(lats) - 0.01
-            max_lat = max(lats) + 0.01
-            min_lon = min(lons) - 0.01
-            max_lon = max(lons) + 0.01
-            sync_osm_roads_for_bbox(db, min_lat, min_lon, max_lat, max_lon)
-            
-        for tramo in req.tramos:
-            pts = tramo.get("points", [])
-            if len(pts) < 2:
-                tramo["isRoad"] = False
-                continue
-                
-            start_pt = pts[0]
-            end_pt = pts[-1]
-            mid_pt = pts[len(pts) // 2]
-            
-            query = text("""
-                SELECT EXISTS (
-                    SELECT 1 
-                    FROM osm_roads 
-                    WHERE ST_DWithin(geom::geography, ST_SetSRID(ST_Point(:start_lon, :start_lat), 4326)::geography, :tolerance)
-                      AND ST_DWithin(geom::geography, ST_SetSRID(ST_Point(:end_lon, :end_lat), 4326)::geography, :tolerance)
-                ) AND EXISTS (
-                    SELECT 1 
-                    FROM osm_roads 
-                    WHERE ST_DWithin(geom::geography, ST_SetSRID(ST_Point(:mid_lon, :mid_lat), 4326)::geography, :tolerance)
-                )
-            """)
-            try:
-                is_road = db.execute(query, {
-                    "start_lon": start_pt[0], "start_lat": start_pt[1],
-                    "end_lon": end_pt[0], "end_lat": end_pt[1],
-                    "mid_lon": mid_pt[0], "mid_lat": mid_pt[1],
-                    "tolerance": req.tolerance
-                }).scalar()
-                tramo["isRoad"] = bool(is_road)
-            except Exception as e:
-                print(f"Error classifying exported tramo {tramo.get('id')}: {e}")
-                tramo["isRoad"] = False
-
         # Asegurarnos de que el directorio /public existe en la raíz (mapeado al volumen del host)
         os.makedirs("/public", exist_ok=True)
         

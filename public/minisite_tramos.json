@@ -6193,7 +6193,7 @@
     "endId": "cruce_109",
     "activityNames": {},
     "count": 5,
-    "isRoad": true
+    "isRoad": false
   },
   {
     "id": "tramo_108",
@@ -11139,7 +11139,7 @@
     "endId": "cruce_140",
     "activityNames": {},
     "count": 2,
-    "isRoad": true
+    "isRoad": false
   },
   {
     "id": "tramo_209",
@@ -12227,7 +12227,7 @@
     "endId": "cruce_149",
     "activityNames": {},
     "count": 4,
-    "isRoad": true
+    "isRoad": false
   },
   {
     "id": "tramo_229",
@@ -14795,7 +14795,7 @@
     "endId": "cruce_139",
     "activityNames": {},
     "count": 2,
-    "isRoad": true
+    "isRoad": false
   },
   {
     "id": "tramo_267",

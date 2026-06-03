@@ -1719,6 +1719,7 @@ const MapView = ({
       return visibleCruceIds.has(t.startId) && visibleCruceIds.has(t.endId);
     });
 
+    setCalculationProgress('exporting');
     try {
       const response = await axios.post('/api/export-minisite', {
         cruces: visibleCruces,
@@ -1731,6 +1732,8 @@ const MapView = ({
     } catch (err) {
       console.error("Error al exportar a minisite:", err);
       alert("Ocurrió un error al guardar los archivos del minisite en el servidor.");
+    } finally {
+      setCalculationProgress(null);
     }
   };
 
@@ -3647,14 +3650,20 @@ const MapView = ({
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
               <span style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0f172a', fontFamily: 'sans-serif' }}>
-                {loadingCruces ? 'Cargando Cruces' : (calculationProgress === 'segments' ? 'Procesando Segmentos' : 'Detectando Carreteras')}
+                {loadingCruces 
+                  ? 'Cargando Cruces' 
+                  : (calculationProgress === 'exporting' 
+                    ? 'Exportando Minisite' 
+                    : (calculationProgress === 'segments' ? 'Procesando Segmentos' : 'Detectando Carreteras'))}
               </span>
               <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 500, lineHeight: 1.45, fontFamily: 'sans-serif' }}>
                 {loadingCruces 
                   ? 'Obteniendo puntos de unión de la base de datos...' 
-                  : (calculationProgress === 'segments' 
-                    ? 'Calculando intersecciones y dividiendo rutas en tramos...' 
-                    : 'Clasificando y verificando tramos de carretera en el backend...')}
+                  : (calculationProgress === 'exporting'
+                    ? 'Guardando datos de cruces y segmentos en /public...'
+                    : (calculationProgress === 'segments' 
+                      ? 'Calculando intersecciones y dividiendo rutas en tramos...' 
+                      : 'Clasificando y verificando tramos de carretera en el backend...'))}
               </span>
             </div>
           </div>
