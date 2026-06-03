@@ -503,11 +503,171 @@ def get_random_activity(
 class ExportMinisiteRequest(BaseModel):
     cruces: list
     tramos: list
+    tolerance: int = 20
+
+class TramoClassifyItem(BaseModel):
+    id: str
+    points: List[List[float]]
+
+class ClassifyTramosRequest(BaseModel):
+    tramos: List[TramoClassifyItem]
+    tolerance: int = 20
+
+def sync_osm_roads_for_bbox(db: Session, min_lat: float, min_lon: float, max_lat: float, max_lon: float):
+    url = "https://overpass-api.de/api/interpreter"
+    headers = {"User-Agent": "SherloTracksBot/1.0 (contact@sherlotracks.com)"}
+    overpass_query = f"""
+    [out:json][timeout:25];
+    (
+      way["highway"~"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|service)(_link)?$"]({min_lat},{min_lon},{max_lat},{max_lon});
+    );
+    out geom;
+    """
+    try:
+        response = requests.post(url, data={"data": overpass_query}, headers=headers, timeout=30)
+        if response.status_code == 200:
+            data = response.json()
+            elements = data.get("elements", [])
+            for el in elements:
+                if el.get("type") == "way" and "geometry" in el:
+                    way_id = el["id"]
+                    # Check if already exists in DB
+                    existing = db.execute(
+                        text("SELECT id FROM osm_roads WHERE id = :id"),
+                        {"id": way_id}
+                    ).fetchone()
+                    if existing:
+                        continue
+                    
+                    tags = el.get("tags", {})
+                    name = tags.get("name")
+                    highway = tags.get("highway")
+                    geom_pts = el["geometry"]
+                    
+                    if len(geom_pts) < 2:
+                        continue
+                    
+                    # Convert to PostGIS geometry
+                    line_wkt = "LINESTRING(" + ",".join([f"{pt['lon']} {pt['lat']}" for pt in geom_pts]) + ")"
+                    try:
+                        db.execute(
+                            text("INSERT INTO osm_roads (id, name, highway, geom) VALUES (:id, :name, :highway, ST_GeomFromText(:wkt, 4326))"),
+                            {"id": way_id, "name": name, "highway": highway, "wkt": line_wkt}
+                        )
+                    except Exception as ins_e:
+                        print(f"Skipping way {way_id}: {ins_e}")
+            db.commit()
+    except Exception as e:
+        print(f"Error syncing OSM roads: {e}")
+
+@app.post("/tramos/classify")
+def classify_tramos(req: ClassifyTramosRequest, db: Session = Depends(get_db)):
+    lats = []
+    lons = []
+    for tramo in req.tramos:
+        for pt in tramo.points:
+            lons.append(pt[0])
+            lats.append(pt[1])
+            
+    if lats and lons:
+        min_lat = min(lats) - 0.01
+        max_lat = max(lats) + 0.01
+        min_lon = min(lons) - 0.01
+        max_lon = max(lons) + 0.01
+        sync_osm_roads_for_bbox(db, min_lat, min_lon, max_lat, max_lon)
+        
+    results = {}
+    for tramo in req.tramos:
+        pts = tramo.points
+        if len(pts) < 2:
+            results[tramo.id] = False
+            continue
+            
+        start_pt = pts[0]
+        end_pt = pts[-1]
+        mid_pt = pts[len(pts) // 2]
+        
+        # Check if start and end are within tolerance of the SAME road, and midpoint is within tolerance of SOME road
+        query = text("""
+            SELECT EXISTS (
+                SELECT 1 
+                FROM osm_roads 
+                WHERE ST_DWithin(geom::geography, ST_SetSRID(ST_Point(:start_lon, :start_lat), 4326)::geography, :tolerance)
+                  AND ST_DWithin(geom::geography, ST_SetSRID(ST_Point(:end_lon, :end_lat), 4326)::geography, :tolerance)
+            ) AND EXISTS (
+                SELECT 1 
+                FROM osm_roads 
+                WHERE ST_DWithin(geom::geography, ST_SetSRID(ST_Point(:mid_lon, :mid_lat), 4326)::geography, :tolerance)
+            )
+        """)
+        try:
+            is_road = db.execute(query, {
+                "start_lon": start_pt[0], "start_lat": start_pt[1],
+                "end_lon": end_pt[0], "end_lat": end_pt[1],
+                "mid_lon": mid_pt[0], "mid_lat": mid_pt[1],
+                "tolerance": req.tolerance
+            }).scalar()
+            results[tramo.id] = bool(is_road)
+        except Exception as e:
+            print(f"Error in 3-point road check: {e}")
+            results[tramo.id] = False
+            
+    return results
 
 @app.post("/export-minisite")
-def export_minisite(req: ExportMinisiteRequest):
+def export_minisite(req: ExportMinisiteRequest, db: Session = Depends(get_db)):
     import json
     try:
+        # Classify tramos before exporting
+        lats = []
+        lons = []
+        for tramo in req.tramos:
+            if "points" in tramo:
+                for pt in tramo["points"]:
+                    lons.append(pt[0])
+                    lats.append(pt[1])
+        
+        if lats and lons:
+            min_lat = min(lats) - 0.01
+            max_lat = max(lats) + 0.01
+            min_lon = min(lons) - 0.01
+            max_lon = max(lons) + 0.01
+            sync_osm_roads_for_bbox(db, min_lat, min_lon, max_lat, max_lon)
+            
+        for tramo in req.tramos:
+            pts = tramo.get("points", [])
+            if len(pts) < 2:
+                tramo["isRoad"] = False
+                continue
+                
+            start_pt = pts[0]
+            end_pt = pts[-1]
+            mid_pt = pts[len(pts) // 2]
+            
+            query = text("""
+                SELECT EXISTS (
+                    SELECT 1 
+                    FROM osm_roads 
+                    WHERE ST_DWithin(geom::geography, ST_SetSRID(ST_Point(:start_lon, :start_lat), 4326)::geography, :tolerance)
+                      AND ST_DWithin(geom::geography, ST_SetSRID(ST_Point(:end_lon, :end_lat), 4326)::geography, :tolerance)
+                ) AND EXISTS (
+                    SELECT 1 
+                    FROM osm_roads 
+                    WHERE ST_DWithin(geom::geography, ST_SetSRID(ST_Point(:mid_lon, :mid_lat), 4326)::geography, :tolerance)
+                )
+            """)
+            try:
+                is_road = db.execute(query, {
+                    "start_lon": start_pt[0], "start_lat": start_pt[1],
+                    "end_lon": end_pt[0], "end_lat": end_pt[1],
+                    "mid_lon": mid_pt[0], "mid_lat": mid_pt[1],
+                    "tolerance": req.tolerance
+                }).scalar()
+                tramo["isRoad"] = bool(is_road)
+            except Exception as e:
+                print(f"Error classifying exported tramo {tramo.get('id')}: {e}")
+                tramo["isRoad"] = False
+
         # Asegurarnos de que el directorio /public existe en la raíz (mapeado al volumen del host)
         os.makedirs("/public", exist_ok=True)
         
@@ -522,4 +682,5 @@ def export_minisite(req: ExportMinisiteRequest):
         return {"status": "success", "message": "Archivos del minisite exportados correctamente en la carpeta /public."}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
 

@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
 import { MapContainer, TileLayer, useMap, Polyline, LayersControl, Popup, Circle, Tooltip, Marker } from 'react-leaflet';
 import L from 'leaflet';
 import axios from 'axios';
-import { Download, Upload, Trash2, Info, Settings, Sliders, RefreshCw, Plus, Minus, Share2, Check, X, Edit2, Maximize2, Minimize2, Square } from 'lucide-react';
+import { Download, Upload, Trash2, Info, Settings, Sliders, RefreshCw, Plus, Minus, Share2, Check, X, Edit2, Maximize2, Minimize2, Square, Hourglass } from 'lucide-react';
 
 const RouteLine = ({ act, path, dimmed }) => {
   const [hover, setHover] = useState(false);
@@ -100,7 +100,7 @@ const RouteLines = ({ activities, crucesMode }) => {
   );
 };
 
-const TramoLine = ({ tramo }) => {
+const TramoLine = ({ tramo, onToggleType }) => {
   const [hover, setHover] = useState(false);
 
   // Convertir puntos de [lon, lat] a [lat, lon]
@@ -127,7 +127,7 @@ const TramoLine = ({ tramo }) => {
     return `hsl(${h}, 85%, 55%)`; // Colores HSL vibrantes
   };
 
-  const tramoColor = getColor(tramo.id);
+  const tramoColor = tramo.isRoad ? '#64748b' : getColor(tramo.id);
 
   return (
     <Polyline
@@ -164,6 +164,42 @@ const TramoLine = ({ tramo }) => {
             <div>
               <span style={{ fontWeight: '600', color: '#94a3b8' }}>Longitud: </span>
               <span style={{ fontWeight: 'bold', color: '#0f172a' }}>{distanceStr}</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem', marginTop: '0.25rem' }}>
+              <div>
+                <span style={{ fontWeight: '600', color: '#94a3b8' }}>Tipo: </span>
+                <span style={{ fontWeight: 'bold', color: tramo.isRoad ? '#64748b' : '#10b981' }}>
+                  {tramo.isRoad ? 'Carretera 🛣️' : 'Camino/Sendero 🌲'}
+                </span>
+              </div>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (onToggleType) onToggleType(tramo.id);
+                }}
+                style={{
+                  fontSize: '9px',
+                  padding: '2px 6px',
+                  borderRadius: '4px',
+                  border: '1px solid #cbd5e1',
+                  backgroundColor: '#f8fafc',
+                  color: '#475569',
+                  cursor: 'pointer',
+                  fontWeight: '600',
+                  transition: 'all 0.15s ease',
+                  outline: 'none',
+                }}
+                onMouseOver={(e) => {
+                  e.target.style.backgroundColor = '#f1f5f9';
+                  e.target.style.borderColor = '#94a3b8';
+                }}
+                onMouseOut={(e) => {
+                  e.target.style.backgroundColor = '#f8fafc';
+                  e.target.style.borderColor = '#cbd5e1';
+                }}
+              >
+                Cambiar a {tramo.isRoad ? 'Camino' : 'Carretera'}
+              </button>
             </div>
             <div style={{ marginTop: '0.375rem', borderTop: '1px solid #f1f5f9', paddingTop: '0.375rem' }}>
               <span style={{ fontWeight: '600', color: '#10b981', display: 'block', marginBottom: '0.125rem' }}>Uso por actividades ({tramo.count}):</span>
@@ -244,14 +280,14 @@ const UnassignedTramoLine = ({ tramo }) => {
   );
 };
 
-const TramosLayer = ({ tramos, unassignedTramos, crucesMode, creandoTrack }) => {
+const TramosLayer = ({ tramos, unassignedTramos, crucesMode, creandoTrack, onToggleTramoType }) => {
   if (!crucesMode || creandoTrack) return null;
 
   return (
     <>
       {/* Tramos válidos entre cruces */}
       {tramos && tramos.map((tr) => (
-        <TramoLine key={tr.id} tramo={tr} />
+        <TramoLine key={tr.id} tramo={tr} onToggleType={onToggleTramoType} />
       ))}
 
       {/* Trayectos no asignados a cruces (naranjas discontinuos) */}
@@ -694,6 +730,13 @@ const CrucesLayer = ({
         .leaflet-interactive-cruce {
           cursor: pointer !important;
         }
+        @keyframes hourglass-spin {
+          0% { transform: rotate(0deg); }
+          40% { transform: rotate(180deg); }
+          50% { transform: rotate(180deg); }
+          90% { transform: rotate(360deg); }
+          100% { transform: rotate(360deg); }
+        }
       `}</style>
 
       {cruces.map((c) => {
@@ -1127,6 +1170,7 @@ const MapView = ({
         if (parsed.minUnassignedLength === undefined) parsed.minUnassignedLength = 100;
         if (parsed.maxActivitiesToProcess === undefined) parsed.maxActivitiesToProcess = 50;
         if (parsed.discardDuplicateUnder === undefined) parsed.discardDuplicateUnder = 200;
+        if (parsed.roadDetectionTolerance === undefined) parsed.roadDetectionTolerance = 20;
         return parsed;
       } catch (e) {
         console.error("Error cargando pointsParams:", e);
@@ -1138,7 +1182,8 @@ const MapView = ({
       similarityTolerance: 25, // Tolerancia de similitud en metros por defecto
       minUnassignedLength: 100, // Omitir trayectos pendientes menores a 100m por defecto
       maxActivitiesToProcess: 50, // Máximo de rutas a procesar por defecto
-      discardDuplicateUnder: 200 // Despreciar duplicados con long < 200m por defecto
+      discardDuplicateUnder: 200, // Despreciar duplicados con long < 200m por defecto
+      roadDetectionTolerance: 20 // Distancia para detección de carreteras en metros por defecto
     };
   });
 
@@ -1165,6 +1210,11 @@ const MapView = ({
   const [tempMaxActivities, setTempMaxActivities] = useState(pointsParams.maxActivitiesToProcess || 50);
   const [tempMinUnassignedLength, setTempMinUnassignedLength] = useState(pointsParams.minUnassignedLength || 100);
   const [tempDiscardDuplicateUnder, setTempDiscardDuplicateUnder] = useState(pointsParams.discardDuplicateUnder || 200);
+  const [tempRoadDetectionTolerance, setTempRoadDetectionTolerance] = useState(pointsParams.roadDetectionTolerance || 20);
+
+  useEffect(() => {
+    setTempRoadDetectionTolerance(pointsParams.roadDetectionTolerance !== undefined ? pointsParams.roadDetectionTolerance : 20);
+  }, [pointsParams.roadDetectionTolerance]);
 
   useEffect(() => {
     setTempMaxActivities(pointsParams.maxActivitiesToProcess || 50);
@@ -1196,6 +1246,48 @@ const MapView = ({
   }, [selectedCruce]);
 
   const [loadingCruces, setLoadingCruces] = useState(false);
+  const [calculationProgress, setCalculationProgress] = useState(null);
+  const calculationTimeoutRef = useRef(null);
+  const isMounted = useRef(true);
+  const classificationCacheRef = useRef(new Map());
+
+  // Invalida la caché de clasificación de carreteras si cambia el parámetro de tolerancia
+  useEffect(() => {
+    classificationCacheRef.current.clear();
+  }, [pointsParams.roadDetectionTolerance]);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+      if (calculationTimeoutRef.current) {
+        clearTimeout(calculationTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  // Función para generar una firma única para un tramo basado en sus extremos y punto medio
+  const getTramoSignature = (points) => {
+    if (!points || points.length === 0) return '';
+    const first = points[0];
+    const last = points[points.length - 1];
+    const mid = points[Math.floor(points.length / 2)];
+    return `${first[0].toFixed(6)}_${first[1].toFixed(6)}__${mid[0].toFixed(6)}_${mid[1].toFixed(6)}__${last[0].toFixed(6)}_${last[1].toFixed(6)}`;
+  };
+
+  const toggleTramoType = useCallback((tramoId) => {
+    setTramos(prevTramos => prevTramos.map(t => {
+      if (t.id === tramoId) {
+        const nextIsRoad = !t.isRoad;
+        const sig = getTramoSignature(t.points);
+        if (sig) {
+          classificationCacheRef.current.set(sig, nextIsRoad);
+        }
+        return { ...t, isRoad: nextIsRoad };
+      }
+      return t;
+    }));
+  }, []);
 
   const [creandoTrack, setCreandoTrack] = useState(false);
   const [parallelMatches, setParallelMatches] = useState([]);
@@ -1630,7 +1722,8 @@ const MapView = ({
     try {
       const response = await axios.post('/api/export-minisite', {
         cruces: visibleCruces,
-        tramos: visibleTramos
+        tramos: visibleTramos,
+        tolerance: pointsParams.roadDetectionTolerance || 20
       });
       if (response.data && response.data.status === 'success') {
         alert(`¡Minisite exportado con éxito!\n\nSe han guardado:\n- ${visibleCruces.length} cruces en /public/minisite_cruces.json\n- ${visibleTramos.length} tramos en /public/minisite_tramos.json\n\nEl minisite de la carpeta public usará directamente estos datos.`);
@@ -1730,6 +1823,7 @@ const MapView = ({
   useEffect(() => {
     if (crucesMode) {
       fetchCruces();
+      classificationCacheRef.current.clear();
       if (map) {
         setActivationBounds(map.getBounds());
       }
@@ -1739,6 +1833,7 @@ const MapView = ({
       setActivationBounds(null);
       setParallelMatches([]);
       setCurrentMatchIndex(-1);
+      classificationCacheRef.current.clear();
     }
   }, [crucesMode, fetchCruces, map]);
 
@@ -1777,443 +1872,515 @@ const MapView = ({
   }, [crucesMode, activities, activationBounds, pointsParams.maxActivitiesToProcess]);
 
   const calculateTramos = useCallback(() => {
+    if (calculationTimeoutRef.current) {
+      clearTimeout(calculationTimeoutRef.current);
+    }
+
     if (!crucesMode || !activities || activities.length === 0) {
       setTramos([]);
       setUnassignedTramos([]);
+      if (isMounted.current) {
+        setCalculationProgress(null);
+      }
       return;
     }
 
-    const similarityTolerance = pointsParams.similarityTolerance || 25;
+    if (isMounted.current) {
+      setCalculationProgress('segments');
+    }
 
-    // 1. Obtener la lista de todos los cruces con sus coordenadas Leaflet (filtrados por las zonas visibles)
-    const crucesList = visibleCruces.map(c => {
-      const [cLon, cLat] = c.geometry.coordinates;
-      return {
-        id: c.properties.id,
-        latlng: L.latLng(cLat, cLon),
-        coords: [cLon, cLat], // [lon, lat]
-        radio_influencia: c.properties.radio_influencia || 25
-      };
-    });
+    calculationTimeoutRef.current = setTimeout(() => {
+      if (!isMounted.current) return;
 
-    // 2. Para cada ruta visible, ajustar e insertar los cruces por los que pasa
-    const adjustedRoutes = visibleActivities.map(act => {
-      if (!act.points || act.points.length < 2) return { ...act, points: [] };
+      const similarityTolerance = pointsParams.similarityTolerance || 25;
 
-      // Copiamos los puntos originales de la actividad
-      let currentPoints = [...act.points];
+      // 1. Obtener la lista de todos los cruces con sus coordenadas Leaflet (filtrados por las zonas visibles)
+      const crucesList = visibleCruces.map(c => {
+        const [cLon, cLat] = c.geometry.coordinates;
+        return {
+          id: c.properties.id,
+          latlng: L.latLng(cLat, cLon),
+          coords: [cLon, cLat], // [lon, lat]
+          radio_influencia: c.properties.radio_influencia || 25
+        };
+      });
 
-      // Aplicamos el algoritmo de inserción multipaso para cada cruce
-      crucesList.forEach(cruce => {
-        const cruceLatLng = cruce.latlng;
-        const [cLon, cLat] = cruce.coords;
-        const influenceRadius = cruce.radio_influencia;
+      // 2. Para cada ruta visible, ajustar e insertar los cruces por los que pasa
+      const adjustedRoutes = visibleActivities.map(act => {
+        if (!act.points || act.points.length < 2) return { ...act, points: [] };
 
-        // Identificar segmentos en influencia
-        const segmentsInInfluence = [];
-        for (let i = 0; i < currentPoints.length - 1; i++) {
-          const pA = currentPoints[i];
-          const pB = currentPoints[i + 1];
+        // Copiamos los puntos originales de la actividad
+        let currentPoints = [...act.points];
 
-          const dx = pB[0] - pA[0];
-          const dy = pB[1] - pA[1];
-          const len2 = dx * dx + dy * dy;
+        // Aplicamos el algoritmo de inserción multipaso para cada cruce
+        crucesList.forEach(cruce => {
+          const cruceLatLng = cruce.latlng;
+          const [cLon, cLat] = cruce.coords;
+          const influenceRadius = cruce.radio_influencia;
 
-          let t = 0;
-          if (len2 > 0) {
-            t = ((cLon - pA[0]) * dx + (cLat - pA[1]) * dy) / len2;
-            t = Math.max(0, Math.min(1, t));
+          // Identificar segmentos en influencia
+          const segmentsInInfluence = [];
+          for (let i = 0; i < currentPoints.length - 1; i++) {
+            const pA = currentPoints[i];
+            const pB = currentPoints[i + 1];
+
+            const dx = pB[0] - pA[0];
+            const dy = pB[1] - pA[1];
+            const len2 = dx * dx + dy * dy;
+
+            let t = 0;
+            if (len2 > 0) {
+              t = ((cLon - pA[0]) * dx + (cLat - pA[1]) * dy) / len2;
+              t = Math.max(0, Math.min(1, t));
+            }
+
+            const projLon = pA[0] + t * dx;
+            const projLat = pA[1] + t * dy;
+
+            const projLatLng = L.latLng([projLat, projLon]);
+            const dist = cruceLatLng.distanceTo(projLatLng);
+
+            if (dist <= influenceRadius) {
+              segmentsInInfluence.push({
+                index: i,
+                distance: dist
+              });
+            }
           }
 
-          const projLon = pA[0] + t * dx;
-          const projLat = pA[1] + t * dy;
+          if (segmentsInInfluence.length > 0) {
+            // Agrupar segmentos consecutivos en pases independientes
+            const groups = [];
+            let currentGroup = [];
 
-          const projLatLng = L.latLng([projLat, projLon]);
-          const dist = cruceLatLng.distanceTo(projLatLng);
-
-          if (dist <= influenceRadius) {
-            segmentsInInfluence.push({
-              index: i,
-              distance: dist
-            });
-          }
-        }
-
-        if (segmentsInInfluence.length > 0) {
-          // Agrupar segmentos consecutivos en pases independientes
-          const groups = [];
-          let currentGroup = [];
-
-          for (let i = 0; i < segmentsInInfluence.length; i++) {
-            const currentItem = segmentsInInfluence[i];
-            if (currentGroup.length === 0) {
-              currentGroup.push(currentItem);
-            } else {
-              const lastItem = currentGroup[currentGroup.length - 1];
-              if (currentItem.index - lastItem.index <= 2) {
+            for (let i = 0; i < segmentsInInfluence.length; i++) {
+              const currentItem = segmentsInInfluence[i];
+              if (currentGroup.length === 0) {
                 currentGroup.push(currentItem);
               } else {
-                groups.push(currentGroup);
-                currentGroup = [currentItem];
+                const lastItem = currentGroup[currentGroup.length - 1];
+                if (currentItem.index - lastItem.index <= 2) {
+                  currentGroup.push(currentItem);
+                } else {
+                  groups.push(currentGroup);
+                  currentGroup = [currentItem];
+                }
               }
             }
-          }
-          if (currentGroup.length > 0) {
-            groups.push(currentGroup);
-          }
-
-          // Procesar cada pase
-          const indicesToRemove = new Set();
-          const replacements = new Map();
-          const insertions = new Map();
-
-          groups.forEach(group => {
-            const minSegIndex = group[0].index;
-            const maxSegIndex = group[group.length - 1].index;
-
-            const verticesInPass = [];
-            for (let idx = minSegIndex; idx <= maxSegIndex + 1; idx++) {
-              if (idx >= currentPoints.length) continue;
-              const pt = currentPoints[idx];
-              const ptLatLng = L.latLng([pt[1], pt[0]]);
-              const distance = cruceLatLng.distanceTo(ptLatLng);
-              verticesInPass.push({
-                index: idx,
-                point: pt,
-                distance: distance
-              });
+            if (currentGroup.length > 0) {
+              groups.push(currentGroup);
             }
 
-            const interiorVertices = verticesInPass.filter(v => {
-              if (v.distance > influenceRadius) return false;
-              // Si es un cruce ya existente, NO lo consideramos como vértice interior elegible para reemplazo/borrado
-              const isOtherCruce = crucesList.some(c => {
-                const threshold = 0.000001; // aprox. 11 cm
-                return Math.abs(v.point[0] - c.coords[0]) < threshold && Math.abs(v.point[1] - c.coords[1]) < threshold;
+            // Procesar cada pase
+            const indicesToRemove = new Set();
+            const replacements = new Map();
+            const insertions = new Map();
+
+            groups.forEach(group => {
+              const minSegIndex = group[0].index;
+              const maxSegIndex = group[group.length - 1].index;
+
+              const verticesInPass = [];
+              for (let idx = minSegIndex; idx <= maxSegIndex + 1; idx++) {
+                if (idx >= currentPoints.length) continue;
+                const pt = currentPoints[idx];
+                const ptLatLng = L.latLng([pt[1], pt[0]]);
+                const distance = cruceLatLng.distanceTo(ptLatLng);
+                verticesInPass.push({
+                  index: idx,
+                  point: pt,
+                  distance: distance
+                });
+              }
+
+              const interiorVertices = verticesInPass.filter(v => {
+                if (v.distance > influenceRadius) return false;
+                // Si es un cruce ya existente, NO lo consideramos como vértice interior elegible para reemplazo/borrado
+                const isOtherCruce = crucesList.some(c => {
+                  const threshold = 0.000001; // aprox. 11 cm
+                  return Math.abs(v.point[0] - c.coords[0]) < threshold && Math.abs(v.point[1] - c.coords[1]) < threshold;
+                });
+                return !isOtherCruce;
               });
-              return !isOtherCruce;
+
+              if (interiorVertices.length > 0) {
+                const sortedInteriors = [...interiorVertices].sort((a, b) => a.distance - b.distance);
+                const keeper = sortedInteriors[0];
+
+                replacements.set(keeper.index, [cLon, cLat]);
+
+                for (let i = 1; i < sortedInteriors.length; i++) {
+                  indicesToRemove.add(sortedInteriors[i].index);
+                }
+              } else {
+                const sortedSegments = [...group].sort((a, b) => a.distance - b.distance);
+                const bestSeg = sortedSegments[0];
+
+                insertions.set(bestSeg.index, [cLon, cLat]);
+              }
             });
 
-            if (interiorVertices.length > 0) {
-              const sortedInteriors = [...interiorVertices].sort((a, b) => a.distance - b.distance);
-              const keeper = sortedInteriors[0];
-
-              replacements.set(keeper.index, [cLon, cLat]);
-
-              for (let i = 1; i < sortedInteriors.length; i++) {
-                indicesToRemove.add(sortedInteriors[i].index);
+            // Reconstruir puntos de la actividad con este cruce insertado
+            const nextPoints = [];
+            for (let i = 0; i < currentPoints.length; i++) {
+              if (indicesToRemove.has(i)) continue;
+              if (replacements.has(i)) {
+                nextPoints.push(replacements.get(i));
+              } else {
+                nextPoints.push(currentPoints[i]);
               }
-            } else {
-              const sortedSegments = [...group].sort((a, b) => a.distance - b.distance);
-              const bestSeg = sortedSegments[0];
-
-              insertions.set(bestSeg.index, [cLon, cLat]);
+              if (insertions.has(i)) {
+                nextPoints.push(insertions.get(i));
+              }
             }
+            currentPoints = nextPoints;
+          }
+        });
+
+        return {
+          ...act,
+          points: currentPoints
+        };
+      });
+
+      // 3. Dividir cada ruta ajustada en sub-paths en las coordenadas de los cruces exactos
+      const subPaths = [];
+
+      adjustedRoutes.forEach(act => {
+        if (act.points.length < 2) return;
+
+        let currentSubPath = [act.points[0]];
+
+        for (let i = 1; i < act.points.length; i++) {
+          const pt = act.points[i];
+          currentSubPath.push(pt);
+
+          // ¿Es este punto un cruce?
+          const matchedCruce = crucesList.find(c => {
+            const threshold = 0.000001; // aprox. 11 cm
+            return Math.abs(pt[0] - c.coords[0]) < threshold && Math.abs(pt[1] - c.coords[1]) < threshold;
           });
 
-          // Reconstruir puntos de la actividad con este cruce insertado
-          const nextPoints = [];
-          for (let i = 0; i < currentPoints.length; i++) {
-            if (indicesToRemove.has(i)) continue;
-            if (replacements.has(i)) {
-              nextPoints.push(replacements.get(i));
-            } else {
-              nextPoints.push(currentPoints[i]);
+          if (matchedCruce) {
+            // El punto actual es un cruce. Cerramos el sub-path actual y abrimos uno nuevo que comienza en este cruce
+            if (currentSubPath.length >= 2) {
+              subPaths.push({
+                points: currentSubPath,
+                activityId: act.id,
+                activityName: act.name
+              });
             }
-            if (insertions.has(i)) {
-              nextPoints.push(insertions.get(i));
-            }
+            currentSubPath = [pt];
           }
-          currentPoints = nextPoints;
+        }
+
+        // Si nos quedó un sub-path residual
+        if (currentSubPath.length >= 2) {
+          subPaths.push({
+            points: currentSubPath,
+            activityId: act.id,
+            activityName: act.name
+          });
         }
       });
 
-      return {
-        ...act,
-        points: currentPoints
-      };
-    });
-
-    // 3. Dividir cada ruta ajustada en sub-paths en las coordenadas de los cruces exactos
-    const subPaths = [];
-
-    adjustedRoutes.forEach(act => {
-      if (act.points.length < 2) return;
-
-      let currentSubPath = [act.points[0]];
-
-      for (let i = 1; i < act.points.length; i++) {
-        const pt = act.points[i];
-        currentSubPath.push(pt);
-
-        // ¿Es este punto un cruce?
+      // 4. Agrupar los sub-paths por sus extremos (unordered endpoints)
+      const getEndpointId = (pt) => {
         const matchedCruce = crucesList.find(c => {
-          const threshold = 0.000001; // aprox. 11 cm
-          return Math.abs(pt[0] - c.coords[0]) < threshold && Math.abs(pt[1] - c.coords[1]) < threshold;
+          const dist = c.latlng.distanceTo(L.latLng(pt[1], pt[0]));
+          return dist <= 5; // Tolerancia de 5 metros para ser considerado el cruce
         });
-
         if (matchedCruce) {
-          // El punto actual es un cruce. Cerramos el sub-path actual y abrimos uno nuevo que comienza en este cruce
-          if (currentSubPath.length >= 2) {
-            subPaths.push({
-              points: currentSubPath,
-              activityId: act.id,
-              activityName: act.name
-            });
-          }
-          currentSubPath = [pt];
+          return `cruce_${matchedCruce.id}`;
         }
-      }
+        return `coord_${pt[0].toFixed(5)}_${pt[1].toFixed(5)}`;
+      };
 
-      // Si nos quedó un sub-path residual
-      if (currentSubPath.length >= 2) {
-        subPaths.push({
-          points: currentSubPath,
-          activityId: act.id,
-          activityName: act.name
-        });
-      }
-    });
+      // 5. Consolidar sub-paths en tramos distintos basados en la distancia de trayectoria (similitud)
+      const finalTramos = [];
 
-    // 4. Agrupar los sub-paths por sus extremos (unordered endpoints)
-    const getEndpointId = (pt) => {
-      const matchedCruce = crucesList.find(c => {
-        const dist = c.latlng.distanceTo(L.latLng(pt[1], pt[0]));
-        return dist <= 5; // Tolerancia de 5 metros para ser considerado el cruce
-      });
-      if (matchedCruce) {
-        return `cruce_${matchedCruce.id}`;
-      }
-      return `coord_${pt[0].toFixed(5)}_${pt[1].toFixed(5)}`;
-    };
+      // Función auxiliar para calcular la distancia máxima entre dos trayectorias
+      const getTrajectoryDistance = (pathA, pathB) => {
+        const latlngsA = pathA.map(p => L.latLng(p[1], p[0]));
+        const latlngsB = pathB.map(p => L.latLng(p[1], p[0]));
 
-    // 5. Consolidar sub-paths en tramos distintos basados en la distancia de trayectoria (similitud)
-    const finalTramos = [];
+        const startDistNormal = latlngsA[0].distanceTo(latlngsB[0]);
+        const startDistInverted = latlngsA[0].distanceTo(latlngsB[latlngsB.length - 1]);
+        let comparedB = latlngsB;
+        if (startDistInverted < startDistNormal) {
+          comparedB = [...latlngsB].reverse();
+        }
 
-    // Función auxiliar para calcular la distancia máxima entre dos trayectorias
-    const getTrajectoryDistance = (pathA, pathB) => {
-      const latlngsA = pathA.map(p => L.latLng(p[1], p[0]));
-      const latlngsB = pathB.map(p => L.latLng(p[1], p[0]));
+        const K = 5;
+        let maxDist = 0;
 
-      const startDistNormal = latlngsA[0].distanceTo(latlngsB[0]);
-      const startDistInverted = latlngsA[0].distanceTo(latlngsB[latlngsB.length - 1]);
-      let comparedB = latlngsB;
-      if (startDistInverted < startDistNormal) {
-        comparedB = [...latlngsB].reverse();
-      }
+        for (let step = 0; step < K; step++) {
+          const ratio = step / (K - 1);
+          const idxA = Math.floor(ratio * (latlngsA.length - 1));
+          const ptA = latlngsA[idxA];
 
-      const K = 5;
-      let maxDist = 0;
+          let minDistToB = Infinity;
+          for (let j = 0; j < comparedB.length - 1; j++) {
+            const segStart = comparedB[j];
+            const segEnd = comparedB[j + 1];
 
-      for (let step = 0; step < K; step++) {
-        const ratio = step / (K - 1);
-        const idxA = Math.floor(ratio * (latlngsA.length - 1));
-        const ptA = latlngsA[idxA];
+            const dx = segEnd.lng - segStart.lng;
+            const dy = segEnd.lat - segStart.lat;
+            const len2 = dx * dx + dy * dy;
+            let t = 0;
+            if (len2 > 0) {
+              t = ((ptA.lng - segStart.lng) * dx + (ptA.lat - segStart.lat) * dy) / len2;
+              t = Math.max(0, Math.min(1, t));
+            }
+            const projLon = segStart.lng + t * dx;
+            const projLat = segStart.lat + t * dy;
+            const dist = ptA.distanceTo(L.latLng(projLat, projLon));
 
-        let minDistToB = Infinity;
-        for (let j = 0; j < comparedB.length - 1; j++) {
-          const segStart = comparedB[j];
-          const segEnd = comparedB[j + 1];
-
-          const dx = segEnd.lng - segStart.lng;
-          const dy = segEnd.lat - segStart.lat;
-          const len2 = dx * dx + dy * dy;
-          let t = 0;
-          if (len2 > 0) {
-            t = ((ptA.lng - segStart.lng) * dx + (ptA.lat - segStart.lat) * dy) / len2;
-            t = Math.max(0, Math.min(1, t));
+            if (dist < minDistToB) {
+              minDistToB = dist;
+            }
           }
-          const projLon = segStart.lng + t * dx;
-          const projLat = segStart.lat + t * dy;
-          const dist = ptA.distanceTo(L.latLng(projLat, projLon));
-
-          if (dist < minDistToB) {
-            minDistToB = dist;
+          if (minDistToB > maxDist) {
+            maxDist = minDistToB;
           }
         }
-        if (minDistToB > maxDist) {
-          maxDist = minDistToB;
-        }
-      }
 
-      for (let step = 0; step < K; step++) {
-        const ratio = step / (K - 1);
-        const idxB = Math.floor(ratio * (comparedB.length - 1));
-        const ptB = comparedB[idxB];
+        for (let step = 0; step < K; step++) {
+          const ratio = step / (K - 1);
+          const idxB = Math.floor(ratio * (comparedB.length - 1));
+          const ptB = comparedB[idxB];
 
-        let minDistToA = Infinity;
-        for (let j = 0; j < latlngsA.length - 1; j++) {
-          const segStart = latlngsA[j];
-          const segEnd = latlngsA[j + 1];
+          let minDistToA = Infinity;
+          for (let j = 0; j < latlngsA.length - 1; j++) {
+            const segStart = latlngsA[j];
+            const segEnd = latlngsA[j + 1];
 
-          const dx = segEnd.lng - segStart.lng;
-          const dy = segEnd.lat - segStart.lat;
-          const len2 = dx * dx + dy * dy;
-          let t = 0;
-          if (len2 > 0) {
-            t = ((ptB.lng - segStart.lng) * dx + (ptB.lat - segStart.lat) * dy) / len2;
-            t = Math.max(0, Math.min(1, t));
+            const dx = segEnd.lng - segStart.lng;
+            const dy = segEnd.lat - segStart.lat;
+            const len2 = dx * dx + dy * dy;
+            let t = 0;
+            if (len2 > 0) {
+              t = ((ptB.lng - segStart.lng) * dx + (ptB.lat - segStart.lat) * dy) / len2;
+              t = Math.max(0, Math.min(1, t));
+            }
+            const projLon = segStart.lng + t * dx;
+            const projLat = segStart.lat + t * dy;
+            const dist = ptB.distanceTo(L.latLng(projLat, projLon));
+
+            if (dist < minDistToA) {
+              minDistToA = dist;
+            }
           }
-          const projLon = segStart.lng + t * dx;
-          const projLat = segStart.lat + t * dy;
-          const dist = ptB.distanceTo(L.latLng(projLat, projLon));
-
-          if (dist < minDistToA) {
-            minDistToA = dist;
+          if (minDistToA > maxDist) {
+            maxDist = minDistToA;
           }
         }
-        if (minDistToA > maxDist) {
-          maxDist = minDistToA;
+
+        return maxDist;
+      };
+
+      const minLength = pointsParams.minUnassignedLength !== undefined ? pointsParams.minUnassignedLength : 100;
+      const getPathLength = (pts) => {
+        let len = 0;
+        for (let i = 0; i < pts.length - 1; i++) {
+          len += L.latLng(pts[i][1], pts[i][0]).distanceTo(L.latLng(pts[i+1][1], pts[i+1][0]));
         }
-      }
+        return len;
+      };
 
-      return maxDist;
-    };
+      // Filtrar sub-paths: deben empezar y terminar en cruces físicos y no ser el mismo cruce
+      const validSubPaths = [];
+      const unassignedSubPaths = [];
+      subPaths.forEach(sp => {
+        const startId = getEndpointId(sp.points[0]);
+        const endId = getEndpointId(sp.points[sp.points.length - 1]);
 
-    const minLength = pointsParams.minUnassignedLength !== undefined ? pointsParams.minUnassignedLength : 100;
-    const getPathLength = (pts) => {
-      let len = 0;
-      for (let i = 0; i < pts.length - 1; i++) {
-        len += L.latLng(pts[i][1], pts[i][0]).distanceTo(L.latLng(pts[i+1][1], pts[i+1][0]));
-      }
-      return len;
-    };
-
-    // Filtrar sub-paths: deben empezar y terminar en cruces físicos y no ser el mismo cruce
-    const validSubPaths = [];
-    const unassignedSubPaths = [];
-    subPaths.forEach(sp => {
-      const startId = getEndpointId(sp.points[0]);
-      const endId = getEndpointId(sp.points[sp.points.length - 1]);
-
-      if (startId.startsWith('cruce_') && endId.startsWith('cruce_') && startId !== endId) {
-        validSubPaths.push({
-          ...sp,
-          startId,
-          endId
-        });
-      } else {
-        const len = getPathLength(sp.points);
-        if (len >= minLength) {
-          unassignedSubPaths.push({
+        if (startId.startsWith('cruce_') && endId.startsWith('cruce_') && startId !== endId) {
+          validSubPaths.push({
             ...sp,
             startId,
             endId
           });
-        }
-      }
-    });
-
-    // Consolidación espacial global sin agrupar por claves estrictas de extremos
-    validSubPaths.forEach(sp => {
-      let isSimilar = false;
-      for (let i = 0; i < finalTramos.length; i++) {
-        const existing = finalTramos[i];
-        const trajDist = getTrajectoryDistance(sp.points, existing.points);
-        if (trajDist <= similarityTolerance) {
-          isSimilar = true;
-          existing.activityNames.add(sp.activityName);
-          existing.count += 1;
-          // Conservar la trayectoria con más puntos para mayor fidelidad de renderizado
-          if (sp.points.length > existing.points.length) {
-            existing.points = sp.points;
+        } else {
+          const len = getPathLength(sp.points);
+          if (len >= minLength) {
+            unassignedSubPaths.push({
+              ...sp,
+              startId,
+              endId
+            });
           }
-          break;
         }
-      }
+      });
 
-      if (!isSimilar) {
-        finalTramos.push({
-          id: `tramo_${finalTramos.length}`,
-          points: sp.points,
-          startId: sp.startId,
-          endId: sp.endId,
-          activityNames: new Set([sp.activityName]),
-          count: 1
-        });
-      }
-    });
-
-    // Consolidación espacial de tramos no asignados
-    const finalUnassigned = [];
-    unassignedSubPaths.forEach(sp => {
-      let isSimilar = false;
-      for (let i = 0; i < finalUnassigned.length; i++) {
-        const existing = finalUnassigned[i];
-        const trajDist = getTrajectoryDistance(sp.points, existing.points);
-        if (trajDist <= similarityTolerance) {
-          isSimilar = true;
-          existing.activityNames.add(sp.activityName);
-          existing.count += 1;
-          if (sp.points.length > existing.points.length) {
-            existing.points = sp.points;
+      // Consolidación espacial global sin agrupar por claves estrictas de extremos
+      validSubPaths.forEach(sp => {
+        let isSimilar = false;
+        for (let i = 0; i < finalTramos.length; i++) {
+          const existing = finalTramos[i];
+          const trajDist = getTrajectoryDistance(sp.points, existing.points);
+          if (trajDist <= similarityTolerance) {
+            isSimilar = true;
+            existing.activityNames.add(sp.activityName);
+            existing.count += 1;
+            // Conservar la trayectoria con más puntos para mayor fidelidad de renderizado
+            if (sp.points.length > existing.points.length) {
+              existing.points = sp.points;
+            }
+            break;
           }
-          break;
         }
-      }
 
-      if (!isSimilar) {
-        finalUnassigned.push({
-          id: `unassigned_${finalUnassigned.length}`,
-          points: sp.points,
-          startId: sp.startId,
-          endId: sp.endId,
-          activityNames: new Set([sp.activityName]),
-          count: 1
-        });
-      }
-    });
+        if (!isSimilar) {
+          finalTramos.push({
+            id: `tramo_${finalTramos.length}`,
+            points: sp.points,
+            startId: sp.startId,
+            endId: sp.endId,
+            activityNames: new Set([sp.activityName]),
+            count: 1
+          });
+        }
+      });
 
-    // 6. Filtrar duplicados cortos con el mismo inicio y fin si su longitud es inferior a la tolerancia
-    const discardUnder = pointsParams.discardDuplicateUnder !== undefined ? pointsParams.discardDuplicateUnder : 200;
-    
-    // Agrupar por extremos sin importar el orden
-    const tramosByEndpoints = new Map();
-    finalTramos.forEach(t => {
-      const key = [t.startId, t.endId].sort().join('__');
-      if (!tramosByEndpoints.has(key)) {
-        tramosByEndpoints.set(key, []);
-      }
-      tramosByEndpoints.get(key).push(t);
-    });
+      // Consolidación espacial de tramos no asignados
+      const finalUnassigned = [];
+      unassignedSubPaths.forEach(sp => {
+        let isSimilar = false;
+        for (let i = 0; i < finalUnassigned.length; i++) {
+          const existing = finalUnassigned[i];
+          const trajDist = getTrajectoryDistance(sp.points, existing.points);
+          if (trajDist <= similarityTolerance) {
+            isSimilar = true;
+            existing.activityNames.add(sp.activityName);
+            existing.count += 1;
+            if (sp.points.length > existing.points.length) {
+              existing.points = sp.points;
+            }
+            break;
+          }
+        }
 
-    const filteredTramos = [];
-    tramosByEndpoints.forEach(group => {
-      if (group.length <= 1) {
-        filteredTramos.push(...group);
+        if (!isSimilar) {
+          finalUnassigned.push({
+            id: `unassigned_${finalUnassigned.length}`,
+            points: sp.points,
+            startId: sp.startId,
+            endId: sp.endId,
+            activityNames: new Set([sp.activityName]),
+            count: 1
+          });
+        }
+      });
+
+      // 6. Filtrar duplicados cortos con el mismo inicio y fin si su longitud es inferior a la tolerancia
+      const discardUnder = pointsParams.discardDuplicateUnder !== undefined ? pointsParams.discardDuplicateUnder : 200;
+      
+      // Agrupar por extremos sin importar el orden
+      const tramosByEndpoints = new Map();
+      finalTramos.forEach(t => {
+        const key = [t.startId, t.endId].sort().join('__');
+        if (!tramosByEndpoints.has(key)) {
+          tramosByEndpoints.set(key, []);
+        }
+        tramosByEndpoints.get(key).push(t);
+      });
+
+      const filteredTramos = [];
+      tramosByEndpoints.forEach(group => {
+        if (group.length <= 1) {
+          filteredTramos.push(...group);
+        } else {
+          // Calcular longitudes de cada tramo
+          const withLengths = group.map(t => ({
+            tramo: t,
+            length: getPathLength(t.points)
+          }));
+
+          // Encontrar el más corto (que SIEMPRE se guarda)
+          withLengths.sort((a, b) => a.length - b.length);
+          const shortestItem = withLengths[0];
+          filteredTramos.push(shortestItem.tramo);
+
+          // Para el resto (caminos alternativos duplicados), filtrar si su longitud es inferior a discardUnder
+          for (let i = 1; i < withLengths.length; i++) {
+            const item = withLengths[i];
+            if (item.length >= discardUnder) {
+              filteredTramos.push(item.tramo);
+            } else {
+              console.log(`[Duplicados] Despreciando tramo corto duplicado entre ${item.tramo.startId} y ${item.tramo.endId}. Longitud: ${Math.round(item.length)}m (Límite: < ${discardUnder}m)`);
+            }
+          }
+        }
+      });
+
+      // Reasignar IDs para que sean secuenciales y correctos
+      const finalFilteredTramos = filteredTramos.map((t, idx) => ({
+        ...t,
+        id: `tramo_${idx}`
+      }));
+
+      // 7. Usar caché para evitar recalcular carreteras si los tramos no han cambiado
+      const tramosToClassify = [];
+      const updatedTramos = finalFilteredTramos.map(t => {
+        const sig = getTramoSignature(t.points);
+        if (classificationCacheRef.current.has(sig)) {
+          return { ...t, isRoad: classificationCacheRef.current.get(sig) };
+        } else {
+          tramosToClassify.push(t);
+          return t;
+        }
+      });
+
+      setTramos(updatedTramos);
+      setUnassignedTramos(finalUnassigned);
+
+      // Clasificar tramos vía PostGIS en el backend para identificar carreteras
+      if (tramosToClassify.length > 0) {
+        if (isMounted.current) {
+          setCalculationProgress('roads');
+        }
+        axios.post('/api/tramos/classify', { 
+          tramos: tramosToClassify,
+          tolerance: pointsParams.roadDetectionTolerance || 20
+        })
+          .then(response => {
+            if (!isMounted.current) return;
+            const classifications = response.data || {};
+            
+            // Guardar en la caché local
+            tramosToClassify.forEach(t => {
+              const isRoad = classifications[t.id];
+              if (isRoad !== undefined) {
+                const sig = getTramoSignature(t.points);
+                classificationCacheRef.current.set(sig, isRoad);
+              }
+            });
+
+            // Actualizar tramos en el estado local a partir de la caché actualizada
+            setTramos(prevTramos => prevTramos.map(t => {
+              const sig = getTramoSignature(t.points);
+              if (classificationCacheRef.current.has(sig)) {
+                return { ...t, isRoad: classificationCacheRef.current.get(sig) };
+              }
+              return t;
+            }));
+          })
+          .catch(err => {
+            console.error("Error al clasificar tramos en carretera:", err);
+          })
+          .finally(() => {
+            if (isMounted.current) {
+              setCalculationProgress(null);
+            }
+          });
       } else {
-        // Calcular longitudes de cada tramo
-        const withLengths = group.map(t => ({
-          tramo: t,
-          length: getPathLength(t.points)
-        }));
-
-        // Encontrar el más corto (que SIEMPRE se guarda)
-        withLengths.sort((a, b) => a.length - b.length);
-        const shortestItem = withLengths[0];
-        filteredTramos.push(shortestItem.tramo);
-
-        // Para el resto (caminos alternativos duplicados), filtrar si su longitud es inferior a discardUnder
-        for (let i = 1; i < withLengths.length; i++) {
-          const item = withLengths[i];
-          if (item.length >= discardUnder) {
-            filteredTramos.push(item.tramo);
-          } else {
-            console.log(`[Duplicados] Despreciando tramo corto duplicado entre ${item.tramo.startId} y ${item.tramo.endId}. Longitud: ${Math.round(item.length)}m (Límite: < ${discardUnder}m)`);
-          }
+        if (isMounted.current) {
+          setCalculationProgress(null);
         }
       }
-    });
-
-    // Reasignar IDs para que sean secuenciales y correctos
-    const finalFilteredTramos = filteredTramos.map((t, idx) => ({
-      ...t,
-      id: `tramo_${idx}`
-    }));
-
-    setTramos(finalFilteredTramos);
-    setUnassignedTramos(finalUnassigned);
-  }, [crucesMode, visibleActivities, visibleCruces, pointsParams.similarityTolerance, pointsParams.discardDuplicateUnder]);
+    }, 50);
+  }, [crucesMode, visibleActivities, visibleCruces, pointsParams.similarityTolerance, pointsParams.discardDuplicateUnder, pointsParams.roadDetectionTolerance]);
 
   useEffect(() => {
     if (crucesMode) {
@@ -2221,7 +2388,7 @@ const MapView = ({
     } else {
       setTramos([]);
     }
-  }, [crucesMode, visibleActivities, visibleCruces, pointsParams.similarityTolerance, pointsParams.discardDuplicateUnder, calculateTramos]);
+  }, [crucesMode, visibleActivities, visibleCruces, pointsParams.similarityTolerance, pointsParams.discardDuplicateUnder, pointsParams.roadDetectionTolerance, calculateTramos]);
 
   // Algoritmo geométrico para buscar tramos de segmentos paralelos sin cruces
   const findParallelSegments = useCallback(() => {
@@ -2538,6 +2705,42 @@ const MapView = ({
                   />
                 </div>
                 <span style={{ fontSize: '9px', color: '#94a3b8', fontWeight: 500, lineHeight: 1.25 }}>Desviación máxima en metros para fundir caminos parecidos en un solo tramo.</span>
+              </div>
+
+              {/* Tolerancia Detección Carretera */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '10px', fontWeight: 900, textTransform: 'uppercase', color: '#94a3b8' }}>
+                  <span>Detección Carretera (m)</span>
+                  <input 
+                    type="number" step="1" min="5" max="100"
+                    value={tempRoadDetectionTolerance}
+                    onChange={(e) => setTempRoadDetectionTolerance(parseInt(e.target.value, 10) || 5)}
+                    onBlur={() => setPointsParams(prev => ({ ...prev, roadDetectionTolerance: tempRoadDetectionTolerance }))}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        setPointsParams(prev => ({ ...prev, roadDetectionTolerance: tempRoadDetectionTolerance }));
+                        e.target.blur();
+                      }
+                    }}
+                    style={{ width: '4rem', textAlign: 'right', fontSize: '11px', fontFamily: 'monospace', padding: '0.125rem', border: '1px solid #e2e8f0', borderRadius: '0.25rem' }}
+                  />
+                </div>
+                <input 
+                  type="range" 
+                  min="5" 
+                  max="100" 
+                  step="1"
+                  value={tempRoadDetectionTolerance}
+                  onChange={(e) => setTempRoadDetectionTolerance(parseInt(e.target.value, 10) || 5)}
+                  onMouseUp={() => setPointsParams(prev => ({ ...prev, roadDetectionTolerance: tempRoadDetectionTolerance }))}
+                  onTouchEnd={() => setPointsParams(prev => ({ ...prev, roadDetectionTolerance: tempRoadDetectionTolerance }))}
+                  style={{ 
+                    width: '100%', 
+                    accentColor: '#10b981',
+                    cursor: 'pointer' 
+                  }}
+                />
+                <span style={{ fontSize: '9px', color: '#94a3b8', fontWeight: 500, lineHeight: 1.25 }}>Distancia máxima en metros a la que debe estar una vía OSM para considerarse carretera.</span>
               </div>
 
               {/* Descartar Pendientes Cortos */}
@@ -3348,6 +3551,7 @@ const MapView = ({
           unassignedTramos={unassignedTramos}
           crucesMode={crucesMode}
           creandoTrack={creandoTrack}
+          onToggleTramoType={toggleTramoType}
         />
         {/* Resaltado de tramo paralelo encontrado */}
         {crucesMode && currentMatchIndex >= 0 && parallelMatches[currentMatchIndex] && (
@@ -3398,6 +3602,64 @@ const MapView = ({
         <MapReferenceTracker setMap={setMap} />
         <ViewportPersister />
       </MapContainer>
+
+      {/* Reloj de arena / Overlay de cálculo */}
+      {crucesMode && (loadingCruces || calculationProgress) && (
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(15, 23, 42, 0.4)', // Slate-900 translúcido
+            backdropFilter: 'blur(4px)',
+            WebkitBackdropFilter: 'blur(4px)',
+            zIndex: 2000, // Por encima de Leaflet y otros badges
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: '#ffffff',
+              padding: '2rem 2.5rem',
+              borderRadius: '1.5rem',
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+              border: '1px solid #f1f5f9',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '1.25rem',
+              maxWidth: '340px',
+              textAlign: 'center',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Hourglass 
+                size={42} 
+                style={{ 
+                  color: '#FC4C02', // Naranja Strava
+                  animation: 'hourglass-spin 2s infinite ease-in-out'
+                }} 
+              />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
+              <span style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0f172a', fontFamily: 'sans-serif' }}>
+                {loadingCruces ? 'Cargando Cruces' : (calculationProgress === 'segments' ? 'Procesando Segmentos' : 'Detectando Carreteras')}
+              </span>
+              <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 500, lineHeight: 1.45, fontFamily: 'sans-serif' }}>
+                {loadingCruces 
+                  ? 'Obteniendo puntos de unión de la base de datos...' 
+                  : (calculationProgress === 'segments' 
+                    ? 'Calculando intersecciones y dividiendo rutas en tramos...' 
+                    : 'Clasificando y verificando tramos de carretera en el backend...')}
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
 
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     </div>

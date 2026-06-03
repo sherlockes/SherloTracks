@@ -1274,10 +1274,11 @@
             // Dibujar senderos base
             tramos.forEach(t => {
                 const path = t.points.map(p => [p[1], p[0]]);
+                const isRoad = t.isRoad || false;
                 const poly = L.polyline(path, { 
-                    color: '#ffffff', 
+                    color: isRoad ? '#94a3b8' : '#ffffff', 
                     weight: 3, 
-                    opacity: 0.45, 
+                    opacity: isRoad ? 0.6 : 0.45, 
                     lineJoin: 'round' 
                 }).addTo(map);
                 backgroundLayers.push(poly);

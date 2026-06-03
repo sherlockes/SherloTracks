@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, ARRAY
+from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, ARRAY, BigInteger
 from sqlalchemy.sql import func
 from geoalchemy2 import Geometry
 from database import Base
@@ -78,5 +78,13 @@ class Cruce(Base):
     radio_influencia = Column(Integer, default=25)
     geom = Column(Geometry(geometry_type='POINT', srid=4326), nullable=False, index=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+class OSMRoad(Base):
+    __tablename__ = "osm_roads"
+    id = Column(BigInteger, primary_key=True)
+    name = Column(String, nullable=True)
+    highway = Column(String, nullable=False)
+    geom = Column(Geometry(geometry_type='LINESTRING', srid=4326), nullable=False)
+
 
 

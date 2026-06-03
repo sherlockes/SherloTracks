@@ -58,7 +58,8 @@
     "startId": "cruce_112",
     "endId": "cruce_119",
     "activityNames": {},
-    "count": 73
+    "count": 73,
+    "isRoad": false
   },
   {
     "id": "tramo_1",
@@ -115,7 +116,8 @@
     "startId": "cruce_119",
     "endId": "cruce_192",
     "activityNames": {},
-    "count": 70
+    "count": 70,
+    "isRoad": true
   },
   {
     "id": "tramo_2",
@@ -136,7 +138,8 @@
     "startId": "cruce_192",
     "endId": "cruce_113",
     "activityNames": {},
-    "count": 69
+    "count": 69,
+    "isRoad": true
   },
   {
     "id": "tramo_3",
@@ -157,7 +160,8 @@
     "startId": "cruce_113",
     "endId": "cruce_232",
     "activityNames": {},
-    "count": 52
+    "count": 52,
+    "isRoad": true
   },
   {
     "id": "tramo_4",
@@ -198,7 +202,8 @@
     "startId": "cruce_232",
     "endId": "cruce_72",
     "activityNames": {},
-    "count": 51
+    "count": 51,
+    "isRoad": true
   },
   {
     "id": "tramo_5",
@@ -219,7 +224,8 @@
     "startId": "cruce_72",
     "endId": "cruce_66",
     "activityNames": {},
-    "count": 51
+    "count": 51,
+    "isRoad": false
   },
   {
     "id": "tramo_6",
@@ -252,7 +258,8 @@
     "startId": "cruce_66",
     "endId": "cruce_120",
     "activityNames": {},
-    "count": 36
+    "count": 36,
+    "isRoad": false
   },
   {
     "id": "tramo_7",
@@ -273,7 +280,8 @@
     "startId": "cruce_120",
     "endId": "cruce_194",
     "activityNames": {},
-    "count": 39
+    "count": 39,
+    "isRoad": false
   },
   {
     "id": "tramo_8",
@@ -326,7 +334,8 @@
     "startId": "cruce_194",
     "endId": "cruce_30",
     "activityNames": {},
-    "count": 36
+    "count": 36,
+    "isRoad": false
   },
   {
     "id": "tramo_9",
@@ -415,7 +424,8 @@
     "startId": "cruce_194",
     "endId": "cruce_30",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
     "id": "tramo_10",
@@ -432,7 +442,8 @@
     "startId": "cruce_30",
     "endId": "cruce_29",
     "activityNames": {},
-    "count": 12
+    "count": 12,
+    "isRoad": true
   },
   {
     "id": "tramo_11",
@@ -553,7 +564,8 @@
     "startId": "cruce_29",
     "endId": "cruce_28",
     "activityNames": {},
-    "count": 9
+    "count": 9,
+    "isRoad": false
   },
   {
     "id": "tramo_12",
@@ -622,7 +634,8 @@
     "startId": "cruce_28",
     "endId": "cruce_27",
     "activityNames": {},
-    "count": 12
+    "count": 12,
+    "isRoad": false
   },
   {
     "id": "tramo_13",
@@ -659,7 +672,8 @@
     "startId": "cruce_27",
     "endId": "cruce_26",
     "activityNames": {},
-    "count": 4
+    "count": 4,
+    "isRoad": false
   },
   {
     "id": "tramo_14",
@@ -756,7 +770,8 @@
     "startId": "cruce_26",
     "endId": "cruce_25",
     "activityNames": {},
-    "count": 8
+    "count": 8,
+    "isRoad": false
   },
   {
     "id": "tramo_15",
@@ -801,7 +816,8 @@
     "startId": "cruce_25",
     "endId": "cruce_24",
     "activityNames": {},
-    "count": 10
+    "count": 10,
+    "isRoad": false
   },
   {
     "id": "tramo_16",
@@ -874,7 +890,8 @@
     "startId": "cruce_24",
     "endId": "cruce_23",
     "activityNames": {},
-    "count": 12
+    "count": 12,
+    "isRoad": false
   },
   {
     "id": "tramo_17",
@@ -907,7 +924,8 @@
     "startId": "cruce_23",
     "endId": "cruce_22",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
     "id": "tramo_18",
@@ -1128,7 +1146,8 @@
     "startId": "cruce_22",
     "endId": "cruce_6",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
     "id": "tramo_19",
@@ -1145,7 +1164,8 @@
     "startId": "cruce_6",
     "endId": "cruce_5",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
     "id": "tramo_20",
@@ -1170,7 +1190,8 @@
     "startId": "cruce_5",
     "endId": "cruce_4",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
     "id": "tramo_21",
@@ -1199,7 +1220,8 @@
     "startId": "cruce_4",
     "endId": "cruce_3",
     "activityNames": {},
-    "count": 12
+    "count": 12,
+    "isRoad": false
   },
   {
     "id": "tramo_22",
@@ -1216,7 +1238,8 @@
     "startId": "cruce_3",
     "endId": "cruce_2",
     "activityNames": {},
-    "count": 13
+    "count": 13,
+    "isRoad": false
   },
   {
     "id": "tramo_23",
@@ -1237,7 +1260,8 @@
     "startId": "cruce_2",
     "endId": "cruce_1",
     "activityNames": {},
-    "count": 21
+    "count": 21,
+    "isRoad": true
   },
   {
     "id": "tramo_24",
@@ -1286,7 +1310,8 @@
     "startId": "cruce_1",
     "endId": "cruce_31",
     "activityNames": {},
-    "count": 6
+    "count": 6,
+    "isRoad": false
   },
   {
     "id": "tramo_25",
@@ -1379,7 +1404,8 @@
     "startId": "cruce_31",
     "endId": "cruce_235",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
     "id": "tramo_26",
@@ -1424,7 +1450,8 @@
     "startId": "cruce_235",
     "endId": "cruce_170",
     "activityNames": {},
-    "count": 6
+    "count": 6,
+    "isRoad": false
   },
   {
     "id": "tramo_27",
@@ -1457,7 +1484,8 @@
     "startId": "cruce_170",
     "endId": "cruce_32",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
     "id": "tramo_28",
@@ -1498,7 +1526,8 @@
     "startId": "cruce_32",
     "endId": "cruce_33",
     "activityNames": {},
-    "count": 6
+    "count": 6,
+    "isRoad": false
   },
   {
     "id": "tramo_29",
@@ -1531,7 +1560,8 @@
     "startId": "cruce_33",
     "endId": "cruce_34",
     "activityNames": {},
-    "count": 20
+    "count": 20,
+    "isRoad": true
   },
   {
     "id": "tramo_30",
@@ -1608,7 +1638,8 @@
     "startId": "cruce_34",
     "endId": "cruce_35",
     "activityNames": {},
-    "count": 18
+    "count": 18,
+    "isRoad": true
   },
   {
     "id": "tramo_31",
@@ -1629,7 +1660,8 @@
     "startId": "cruce_35",
     "endId": "cruce_169",
     "activityNames": {},
-    "count": 20
+    "count": 20,
+    "isRoad": true
   },
   {
     "id": "tramo_32",
@@ -1698,7 +1730,8 @@
     "startId": "cruce_169",
     "endId": "cruce_36",
     "activityNames": {},
-    "count": 21
+    "count": 21,
+    "isRoad": true
   },
   {
     "id": "tramo_33",
@@ -1719,7 +1752,8 @@
     "startId": "cruce_36",
     "endId": "cruce_37",
     "activityNames": {},
-    "count": 23
+    "count": 23,
+    "isRoad": true
   },
   {
     "id": "tramo_34",
@@ -1808,7 +1842,8 @@
     "startId": "cruce_37",
     "endId": "cruce_38",
     "activityNames": {},
-    "count": 22
+    "count": 22,
+    "isRoad": true
   },
   {
     "id": "tramo_35",
@@ -1933,7 +1968,8 @@
     "startId": "cruce_38",
     "endId": "cruce_39",
     "activityNames": {},
-    "count": 30
+    "count": 30,
+    "isRoad": true
   },
   {
     "id": "tramo_36",
@@ -1954,7 +1990,8 @@
     "startId": "cruce_39",
     "endId": "cruce_40",
     "activityNames": {},
-    "count": 32
+    "count": 32,
+    "isRoad": false
   },
   {
     "id": "tramo_37",
@@ -1987,7 +2024,8 @@
     "startId": "cruce_40",
     "endId": "cruce_234",
     "activityNames": {},
-    "count": 22
+    "count": 22,
+    "isRoad": true
   },
   {
     "id": "tramo_38",
@@ -2004,7 +2042,8 @@
     "startId": "cruce_234",
     "endId": "cruce_67",
     "activityNames": {},
-    "count": 7
+    "count": 7,
+    "isRoad": false
   },
   {
     "id": "tramo_39",
@@ -2173,7 +2212,8 @@
     "startId": "cruce_67",
     "endId": "cruce_66",
     "activityNames": {},
-    "count": 12
+    "count": 12,
+    "isRoad": false
   },
   {
     "id": "tramo_40",
@@ -2198,7 +2238,8 @@
     "startId": "cruce_72",
     "endId": "cruce_74",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_41",
@@ -2255,7 +2296,8 @@
     "startId": "cruce_74",
     "endId": "cruce_75",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
     "id": "tramo_42",
@@ -2280,7 +2322,8 @@
     "startId": "cruce_75",
     "endId": "cruce_73",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_43",
@@ -2305,7 +2348,8 @@
     "startId": "cruce_73",
     "endId": "cruce_116",
     "activityNames": {},
-    "count": 6
+    "count": 6,
+    "isRoad": false
   },
   {
     "id": "tramo_44",
@@ -2334,7 +2378,8 @@
     "startId": "cruce_116",
     "endId": "cruce_174",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
     "id": "tramo_45",
@@ -2363,7 +2408,8 @@
     "startId": "cruce_174",
     "endId": "cruce_176",
     "activityNames": {},
-    "count": 4
+    "count": 4,
+    "isRoad": false
   },
   {
     "id": "tramo_46",
@@ -2384,7 +2430,8 @@
     "startId": "cruce_176",
     "endId": "cruce_115",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
     "id": "tramo_47",
@@ -2417,7 +2464,8 @@
     "startId": "cruce_115",
     "endId": "cruce_89",
     "activityNames": {},
-    "count": 6
+    "count": 6,
+    "isRoad": false
   },
   {
     "id": "tramo_48",
@@ -2438,7 +2486,8 @@
     "startId": "cruce_89",
     "endId": "cruce_117",
     "activityNames": {},
-    "count": 20
+    "count": 20,
+    "isRoad": false
   },
   {
     "id": "tramo_49",
@@ -2519,7 +2568,8 @@
     "startId": "cruce_117",
     "endId": "cruce_119",
     "activityNames": {},
-    "count": 4
+    "count": 4,
+    "isRoad": false
   },
   {
     "id": "tramo_50",
@@ -2536,7 +2586,8 @@
     "startId": "cruce_113",
     "endId": "cruce_114",
     "activityNames": {},
-    "count": 17
+    "count": 17,
+    "isRoad": false
   },
   {
     "id": "tramo_51",
@@ -2613,7 +2664,8 @@
     "startId": "cruce_114",
     "endId": "cruce_117",
     "activityNames": {},
-    "count": 18
+    "count": 18,
+    "isRoad": false
   },
   {
     "id": "tramo_52",
@@ -2630,7 +2682,8 @@
     "startId": "cruce_73",
     "endId": "cruce_74",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_53",
@@ -2695,7 +2748,8 @@
     "startId": "cruce_75",
     "endId": "cruce_118",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_54",
@@ -2728,7 +2782,8 @@
     "startId": "cruce_118",
     "endId": "cruce_88",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
     "id": "tramo_55",
@@ -2765,7 +2820,8 @@
     "startId": "cruce_88",
     "endId": "cruce_87",
     "activityNames": {},
-    "count": 18
+    "count": 18,
+    "isRoad": true
   },
   {
     "id": "tramo_56",
@@ -2862,7 +2918,8 @@
     "startId": "cruce_87",
     "endId": "cruce_143",
     "activityNames": {},
-    "count": 4
+    "count": 4,
+    "isRoad": false
   },
   {
     "id": "tramo_57",
@@ -2987,7 +3044,8 @@
     "startId": "cruce_143",
     "endId": "cruce_94",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
     "id": "tramo_58",
@@ -3004,7 +3062,8 @@
     "startId": "cruce_94",
     "endId": "cruce_95",
     "activityNames": {},
-    "count": 13
+    "count": 13,
+    "isRoad": false
   },
   {
     "id": "tramo_59",
@@ -3057,7 +3116,8 @@
     "startId": "cruce_132",
     "endId": "cruce_95",
     "activityNames": {},
-    "count": 11
+    "count": 11,
+    "isRoad": false
   },
   {
     "id": "tramo_60",
@@ -3102,7 +3162,8 @@
     "startId": "cruce_95",
     "endId": "cruce_132",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_61",
@@ -3223,7 +3284,8 @@
     "startId": "cruce_132",
     "endId": "cruce_96",
     "activityNames": {},
-    "count": 11
+    "count": 11,
+    "isRoad": false
   },
   {
     "id": "tramo_62",
@@ -3292,7 +3354,8 @@
     "startId": "cruce_96",
     "endId": "cruce_97",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
     "id": "tramo_63",
@@ -3385,7 +3448,8 @@
     "startId": "cruce_94",
     "endId": "cruce_93",
     "activityNames": {},
-    "count": 16
+    "count": 16,
+    "isRoad": false
   },
   {
     "id": "tramo_64",
@@ -3514,7 +3578,8 @@
     "startId": "cruce_93",
     "endId": "cruce_141",
     "activityNames": {},
-    "count": 16
+    "count": 16,
+    "isRoad": false
   },
   {
     "id": "tramo_65",
@@ -3579,7 +3644,8 @@
     "startId": "cruce_141",
     "endId": "cruce_142",
     "activityNames": {},
-    "count": 16
+    "count": 16,
+    "isRoad": false
   },
   {
     "id": "tramo_66",
@@ -3636,7 +3702,8 @@
     "startId": "cruce_142",
     "endId": "cruce_92",
     "activityNames": {},
-    "count": 16
+    "count": 16,
+    "isRoad": false
   },
   {
     "id": "tramo_67",
@@ -3701,7 +3768,8 @@
     "startId": "cruce_92",
     "endId": "cruce_90",
     "activityNames": {},
-    "count": 18
+    "count": 18,
+    "isRoad": false
   },
   {
     "id": "tramo_68",
@@ -3726,7 +3794,8 @@
     "startId": "cruce_90",
     "endId": "cruce_91",
     "activityNames": {},
-    "count": 32
+    "count": 32,
+    "isRoad": false
   },
   {
     "id": "tramo_69",
@@ -3823,7 +3892,8 @@
     "startId": "cruce_91",
     "endId": "cruce_89",
     "activityNames": {},
-    "count": 18
+    "count": 18,
+    "isRoad": false
   },
   {
     "id": "tramo_70",
@@ -3960,7 +4030,8 @@
     "startId": "cruce_112",
     "endId": "cruce_111",
     "activityNames": {},
-    "count": 22
+    "count": 22,
+    "isRoad": false
   },
   {
     "id": "tramo_71",
@@ -4009,7 +4080,8 @@
     "startId": "cruce_111",
     "endId": "cruce_91",
     "activityNames": {},
-    "count": 16
+    "count": 16,
+    "isRoad": true
   },
   {
     "id": "tramo_72",
@@ -4046,7 +4118,8 @@
     "startId": "cruce_90",
     "endId": "cruce_189",
     "activityNames": {},
-    "count": 14
+    "count": 14,
+    "isRoad": true
   },
   {
     "id": "tramo_73",
@@ -4075,7 +4148,8 @@
     "startId": "cruce_189",
     "endId": "cruce_88",
     "activityNames": {},
-    "count": 15
+    "count": 15,
+    "isRoad": true
   },
   {
     "id": "tramo_74",
@@ -4116,7 +4190,8 @@
     "startId": "cruce_87",
     "endId": "cruce_71",
     "activityNames": {},
-    "count": 14
+    "count": 14,
+    "isRoad": true
   },
   {
     "id": "tramo_75",
@@ -4189,7 +4264,8 @@
     "startId": "cruce_71",
     "endId": "cruce_234",
     "activityNames": {},
-    "count": 15
+    "count": 15,
+    "isRoad": false
   },
   {
     "id": "tramo_76",
@@ -4266,7 +4342,8 @@
     "startId": "cruce_33",
     "endId": "cruce_45",
     "activityNames": {},
-    "count": 17
+    "count": 17,
+    "isRoad": true
   },
   {
     "id": "tramo_77",
@@ -4311,7 +4388,8 @@
     "startId": "cruce_45",
     "endId": "cruce_233",
     "activityNames": {},
-    "count": 17
+    "count": 17,
+    "isRoad": true
   },
   {
     "id": "tramo_78",
@@ -4352,7 +4430,8 @@
     "startId": "cruce_233",
     "endId": "cruce_44",
     "activityNames": {},
-    "count": 17
+    "count": 17,
+    "isRoad": true
   },
   {
     "id": "tramo_79",
@@ -4381,7 +4460,8 @@
     "startId": "cruce_44",
     "endId": "cruce_43",
     "activityNames": {},
-    "count": 15
+    "count": 15,
+    "isRoad": true
   },
   {
     "id": "tramo_80",
@@ -4422,7 +4502,8 @@
     "startId": "cruce_43",
     "endId": "cruce_1",
     "activityNames": {},
-    "count": 15
+    "count": 15,
+    "isRoad": true
   },
   {
     "id": "tramo_81",
@@ -4543,7 +4624,8 @@
     "startId": "cruce_2",
     "endId": "cruce_159",
     "activityNames": {},
-    "count": 26
+    "count": 26,
+    "isRoad": true
   },
   {
     "id": "tramo_82",
@@ -4684,7 +4766,8 @@
     "startId": "cruce_159",
     "endId": "cruce_221",
     "activityNames": {},
-    "count": 24
+    "count": 24,
+    "isRoad": true
   },
   {
     "id": "tramo_83",
@@ -4709,7 +4792,8 @@
     "startId": "cruce_221",
     "endId": "cruce_42",
     "activityNames": {},
-    "count": 25
+    "count": 25,
+    "isRoad": true
   },
   {
     "id": "tramo_84",
@@ -4858,7 +4942,8 @@
     "startId": "cruce_42",
     "endId": "cruce_41",
     "activityNames": {},
-    "count": 28
+    "count": 28,
+    "isRoad": true
   },
   {
     "id": "tramo_85",
@@ -4907,7 +4992,8 @@
     "startId": "cruce_41",
     "endId": "cruce_30",
     "activityNames": {},
-    "count": 29
+    "count": 29,
+    "isRoad": true
   },
   {
     "id": "tramo_86",
@@ -4948,7 +5034,8 @@
     "startId": "cruce_37",
     "endId": "cruce_237",
     "activityNames": {},
-    "count": 17
+    "count": 17,
+    "isRoad": true
   },
   {
     "id": "tramo_87",
@@ -5041,7 +5128,8 @@
     "startId": "cruce_237",
     "endId": "cruce_236",
     "activityNames": {},
-    "count": 17
+    "count": 17,
+    "isRoad": true
   },
   {
     "id": "tramo_88",
@@ -5058,7 +5146,8 @@
     "startId": "cruce_236",
     "endId": "cruce_239",
     "activityNames": {},
-    "count": 8
+    "count": 8,
+    "isRoad": true
   },
   {
     "id": "tramo_89",
@@ -5083,7 +5172,8 @@
     "startId": "cruce_239",
     "endId": "cruce_82",
     "activityNames": {},
-    "count": 8
+    "count": 8,
+    "isRoad": true
   },
   {
     "id": "tramo_90",
@@ -5100,7 +5190,8 @@
     "startId": "cruce_82",
     "endId": "cruce_236",
     "activityNames": {},
-    "count": 9
+    "count": 9,
+    "isRoad": true
   },
   {
     "id": "tramo_91",
@@ -5129,7 +5220,8 @@
     "startId": "cruce_72",
     "endId": "cruce_73",
     "activityNames": {},
-    "count": 4
+    "count": 4,
+    "isRoad": false
   },
   {
     "id": "tramo_92",
@@ -5322,7 +5414,8 @@
     "startId": "cruce_120",
     "endId": "cruce_121",
     "activityNames": {},
-    "count": 7
+    "count": 7,
+    "isRoad": false
   },
   {
     "id": "tramo_93",
@@ -5339,7 +5432,8 @@
     "startId": "cruce_121",
     "endId": "cruce_68",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_94",
@@ -5372,7 +5466,8 @@
     "startId": "cruce_68",
     "endId": "cruce_67",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
     "id": "tramo_95",
@@ -5465,7 +5560,8 @@
     "startId": "cruce_112",
     "endId": "cruce_138",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
     "id": "tramo_96",
@@ -5546,7 +5642,8 @@
     "startId": "cruce_97",
     "endId": "cruce_100",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_97",
@@ -5563,7 +5660,8 @@
     "startId": "cruce_100",
     "endId": "cruce_101",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": true
   },
   {
     "id": "tramo_98",
@@ -5580,7 +5678,8 @@
     "startId": "cruce_101",
     "endId": "cruce_220",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": true
   },
   {
     "id": "tramo_99",
@@ -5613,7 +5712,8 @@
     "startId": "cruce_220",
     "endId": "cruce_102",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_100",
@@ -5646,7 +5746,8 @@
     "startId": "cruce_102",
     "endId": "cruce_103",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": true
   },
   {
     "id": "tramo_101",
@@ -5723,7 +5824,8 @@
     "startId": "cruce_103",
     "endId": "cruce_99",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_102",
@@ -5948,7 +6050,8 @@
     "startId": "cruce_99",
     "endId": "cruce_104",
     "activityNames": {},
-    "count": 9
+    "count": 9,
+    "isRoad": false
   },
   {
     "id": "tramo_103",
@@ -6001,7 +6104,8 @@
     "startId": "cruce_104",
     "endId": "cruce_105",
     "activityNames": {},
-    "count": 9
+    "count": 9,
+    "isRoad": false
   },
   {
     "id": "tramo_104",
@@ -6022,7 +6126,8 @@
     "startId": "cruce_105",
     "endId": "cruce_106",
     "activityNames": {},
-    "count": 9
+    "count": 9,
+    "isRoad": false
   },
   {
     "id": "tramo_105",
@@ -6039,7 +6144,8 @@
     "startId": "cruce_106",
     "endId": "cruce_107",
     "activityNames": {},
-    "count": 9
+    "count": 9,
+    "isRoad": false
   },
   {
     "id": "tramo_106",
@@ -6056,7 +6162,8 @@
     "startId": "cruce_107",
     "endId": "cruce_108",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": true
   },
   {
     "id": "tramo_107",
@@ -6085,7 +6192,8 @@
     "startId": "cruce_108",
     "endId": "cruce_109",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": true
   },
   {
     "id": "tramo_108",
@@ -6102,7 +6210,8 @@
     "startId": "cruce_109",
     "endId": "cruce_163",
     "activityNames": {},
-    "count": 4
+    "count": 4,
+    "isRoad": false
   },
   {
     "id": "tramo_109",
@@ -6135,7 +6244,8 @@
     "startId": "cruce_163",
     "endId": "cruce_110",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
     "id": "tramo_110",
@@ -6160,7 +6270,8 @@
     "startId": "cruce_110",
     "endId": "cruce_162",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
     "id": "tramo_111",
@@ -6261,7 +6372,8 @@
     "startId": "cruce_162",
     "endId": "cruce_161",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
     "id": "tramo_112",
@@ -6450,7 +6562,8 @@
     "startId": "cruce_161",
     "endId": "cruce_160",
     "activityNames": {},
-    "count": 4
+    "count": 4,
+    "isRoad": false
   },
   {
     "id": "tramo_113",
@@ -6487,7 +6600,8 @@
     "startId": "cruce_160",
     "endId": "cruce_136",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
     "id": "tramo_114",
@@ -6532,7 +6646,8 @@
     "startId": "cruce_136",
     "endId": "cruce_83",
     "activityNames": {},
-    "count": 6
+    "count": 6,
+    "isRoad": false
   },
   {
     "id": "tramo_115",
@@ -6553,7 +6668,8 @@
     "startId": "cruce_83",
     "endId": "cruce_84",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
     "id": "tramo_116",
@@ -6574,7 +6690,8 @@
     "startId": "cruce_84",
     "endId": "cruce_85",
     "activityNames": {},
-    "count": 7
+    "count": 7,
+    "isRoad": false
   },
   {
     "id": "tramo_117",
@@ -6615,7 +6732,8 @@
     "startId": "cruce_85",
     "endId": "cruce_77",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
     "id": "tramo_118",
@@ -6660,7 +6778,8 @@
     "startId": "cruce_77",
     "endId": "cruce_76",
     "activityNames": {},
-    "count": 6
+    "count": 6,
+    "isRoad": false
   },
   {
     "id": "tramo_119",
@@ -6697,7 +6816,8 @@
     "startId": "cruce_76",
     "endId": "cruce_38",
     "activityNames": {},
-    "count": 8
+    "count": 8,
+    "isRoad": false
   },
   {
     "id": "tramo_120",
@@ -6718,7 +6838,8 @@
     "startId": "cruce_40",
     "endId": "cruce_69",
     "activityNames": {},
-    "count": 7
+    "count": 7,
+    "isRoad": true
   },
   {
     "id": "tramo_121",
@@ -6739,7 +6860,8 @@
     "startId": "cruce_69",
     "endId": "cruce_70",
     "activityNames": {},
-    "count": 7
+    "count": 7,
+    "isRoad": false
   },
   {
     "id": "tramo_122",
@@ -6760,7 +6882,8 @@
     "startId": "cruce_70",
     "endId": "cruce_121",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
     "id": "tramo_123",
@@ -6821,7 +6944,8 @@
     "startId": "cruce_120",
     "endId": "cruce_138",
     "activityNames": {},
-    "count": 8
+    "count": 8,
+    "isRoad": false
   },
   {
     "id": "tramo_124",
@@ -6850,7 +6974,8 @@
     "startId": "cruce_71",
     "endId": "cruce_66",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
     "id": "tramo_125",
@@ -6871,7 +6996,8 @@
     "startId": "cruce_70",
     "endId": "cruce_68",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_126",
@@ -6960,7 +7086,8 @@
     "startId": "cruce_29",
     "endId": "cruce_63",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_127",
@@ -6981,7 +7108,8 @@
     "startId": "cruce_63",
     "endId": "cruce_62",
     "activityNames": {},
-    "count": 8
+    "count": 8,
+    "isRoad": true
   },
   {
     "id": "tramo_128",
@@ -7006,7 +7134,8 @@
     "startId": "cruce_62",
     "endId": "cruce_122",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": true
   },
   {
     "id": "tramo_129",
@@ -7055,7 +7184,8 @@
     "startId": "cruce_122",
     "endId": "cruce_60",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_130",
@@ -7100,7 +7230,8 @@
     "startId": "cruce_60",
     "endId": "cruce_59",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_131",
@@ -7181,7 +7312,8 @@
     "startId": "cruce_59",
     "endId": "cruce_58",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_132",
@@ -7210,7 +7342,8 @@
     "startId": "cruce_58",
     "endId": "cruce_57",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_133",
@@ -7255,7 +7388,8 @@
     "startId": "cruce_57",
     "endId": "cruce_56",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_134",
@@ -7276,7 +7410,8 @@
     "startId": "cruce_56",
     "endId": "cruce_55",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_135",
@@ -7305,7 +7440,8 @@
     "startId": "cruce_55",
     "endId": "cruce_54",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": true
   },
   {
     "id": "tramo_136",
@@ -7322,7 +7458,8 @@
     "startId": "cruce_54",
     "endId": "cruce_225",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": true
   },
   {
     "id": "tramo_137",
@@ -7367,7 +7504,8 @@
     "startId": "cruce_225",
     "endId": "cruce_53",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_138",
@@ -7416,7 +7554,8 @@
     "startId": "cruce_53",
     "endId": "cruce_224",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_139",
@@ -7489,7 +7628,8 @@
     "startId": "cruce_224",
     "endId": "cruce_80",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_140",
@@ -7574,7 +7714,8 @@
     "startId": "cruce_80",
     "endId": "cruce_81",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_141",
@@ -7603,7 +7744,8 @@
     "startId": "cruce_81",
     "endId": "cruce_51",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_142",
@@ -7644,7 +7786,8 @@
     "startId": "cruce_51",
     "endId": "cruce_50",
     "activityNames": {},
-    "count": 8
+    "count": 8,
+    "isRoad": false
   },
   {
     "id": "tramo_143",
@@ -7669,7 +7812,8 @@
     "startId": "cruce_50",
     "endId": "cruce_7",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
     "id": "tramo_144",
@@ -7718,7 +7862,8 @@
     "startId": "cruce_7",
     "endId": "cruce_147",
     "activityNames": {},
-    "count": 7
+    "count": 7,
+    "isRoad": false
   },
   {
     "id": "tramo_145",
@@ -7771,7 +7916,8 @@
     "startId": "cruce_147",
     "endId": "cruce_8",
     "activityNames": {},
-    "count": 7
+    "count": 7,
+    "isRoad": false
   },
   {
     "id": "tramo_146",
@@ -7852,7 +7998,8 @@
     "startId": "cruce_8",
     "endId": "cruce_157",
     "activityNames": {},
-    "count": 7
+    "count": 7,
+    "isRoad": false
   },
   {
     "id": "tramo_147",
@@ -7889,7 +8036,8 @@
     "startId": "cruce_157",
     "endId": "cruce_158",
     "activityNames": {},
-    "count": 6
+    "count": 6,
+    "isRoad": false
   },
   {
     "id": "tramo_148",
@@ -7922,7 +8070,8 @@
     "startId": "cruce_158",
     "endId": "cruce_222",
     "activityNames": {},
-    "count": 6
+    "count": 6,
+    "isRoad": false
   },
   {
     "id": "tramo_149",
@@ -7951,7 +8100,8 @@
     "startId": "cruce_222",
     "endId": "cruce_146",
     "activityNames": {},
-    "count": 6
+    "count": 6,
+    "isRoad": false
   },
   {
     "id": "tramo_150",
@@ -7972,7 +8122,8 @@
     "startId": "cruce_146",
     "endId": "cruce_4",
     "activityNames": {},
-    "count": 7
+    "count": 7,
+    "isRoad": false
   },
   {
     "id": "tramo_151",
@@ -8001,7 +8152,8 @@
     "startId": "cruce_97",
     "endId": "cruce_98",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_152",
@@ -8190,7 +8342,8 @@
     "startId": "cruce_98",
     "endId": "cruce_99",
     "activityNames": {},
-    "count": 8
+    "count": 8,
+    "isRoad": false
   },
   {
     "id": "tramo_153",
@@ -8219,7 +8372,8 @@
     "startId": "cruce_107",
     "endId": "cruce_209",
     "activityNames": {},
-    "count": 8
+    "count": 8,
+    "isRoad": false
   },
   {
     "id": "tramo_154",
@@ -8256,7 +8410,8 @@
     "startId": "cruce_209",
     "endId": "cruce_166",
     "activityNames": {},
-    "count": 7
+    "count": 7,
+    "isRoad": false
   },
   {
     "id": "tramo_155",
@@ -8425,7 +8580,8 @@
     "startId": "cruce_166",
     "endId": "cruce_198",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
     "id": "tramo_156",
@@ -8442,7 +8598,8 @@
     "startId": "cruce_198",
     "endId": "cruce_241",
     "activityNames": {},
-    "count": 4
+    "count": 4,
+    "isRoad": false
   },
   {
     "id": "tramo_157",
@@ -8467,7 +8624,8 @@
     "startId": "cruce_241",
     "endId": "cruce_240",
     "activityNames": {},
-    "count": 4
+    "count": 4,
+    "isRoad": false
   },
   {
     "id": "tramo_158",
@@ -8488,7 +8646,8 @@
     "startId": "cruce_240",
     "endId": "cruce_199",
     "activityNames": {},
-    "count": 4
+    "count": 4,
+    "isRoad": true
   },
   {
     "id": "tramo_159",
@@ -8557,7 +8716,8 @@
     "startId": "cruce_199",
     "endId": "cruce_200",
     "activityNames": {},
-    "count": 4
+    "count": 4,
+    "isRoad": false
   },
   {
     "id": "tramo_160",
@@ -8586,7 +8746,8 @@
     "startId": "cruce_200",
     "endId": "cruce_201",
     "activityNames": {},
-    "count": 6
+    "count": 6,
+    "isRoad": false
   },
   {
     "id": "tramo_161",
@@ -8603,7 +8764,8 @@
     "startId": "cruce_201",
     "endId": "cruce_131",
     "activityNames": {},
-    "count": 6
+    "count": 6,
+    "isRoad": false
   },
   {
     "id": "tramo_162",
@@ -8620,7 +8782,8 @@
     "startId": "cruce_131",
     "endId": "cruce_204",
     "activityNames": {},
-    "count": 6
+    "count": 6,
+    "isRoad": false
   },
   {
     "id": "tramo_163",
@@ -8637,7 +8800,8 @@
     "startId": "cruce_204",
     "endId": "cruce_203",
     "activityNames": {},
-    "count": 6
+    "count": 6,
+    "isRoad": false
   },
   {
     "id": "tramo_164",
@@ -8666,7 +8830,8 @@
     "startId": "cruce_203",
     "endId": "cruce_83",
     "activityNames": {},
-    "count": 6
+    "count": 6,
+    "isRoad": false
   },
   {
     "id": "tramo_165",
@@ -8695,7 +8860,8 @@
     "startId": "cruce_136",
     "endId": "cruce_86",
     "activityNames": {},
-    "count": 7
+    "count": 7,
+    "isRoad": false
   },
   {
     "id": "tramo_166",
@@ -8748,7 +8914,8 @@
     "startId": "cruce_86",
     "endId": "cruce_211",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
     "id": "tramo_167",
@@ -8781,7 +8948,8 @@
     "startId": "cruce_211",
     "endId": "cruce_212",
     "activityNames": {},
-    "count": 4
+    "count": 4,
+    "isRoad": false
   },
   {
     "id": "tramo_168",
@@ -8802,7 +8970,8 @@
     "startId": "cruce_212",
     "endId": "cruce_213",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
     "id": "tramo_169",
@@ -8839,7 +9008,8 @@
     "startId": "cruce_213",
     "endId": "cruce_84",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_170",
@@ -8876,7 +9046,8 @@
     "startId": "cruce_167",
     "endId": "cruce_85",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_171",
@@ -8961,7 +9132,8 @@
     "startId": "cruce_167",
     "endId": "cruce_168",
     "activityNames": {},
-    "count": 8
+    "count": 8,
+    "isRoad": false
   },
   {
     "id": "tramo_172",
@@ -9010,7 +9182,8 @@
     "startId": "cruce_168",
     "endId": "cruce_76",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_173",
@@ -9027,7 +9200,8 @@
     "startId": "cruce_34",
     "endId": "cruce_218",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_174",
@@ -9048,7 +9222,8 @@
     "startId": "cruce_218",
     "endId": "cruce_219",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
     "id": "tramo_175",
@@ -9169,7 +9344,8 @@
     "startId": "cruce_219",
     "endId": "cruce_48",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_176",
@@ -9210,7 +9386,8 @@
     "startId": "cruce_48",
     "endId": "cruce_47",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_177",
@@ -9243,7 +9420,8 @@
     "startId": "cruce_47",
     "endId": "cruce_46",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
     "id": "tramo_178",
@@ -9284,7 +9462,8 @@
     "startId": "cruce_46",
     "endId": "cruce_217",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": true
   },
   {
     "id": "tramo_179",
@@ -9325,7 +9504,8 @@
     "startId": "cruce_217",
     "endId": "cruce_35",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": true
   },
   {
     "id": "tramo_180",
@@ -9390,7 +9570,8 @@
     "startId": "cruce_27",
     "endId": "cruce_65",
     "activityNames": {},
-    "count": 8
+    "count": 8,
+    "isRoad": false
   },
   {
     "id": "tramo_181",
@@ -9467,7 +9648,8 @@
     "startId": "cruce_65",
     "endId": "cruce_63",
     "activityNames": {},
-    "count": 7
+    "count": 7,
+    "isRoad": false
   },
   {
     "id": "tramo_182",
@@ -9564,7 +9746,8 @@
     "startId": "cruce_62",
     "endId": "cruce_61",
     "activityNames": {},
-    "count": 6
+    "count": 6,
+    "isRoad": false
   },
   {
     "id": "tramo_183",
@@ -9609,7 +9792,8 @@
     "startId": "cruce_61",
     "endId": "cruce_64",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
     "id": "tramo_184",
@@ -9682,7 +9866,8 @@
     "startId": "cruce_64",
     "endId": "cruce_26",
     "activityNames": {},
-    "count": 4
+    "count": 4,
+    "isRoad": false
   },
   {
     "id": "tramo_185",
@@ -9731,7 +9916,8 @@
     "startId": "cruce_25",
     "endId": "cruce_153",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
     "id": "tramo_186",
@@ -9768,7 +9954,8 @@
     "startId": "cruce_153",
     "endId": "cruce_227",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_187",
@@ -9793,7 +9980,8 @@
     "startId": "cruce_227",
     "endId": "cruce_52",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_188",
@@ -9862,7 +10050,8 @@
     "startId": "cruce_52",
     "endId": "cruce_24",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_189",
@@ -9931,7 +10120,8 @@
     "startId": "cruce_23",
     "endId": "cruce_51",
     "activityNames": {},
-    "count": 7
+    "count": 7,
+    "isRoad": false
   },
   {
     "id": "tramo_190",
@@ -10040,7 +10230,8 @@
     "startId": "cruce_50",
     "endId": "cruce_49",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
     "id": "tramo_191",
@@ -10073,7 +10264,8 @@
     "startId": "cruce_49",
     "endId": "cruce_123",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_192",
@@ -10138,7 +10330,8 @@
     "startId": "cruce_123",
     "endId": "cruce_8",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_193",
@@ -10183,7 +10376,8 @@
     "startId": "cruce_61",
     "endId": "cruce_25",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
     "id": "tramo_194",
@@ -10280,7 +10474,8 @@
     "startId": "cruce_49",
     "endId": "cruce_147",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_195",
@@ -10313,7 +10508,8 @@
     "startId": "cruce_96",
     "endId": "cruce_98",
     "activityNames": {},
-    "count": 6
+    "count": 6,
+    "isRoad": false
   },
   {
     "id": "tramo_196",
@@ -10410,7 +10606,8 @@
     "startId": "cruce_110",
     "endId": "cruce_131",
     "activityNames": {},
-    "count": 4
+    "count": 4,
+    "isRoad": false
   },
   {
     "id": "tramo_197",
@@ -10451,7 +10648,8 @@
     "startId": "cruce_86",
     "endId": "cruce_215",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_198",
@@ -10488,7 +10686,8 @@
     "startId": "cruce_215",
     "endId": "cruce_216",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_199",
@@ -10545,7 +10744,8 @@
     "startId": "cruce_216",
     "endId": "cruce_79",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_200",
@@ -10562,7 +10762,8 @@
     "startId": "cruce_79",
     "endId": "cruce_78",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_201",
@@ -10591,7 +10792,8 @@
     "startId": "cruce_78",
     "endId": "cruce_36",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_202",
@@ -10608,7 +10810,8 @@
     "startId": "cruce_40",
     "endId": "cruce_68",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": true
   },
   {
     "id": "tramo_203",
@@ -10721,7 +10924,8 @@
     "startId": "cruce_7",
     "endId": "cruce_145",
     "activityNames": {},
-    "count": 6
+    "count": 6,
+    "isRoad": false
   },
   {
     "id": "tramo_204",
@@ -10738,7 +10942,8 @@
     "startId": "cruce_145",
     "endId": "cruce_144",
     "activityNames": {},
-    "count": 6
+    "count": 6,
+    "isRoad": false
   },
   {
     "id": "tramo_205",
@@ -10759,7 +10964,8 @@
     "startId": "cruce_144",
     "endId": "cruce_6",
     "activityNames": {},
-    "count": 6
+    "count": 6,
+    "isRoad": false
   },
   {
     "id": "tramo_206",
@@ -10804,7 +11010,8 @@
     "startId": "cruce_115",
     "endId": "cruce_118",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
     "id": "tramo_207",
@@ -10905,7 +11112,8 @@
     "startId": "cruce_93",
     "endId": "cruce_139",
     "activityNames": {},
-    "count": 4
+    "count": 4,
+    "isRoad": false
   },
   {
     "id": "tramo_208",
@@ -10923,14 +11131,15 @@
         41.31758
       ],
       [
-        -0.399241447,
-        41.321335806
+        -0.399250077,
+        41.321286482
       ]
     ],
     "startId": "cruce_139",
     "endId": "cruce_140",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": true
   },
   {
     "id": "tramo_209",
@@ -10951,7 +11160,8 @@
     "startId": "cruce_116",
     "endId": "cruce_177",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
     "id": "tramo_210",
@@ -11028,7 +11238,8 @@
     "startId": "cruce_177",
     "endId": "cruce_175",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
     "id": "tramo_211",
@@ -11045,7 +11256,8 @@
     "startId": "cruce_175",
     "endId": "cruce_114",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
     "id": "tramo_212",
@@ -11066,7 +11278,8 @@
     "startId": "cruce_92",
     "endId": "cruce_188",
     "activityNames": {},
-    "count": 4
+    "count": 4,
+    "isRoad": false
   },
   {
     "id": "tramo_213",
@@ -11103,7 +11316,8 @@
     "startId": "cruce_188",
     "endId": "cruce_187",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
     "id": "tramo_214",
@@ -11184,7 +11398,8 @@
     "startId": "cruce_187",
     "endId": "cruce_143",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
     "id": "tramo_215",
@@ -11277,7 +11492,8 @@
     "startId": "cruce_32",
     "endId": "cruce_31",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_216",
@@ -11306,7 +11522,8 @@
     "startId": "cruce_192",
     "endId": "cruce_193",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_217",
@@ -11335,7 +11552,8 @@
     "startId": "cruce_193",
     "endId": "cruce_120",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_218",
@@ -11416,7 +11634,8 @@
     "startId": "cruce_157",
     "endId": "cruce_9",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_219",
@@ -11461,7 +11680,8 @@
     "startId": "cruce_9",
     "endId": "cruce_10",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_220",
@@ -11502,7 +11722,8 @@
     "startId": "cruce_10",
     "endId": "cruce_11",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_221",
@@ -11567,7 +11788,8 @@
     "startId": "cruce_11",
     "endId": "cruce_223",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_222",
@@ -11592,7 +11814,8 @@
     "startId": "cruce_223",
     "endId": "cruce_158",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_223",
@@ -11625,7 +11848,8 @@
     "startId": "cruce_158",
     "endId": "cruce_146",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_224",
@@ -11674,7 +11898,8 @@
     "startId": "cruce_170",
     "endId": "cruce_238",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_225",
@@ -11783,7 +12008,8 @@
     "startId": "cruce_238",
     "endId": "cruce_169",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_226",
@@ -11852,14 +12078,15 @@
     "startId": "cruce_111",
     "endId": "cruce_148",
     "activityNames": {},
-    "count": 6
+    "count": 6,
+    "isRoad": false
   },
   {
     "id": "tramo_227",
     "points": [
       [
-        -0.420173407,
-        41.329566075
+        -0.42017877,
+        41.329533849
       ],
       [
         -0.41942,
@@ -11925,7 +12152,8 @@
     "startId": "cruce_149",
     "endId": "cruce_148",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_228",
@@ -11991,21 +12219,22 @@
         41.33002
       ],
       [
-        -0.420173407,
-        41.329566075
+        -0.42017877,
+        41.329533849
       ]
     ],
     "startId": "cruce_148",
     "endId": "cruce_149",
     "activityNames": {},
-    "count": 4
+    "count": 4,
+    "isRoad": true
   },
   {
     "id": "tramo_229",
     "points": [
       [
-        -0.420173407,
-        41.329566075
+        -0.42017877,
+        41.329533849
       ],
       [
         -0.42046,
@@ -12047,7 +12276,8 @@
     "startId": "cruce_149",
     "endId": "cruce_150",
     "activityNames": {},
-    "count": 6
+    "count": 6,
+    "isRoad": false
   },
   {
     "id": "tramo_230",
@@ -12120,7 +12350,8 @@
     "startId": "cruce_150",
     "endId": "cruce_151",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
     "id": "tramo_231",
@@ -12149,7 +12380,8 @@
     "startId": "cruce_151",
     "endId": "cruce_152",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
     "id": "tramo_232",
@@ -12206,7 +12438,8 @@
     "startId": "cruce_152",
     "endId": "cruce_154",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
     "id": "tramo_233",
@@ -12303,7 +12536,8 @@
     "startId": "cruce_154",
     "endId": "cruce_171",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
     "id": "tramo_234",
@@ -12340,7 +12574,8 @@
     "startId": "cruce_171",
     "endId": "cruce_172",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
     "id": "tramo_235",
@@ -12461,7 +12696,8 @@
     "startId": "cruce_172",
     "endId": "cruce_173",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
     "id": "tramo_236",
@@ -12506,7 +12742,8 @@
     "startId": "cruce_173",
     "endId": "cruce_179",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
     "id": "tramo_237",
@@ -12619,7 +12856,8 @@
     "startId": "cruce_179",
     "endId": "cruce_185",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_238",
@@ -12640,7 +12878,8 @@
     "startId": "cruce_185",
     "endId": "cruce_184",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_239",
@@ -12673,7 +12912,8 @@
     "startId": "cruce_184",
     "endId": "cruce_181",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_240",
@@ -12762,7 +13002,8 @@
     "startId": "cruce_181",
     "endId": "cruce_182",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_241",
@@ -12795,7 +13036,8 @@
     "startId": "cruce_182",
     "endId": "cruce_183",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_242",
@@ -12840,7 +13082,8 @@
     "startId": "cruce_183",
     "endId": "cruce_191",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
     "id": "tramo_243",
@@ -12857,7 +13100,8 @@
     "startId": "cruce_191",
     "endId": "cruce_178",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_244",
@@ -12918,7 +13162,8 @@
     "startId": "cruce_183",
     "endId": "cruce_184",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_245",
@@ -12967,7 +13212,8 @@
     "startId": "cruce_181",
     "endId": "cruce_180",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_246",
@@ -13040,7 +13286,8 @@
     "startId": "cruce_180",
     "endId": "cruce_171",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_247",
@@ -13105,7 +13352,8 @@
     "startId": "cruce_154",
     "endId": "cruce_186",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_248",
@@ -13130,7 +13378,8 @@
     "startId": "cruce_186",
     "endId": "cruce_155",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_249",
@@ -13163,7 +13412,8 @@
     "startId": "cruce_155",
     "endId": "cruce_230",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_250",
@@ -13272,7 +13522,8 @@
     "startId": "cruce_230",
     "endId": "cruce_156",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_251",
@@ -13301,7 +13552,8 @@
     "startId": "cruce_156",
     "endId": "cruce_152",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_252",
@@ -13374,7 +13626,8 @@
     "startId": "cruce_185",
     "endId": "cruce_172",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_253",
@@ -13499,7 +13752,8 @@
     "startId": "cruce_154",
     "endId": "cruce_173",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_254",
@@ -13656,7 +13910,8 @@
     "startId": "cruce_173",
     "endId": "cruce_150",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_255",
@@ -13725,7 +13980,8 @@
     "startId": "cruce_166",
     "endId": "cruce_208",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_256",
@@ -13750,7 +14006,8 @@
     "startId": "cruce_208",
     "endId": "cruce_207",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_257",
@@ -13819,7 +14076,8 @@
     "startId": "cruce_207",
     "endId": "cruce_206",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
     "id": "tramo_258",
@@ -13872,7 +14130,8 @@
     "startId": "cruce_206",
     "endId": "cruce_168",
     "activityNames": {},
-    "count": 6
+    "count": 6,
+    "isRoad": false
   },
   {
     "id": "tramo_259",
@@ -13909,7 +14168,8 @@
     "startId": "cruce_212",
     "endId": "cruce_214",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_260",
@@ -13934,7 +14194,8 @@
     "startId": "cruce_214",
     "endId": "cruce_165",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_261",
@@ -13967,7 +14228,8 @@
     "startId": "cruce_165",
     "endId": "cruce_77",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
     "id": "tramo_262",
@@ -13988,7 +14250,8 @@
     "startId": "cruce_193",
     "endId": "cruce_232",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_263",
@@ -14033,7 +14296,8 @@
     "startId": "cruce_179",
     "endId": "cruce_178",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_264",
@@ -14246,7 +14510,8 @@
     "startId": "cruce_178",
     "endId": "cruce_195",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_265",
@@ -14351,7 +14616,8 @@
     "startId": "cruce_195",
     "endId": "cruce_196",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_266",
@@ -14528,7 +14794,8 @@
     "startId": "cruce_196",
     "endId": "cruce_139",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": true
   },
   {
     "id": "tramo_267",
@@ -14561,7 +14828,8 @@
     "startId": "cruce_180",
     "endId": "cruce_190",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_268",
@@ -14598,7 +14866,8 @@
     "startId": "cruce_190",
     "endId": "cruce_228",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_269",
@@ -14775,7 +15044,8 @@
     "startId": "cruce_228",
     "endId": "cruce_229",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_270",
@@ -14800,7 +15070,8 @@
     "startId": "cruce_229",
     "endId": "cruce_186",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_271",
@@ -14833,7 +15104,8 @@
     "startId": "cruce_155",
     "endId": "cruce_156",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_272",
@@ -14854,7 +15126,8 @@
     "startId": "cruce_163",
     "endId": "cruce_164",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_273",
@@ -14931,7 +15204,8 @@
     "startId": "cruce_164",
     "endId": "cruce_162",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
     "id": "tramo_274",
@@ -14952,7 +15226,8 @@
     "startId": "cruce_211",
     "endId": "cruce_83",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
     "id": "tramo_275",
@@ -15053,7 +15328,8 @@
     "startId": "cruce_42",
     "endId": "cruce_28",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
     "id": "tramo_276",
@@ -15083,12 +15359,22 @@
         41.36334
       ],
       [
-        -0.41318,
-        41.36527
-      ],
+        -0.413265211,
+        41.365467896
+      ]
+    ],
+    "startId": "cruce_60",
+    "endId": "cruce_242",
+    "activityNames": {},
+    "count": 1,
+    "isRoad": true
+  },
+  {
+    "id": "tramo_277",
+    "points": [
       [
-        -0.41315,
-        41.36539
+        -0.413265211,
+        41.365467896
       ],
       [
         -0.41298,
@@ -15195,13 +15481,14 @@
         41.372195357
       ]
     ],
-    "startId": "cruce_60",
+    "startId": "cruce_242",
     "endId": "cruce_153",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_277",
+    "id": "tramo_278",
     "points": [
       [
         -0.367693305,
@@ -15219,10 +15506,11 @@
     "startId": "cruce_175",
     "endId": "cruce_174",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_278",
+    "id": "tramo_279",
     "points": [
       [
         -0.370772481,
@@ -15256,10 +15544,11 @@
     "startId": "cruce_176",
     "endId": "cruce_175",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_279",
+    "id": "tramo_280",
     "points": [
       [
         -0.378545523,
@@ -15361,10 +15650,11 @@
     "startId": "cruce_188",
     "endId": "cruce_189",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_280",
+    "id": "tramo_281",
     "points": [
       [
         -0.320701003,
@@ -15386,10 +15676,11 @@
     "startId": "cruce_202",
     "endId": "cruce_167",
     "activityNames": {},
-    "count": 5
+    "count": 5,
+    "isRoad": false
   },
   {
-    "id": "tramo_281",
+    "id": "tramo_282",
     "points": [
       [
         -0.319354534,
@@ -15443,10 +15734,11 @@
     "startId": "cruce_202",
     "endId": "cruce_200",
     "activityNames": {},
-    "count": 4
+    "count": 4,
+    "isRoad": false
   },
   {
-    "id": "tramo_282",
+    "id": "tramo_283",
     "points": [
       [
         -0.386973023,
@@ -15464,10 +15756,11 @@
     "startId": "cruce_65",
     "endId": "cruce_64",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_283",
+    "id": "tramo_284",
     "points": [
       [
         -0.306415558,
@@ -15545,10 +15838,11 @@
     "startId": "cruce_160",
     "endId": "cruce_205",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_284",
+    "id": "tramo_285",
     "points": [
       [
         -0.309394327,
@@ -15590,10 +15884,11 @@
     "startId": "cruce_205",
     "endId": "cruce_204",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
-    "id": "tramo_285",
+    "id": "tramo_286",
     "points": [
       [
         -0.31786859,
@@ -15607,10 +15902,11 @@
     "startId": "cruce_203",
     "endId": "cruce_202",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
-    "id": "tramo_286",
+    "id": "tramo_287",
     "points": [
       [
         -0.339916348,
@@ -15840,10 +16136,11 @@
     "startId": "cruce_39",
     "endId": "cruce_210",
     "activityNames": {},
-    "count": 2
+    "count": 2,
+    "isRoad": false
   },
   {
-    "id": "tramo_287",
+    "id": "tramo_288",
     "points": [
       [
         -0.340388417,
@@ -15869,10 +16166,11 @@
     "startId": "cruce_210",
     "endId": "cruce_207",
     "activityNames": {},
-    "count": 3
+    "count": 3,
+    "isRoad": false
   },
   {
-    "id": "tramo_288",
+    "id": "tramo_289",
     "points": [
       [
         -0.329723954,
@@ -15886,10 +16184,11 @@
     "startId": "cruce_198",
     "endId": "cruce_197",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_289",
+    "id": "tramo_290",
     "points": [
       [
         -0.33017993,
@@ -15927,10 +16226,11 @@
     "startId": "cruce_197",
     "endId": "cruce_206",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_290",
+    "id": "tramo_291",
     "points": [
       [
         -0.319494009,
@@ -15980,10 +16280,11 @@
     "startId": "cruce_213",
     "endId": "cruce_214",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_291",
+    "id": "tramo_292",
     "points": [
       [
         -0.330668092,
@@ -16009,10 +16310,11 @@
     "startId": "cruce_209",
     "endId": "cruce_210",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_292",
+    "id": "tramo_293",
     "points": [
       [
         -0.320389867,
@@ -16134,10 +16436,11 @@
     "startId": "cruce_79",
     "endId": "cruce_217",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_293",
+    "id": "tramo_294",
     "points": [
       [
         -0.285199285,
@@ -16227,10 +16530,11 @@
     "startId": "cruce_47",
     "endId": "cruce_218",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_294",
+    "id": "tramo_295",
     "points": [
       [
         -0.305635273,
@@ -16248,10 +16552,11 @@
     "startId": "cruce_219",
     "endId": "cruce_33",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_295",
+    "id": "tramo_296",
     "points": [
       [
         -0.313373208,
@@ -16397,10 +16702,11 @@
     "startId": "cruce_235",
     "endId": "cruce_221",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_296",
+    "id": "tramo_297",
     "points": [
       [
         -0.316044688,
@@ -16418,10 +16724,11 @@
     "startId": "cruce_109",
     "endId": "cruce_164",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_297",
+    "id": "tramo_298",
     "points": [
       [
         -0.309394327,
@@ -16467,10 +16774,11 @@
     "startId": "cruce_205",
     "endId": "cruce_161",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_298",
+    "id": "tramo_299",
     "points": [
       [
         -0.32538414,
@@ -16536,10 +16844,11 @@
     "startId": "cruce_165",
     "endId": "cruce_78",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_299",
+    "id": "tramo_300",
     "points": [
       [
         -0.329809785,
@@ -16629,10 +16938,11 @@
     "startId": "cruce_82",
     "endId": "cruce_41",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_300",
+    "id": "tramo_301",
     "points": [
       [
         -0.35045743,
@@ -16662,10 +16972,11 @@
     "startId": "cruce_8",
     "endId": "cruce_9",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_301",
+    "id": "tramo_302",
     "points": [
       [
         -0.330963135,
@@ -16703,10 +17014,11 @@
     "startId": "cruce_11",
     "endId": "cruce_12",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_302",
+    "id": "tramo_303",
     "points": [
       [
         -0.326060057,
@@ -16748,10 +17060,11 @@
     "startId": "cruce_12",
     "endId": "cruce_13",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_303",
+    "id": "tramo_304",
     "points": [
       [
         -0.317595005,
@@ -16769,10 +17082,11 @@
     "startId": "cruce_13",
     "endId": "cruce_14",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_304",
+    "id": "tramo_305",
     "points": [
       [
         -0.314376354,
@@ -16790,10 +17104,11 @@
     "startId": "cruce_14",
     "endId": "cruce_15",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_305",
+    "id": "tramo_306",
     "points": [
       [
         -0.314864516,
@@ -16859,10 +17174,11 @@
     "startId": "cruce_15",
     "endId": "cruce_16",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_306",
+    "id": "tramo_307",
     "points": [
       [
         -0.276830792,
@@ -16892,10 +17208,11 @@
     "startId": "cruce_16",
     "endId": "cruce_19",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_307",
+    "id": "tramo_308",
     "points": [
       [
         -0.277372599,
@@ -16953,10 +17270,11 @@
     "startId": "cruce_19",
     "endId": "cruce_20",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_308",
+    "id": "tramo_309",
     "points": [
       [
         -0.279593468,
@@ -16970,10 +17288,11 @@
     "startId": "cruce_20",
     "endId": "cruce_21",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   },
   {
-    "id": "tramo_309",
+    "id": "tramo_310",
     "points": [
       [
         -0.28049469,
@@ -17011,6 +17330,7 @@
     "startId": "cruce_21",
     "endId": "cruce_3",
     "activityNames": {},
-    "count": 1
+    "count": 1,
+    "isRoad": false
   }
 ]
