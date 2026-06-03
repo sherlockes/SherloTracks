@@ -948,7 +948,7 @@
             <!-- Slider de Distancia (Sólo visible si Auto) -->
             <div id="auto-distance-section" style="display: none; flex-direction: column; gap: 6px;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <label style="font-size: 10px; font-weight: 700; color: var(--text-slate); text-transform: uppercase; letter-spacing: 0.05em;">Distancia Objetivo</label>
+                    <label style="font-size: 10px; font-weight: 700; color: var(--text-slate); text-transform: uppercase; letter-spacing: 0.05em;">Distancia Objetivo Estimada</label>
                     <span id="lbl-distance-value" style="font-size: 14px; font-weight: 800; color: var(--brand-color); font-family: 'Outfit', sans-serif;">20 km</span>
                 </div>
                 <input type="range" id="slider-distance" min="10" max="60" step="1" value="20" style="width: 100%; accent-color: var(--brand-color); height: 6px; border-radius: 3px; cursor: pointer;" />
@@ -1474,119 +1474,64 @@
         }
 
 
-        // Planificar Ruta Lineal Automática (DFS con Backtracking - 10 intentos aleatorios para máxima precisión de distancia)
-        function planearRutaLinealAuto(startNode, endNode, targetDistM, targetAscentM) {
-            const allPaths = [];
-            const startTime = Date.now();
-            const maxTotalTimeMs = 1500; // 1.5 segundos de tiempo de ejecución límite para evitar bloqueos
-            const maxSolutions = 500; // Permitir más candidatos para optimizar la aproximación
+        // Planificar Ruta Lineal Automática (Ruta más corta posible usando Dijkstra)
+        function planearRutaLinealAuto(startNode, endNode) {
+            const distances = {};
+            const previous = {};
+            const pq = [];
 
-            // Hacemos 10 intentos independientes de DFS para explorar diferentes áreas y combinaciones aleatorias
-            for (let intento = 0; intento < 10; intento++) {
-                if (Date.now() - startTime > maxTotalTimeMs || allPaths.length >= maxSolutions) {
-                    break;
-                }
-
-                function dfs(currentNode, currentPath, currentDistance, currentAscent, visitedNodes, visitedTramos) {
-                    if (Date.now() - startTime > maxTotalTimeMs || allPaths.length >= maxSolutions) return;
-                    if (currentDistance > targetDistM * 1.3) return; // Limitar exceso a un máximo del 30% para mayor cercanía al objetivo
-
-                    if (currentNode === endNode) {
-                        allPaths.push({
-                            tramosList: [...currentPath],
-                            totalDist: currentDistance,
-                            totalAscent: currentAscent
-                        });
-                        return;
-                    }
-
-                    const vecinos = grafoAdyacencia[currentNode] || [];
-                    const shuffledVecinos = [...vecinos];
-                    for (let i = shuffledVecinos.length - 1; i > 0; i--) {
-                        const j = Math.floor(Math.random() * (i + 1));
-                        [shuffledVecinos[i], shuffledVecinos[j]] = [shuffledVecinos[j], shuffledVecinos[i]];
-                    }
-
-                    for (let i = 0; i < shuffledVecinos.length; i++) {
-                        const edge = shuffledVecinos[i];
-                        const nextNode = edge.destino;
-                        const tramoId = edge.tramo.id;
-
-                        if (visitedNodes.has(nextNode) || visitedTramos.has(tramoId)) continue;
-
-                        visitedNodes.add(nextNode);
-                        visitedTramos.add(tramoId);
-                        currentPath.push({ tramo: edge.tramo, reversed: edge.reversed, fromCruce: cruces.find(c => c.properties.id === parseInt(currentNode.replace('cruce_', ''), 10)) });
-
-                        dfs(nextNode, currentPath, currentDistance + edge.distancia, currentAscent + edge.desnivel, visitedNodes, visitedTramos);
-
-                        currentPath.pop();
-                        visitedTramos.delete(tramoId);
-                        visitedNodes.delete(nextNode);
-                    }
-                }
-
-                dfs(startNode, [], 0, 0, new Set([startNode]), new Set());
+            // Inicializar distancias
+            for (let node in grafoAdyacencia) {
+                distances[node] = Infinity;
+                previous[node] = null;
+            }
+            if (distances[startNode] === undefined) {
+                distances[startNode] = Infinity;
+                previous[startNode] = null;
             }
 
-            if (allPaths.length === 0) {
-                // Relajado: permitir repetir cruces (5 intentos independientes)
-                for (let intento = 0; intento < 5; intento++) {
-                    if (Date.now() - startTime > maxTotalTimeMs) break;
+            distances[startNode] = 0;
+            pq.push({ node: startNode, dist: 0 });
 
-                    function dfsRelaxed(currentNode, currentPath, currentDistance, currentAscent, visitedTramos) {
-                        if (Date.now() - startTime > maxTotalTimeMs || allPaths.length >= 200) return;
-                        if (currentDistance > targetDistM * 1.3) return;
+            while (pq.length > 0) {
+                // Ordenar la cola por distancia mínima
+                pq.sort((a, b) => a.dist - b.dist);
+                const { node: u, dist: d } = pq.shift();
 
-                        if (currentNode === endNode) {
-                            allPaths.push({
-                                tramosList: [...currentPath],
-                                totalDist: currentDistance,
-                                totalAscent: currentAscent
-                            });
-                            return;
-                        }
+                if (d > distances[u]) continue;
+                if (u === endNode) break;
 
-                        const vecinos = grafoAdyacencia[currentNode] || [];
-                        const shuffledVecinos = [...vecinos];
-                        for (let i = shuffledVecinos.length - 1; i > 0; i--) {
-                            const j = Math.floor(Math.random() * (i + 1));
-                            [shuffledVecinos[i], shuffledVecinos[j]] = [shuffledVecinos[j], shuffledVecinos[i]];
-                        }
+                const edges = grafoAdyacencia[u] || [];
+                for (let i = 0; i < edges.length; i++) {
+                    const edge = edges[i];
+                    const v = edge.destino;
+                    const alt = d + edge.distancia;
 
-                        for (let i = 0; i < shuffledVecinos.length; i++) {
-                            const edge = shuffledVecinos[i];
-                            const nextNode = edge.destino;
-                            const tramoId = edge.tramo.id;
-
-                            if (visitedTramos.has(tramoId)) continue;
-
-                            visitedTramos.add(tramoId);
-                            currentPath.push({ tramo: edge.tramo, reversed: edge.reversed, fromCruce: cruces.find(c => c.properties.id === parseInt(currentNode.replace('cruce_', ''), 10)) });
-
-                            dfsRelaxed(nextNode, currentPath, currentDistance + edge.distancia, currentAscent + edge.desnivel, visitedTramos);
-
-                            currentPath.pop();
-                            visitedTramos.delete(tramoId);
-                        }
+                    if (alt < distances[v]) {
+                        distances[v] = alt;
+                        previous[v] = { parent: u, edge: edge };
+                        pq.push({ node: v, dist: alt });
                     }
-                    dfsRelaxed(startNode, [], 0, 0, new Set());
                 }
             }
 
-            if (allPaths.length === 0) return [];
+            // Reconstruir el camino de forma secuencial
+            const path = [];
+            let current = endNode;
+            while (previous[current] !== null && previous[current] !== undefined) {
+                const { parent, edge } = previous[current];
+                const fromCruceNum = parseInt(parent.replace('cruce_', ''), 10);
+                const fromCruceObj = cruces.find(c => c.properties.id === fromCruceNum);
 
-            let mejorCamino = null;
-            let mejorPuntuacion = Infinity;
-            allPaths.forEach(path => {
-                const distDiff = Math.abs(path.totalDist - targetDistM) / targetDistM;
-                if (distDiff < mejorPuntuacion) {
-                    mejorPuntuacion = distDiff;
-                    mejorCamino = path;
-                }
-            });
+                path.unshift({
+                    tramo: edge.tramo,
+                    reversed: edge.reversed,
+                    fromCruce: fromCruceObj
+                });
+                current = parent;
+            }
 
-            return mejorCamino ? mejorCamino.tramosList : [];
+            return path;
         }
 
         // (Sistema de depuración interactiva removido a petición del usuario para consolidación automática directa)
@@ -2016,7 +1961,11 @@
             btnModeAuto.classList.add('active');
             btnModeManual.classList.remove('active');
             autoTypeSection.style.display = 'block';
-            autoDistanceSection.style.display = 'flex';
+            if (tempTipoRutaAuto === 'circular') {
+                autoDistanceSection.style.display = 'flex';
+            } else {
+                autoDistanceSection.style.display = 'none';
+            }
             tempModoCreacion = 'auto';
         });
 
@@ -2025,12 +1974,16 @@
             btnTypeCircular.classList.add('active');
             btnTypeLineal.classList.remove('active');
             tempTipoRutaAuto = 'circular';
+            if (tempModoCreacion === 'auto') {
+                autoDistanceSection.style.display = 'flex';
+            }
         });
 
         btnTypeLineal.addEventListener('click', () => {
             btnTypeLineal.classList.add('active');
             btnTypeCircular.classList.remove('active');
             tempTipoRutaAuto = 'lineal';
+            autoDistanceSection.style.display = 'none';
         });
 
         sliderDistance.addEventListener('input', (e) => {
@@ -2450,7 +2403,7 @@
                         const endCruce = cruce;
                         clearCrossingMarkers();
                         
-                        const linealTramos = planearRutaLinealAuto(`cruce_${trackStartCruce.properties.id}`, `cruce_${endCruce.properties.id}`, distanciaObjetivoAuto, 0);
+                        const linealTramos = planearRutaLinealAuto(`cruce_${trackStartCruce.properties.id}`, `cruce_${endCruce.properties.id}`);
                         if (linealTramos && linealTramos.length > 0) {
                             panel.classList.add('active');
                             panel.classList.add('collapsed');
@@ -2459,7 +2412,7 @@
                             
                             consolidarRutaAuto(linealTramos);
                         } else {
-                            alert("No se pudo generar una ruta lineal para esa distancia en esta zona. Prueba con otros valores.");
+                            alert("No se pudo generar una ruta lineal entre los cruces seleccionados.");
                             resetCreator();
                         }
                     }
