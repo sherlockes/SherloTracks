@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import MapView from './components/MapView';
-import { Activity, RefreshCw, Map as MapIcon, Calendar, Filter, Download, Undo } from 'lucide-react';
+import { Activity, RefreshCw, Map as MapIcon, Calendar, Filter, Download, Undo, MapPin, Edit3 } from 'lucide-react';
 
 const API_URL = '/api';
 
@@ -17,9 +17,22 @@ function App() {
     return saved || 'Year';
   });
   const [crucesMode, setCrucesMode] = useState(false);
+  const [minisiteEditorMode, setMinisiteEditorMode] = useState(false);
 
   const toggleCrucesMode = () => {
-    setCrucesMode(!crucesMode);
+    const nextVal = !crucesMode;
+    setCrucesMode(nextVal);
+    if (nextVal) {
+      setMinisiteEditorMode(false);
+    }
+  };
+
+  const toggleMinisiteEditorMode = () => {
+    const nextVal = !minisiteEditorMode;
+    setMinisiteEditorMode(nextVal);
+    if (nextVal) {
+      setCrucesMode(false);
+    }
   };
 
 
@@ -299,19 +312,26 @@ function App() {
           </div>
         </div>
 
-        {/* Botón Modo Cruces a la Derecha */}
+        {/* Botones de Modo a la Derecha */}
         <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.75rem', alignItems: 'center', paddingRight: '1rem' }}>
-          <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <div style={{ display: 'flex', gap: '0.75rem' }}>
             <button 
               onClick={toggleCrucesMode}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider border-2 transition-all shadow-sm cursor-pointer ${
-                crucesMode 
-                  ? 'bg-emerald-600 border-emerald-600 text-white hover:bg-emerald-700' 
-                  : 'bg-white border-slate-200 text-slate-700 hover:border-emerald-600 hover:text-emerald-600'
-              }`}
+              className={`mode-btn mode-btn-cruces ${crucesMode ? 'mode-btn-active' : ''}`}
             >
-              <span className={crucesMode ? 'animate-pulse font-extrabold text-sm' : 'font-extrabold text-sm'}>X</span>
+              <span className="mode-btn-icon">
+                <MapPin size={14} strokeWidth={crucesMode ? 3 : 2} />
+              </span>
               {crucesMode ? 'Salir Cruces' : 'Modo Cruces'}
+            </button>
+            <button 
+              onClick={toggleMinisiteEditorMode}
+              className={`mode-btn mode-btn-minisite ${minisiteEditorMode ? 'mode-btn-active' : ''}`}
+            >
+              <span className="mode-btn-icon">
+                <Edit3 size={14} strokeWidth={minisiteEditorMode ? 3 : 2} />
+              </span>
+              {minisiteEditorMode ? 'Salir Editor' : 'Editor Minisite'}
             </button>
           </div>
         </div>
@@ -325,6 +345,7 @@ function App() {
         <MapView 
           activities={filteredActivities} 
           crucesMode={crucesMode}
+          minisiteEditorMode={minisiteEditorMode}
         />
       </main>
     </div>

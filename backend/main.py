@@ -633,4 +633,29 @@ def export_minisite(req: ExportMinisiteRequest, db: Session = Depends(get_db)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/minisite/cruces")
+def get_minisite_cruces():
+    import json
+    path = "/public/minisite_cruces.json"
+    if not os.path.exists(path):
+        return []
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/minisite/tramos")
+def get_minisite_tramos():
+    import json
+    path = "/public/minisite_tramos.json"
+    if not os.path.exists(path):
+        return []
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 

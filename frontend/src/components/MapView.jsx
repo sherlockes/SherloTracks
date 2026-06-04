@@ -280,6 +280,182 @@ const UnassignedTramoLine = ({ tramo }) => {
   );
 };
 
+const MinisiteTramoLine = ({ tramo, onToggleType, onDelete }) => {
+  const [hover, setHover] = useState(false);
+  const path = tramo.points.map(p => [p[1], p[0]]);
+
+  // Calcular la longitud
+  let distance = 0;
+  for (let i = 0; i < path.length - 1; i++) {
+    distance += L.latLng(path[i]).distanceTo(L.latLng(path[i+1]));
+  }
+  const distanceStr = distance < 1000 ? `${Math.round(distance)} m` : `${(distance/1000).toFixed(2)} km`;
+
+  const tramoColor = tramo.isRoad ? '#64748b' : '#10b981'; // Carretera = Slate, Camino = Emerald
+
+  return (
+    <Polyline
+      positions={path}
+      eventHandlers={{
+        mouseover: (e) => {
+          setHover(true);
+          e.target.bringToFront();
+        },
+        mouseout: () => setHover(false),
+      }}
+      pathOptions={{
+        color: hover ? '#3b82f6' : tramoColor,
+        weight: hover ? 6 : 4,
+        opacity: hover ? 0.95 : 0.75,
+        lineJoin: 'round'
+      }}
+    >
+      <Popup>
+        <div style={{ padding: '0.5rem', minWidth: '220px', fontFamily: 'sans-serif' }}>
+          <h4 style={{ margin: '0 0 0.375rem 0', fontWeight: 'bold', color: '#1e293b', fontSize: '12px', borderBottom: '1px solid #f1f5f9', paddingBottom: '0.25rem', display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+            <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', backgroundColor: tramoColor }}></span>
+            Segmento Minisite: {tramo.id}
+          </h4>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', fontSize: '11px', color: '#475569' }}>
+            <div>
+              <span style={{ fontWeight: '600', color: '#94a3b8' }}>Origen: </span>
+              <span style={{ fontFamily: 'monospace', color: '#334155', backgroundColor: '#f8fafc', padding: '0 0.25rem', borderRadius: '0.25rem' }}>{tramo.startId.replace('cruce_', '#')}</span>
+            </div>
+            <div>
+              <span style={{ fontWeight: '600', color: '#94a3b8' }}>Destino: </span>
+              <span style={{ fontFamily: 'monospace', color: '#334155', backgroundColor: '#f8fafc', padding: '0 0.25rem', borderRadius: '0.25rem' }}>{tramo.endId.replace('cruce_', '#')}</span>
+            </div>
+            <div>
+              <span style={{ fontWeight: '600', color: '#94a3b8' }}>Longitud: </span>
+              <span style={{ fontWeight: 'bold', color: '#0f172a' }}>{distanceStr}</span>
+            </div>
+            <div>
+              <span style={{ fontWeight: '600', color: '#94a3b8' }}>Tipo: </span>
+              <span style={{ fontWeight: 'bold', color: tramo.isRoad ? '#64748b' : '#10b981' }}>
+                {tramo.isRoad ? 'Carretera 🛣️' : 'Camino/Sendero 🌲'}
+              </span>
+            </div>
+
+            <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem', borderTop: '1px solid #f1f5f9', paddingTop: '0.5rem' }}>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onToggleType(tramo.id);
+                }}
+                style={{
+                  flex: 1,
+                  fontSize: '9px',
+                  padding: '4px 6px',
+                  borderRadius: '4px',
+                  border: '1px solid #cbd5e1',
+                  backgroundColor: '#f8fafc',
+                  color: '#475569',
+                  cursor: 'pointer',
+                  fontWeight: '600',
+                }}
+              >
+                Cambiar Tipo
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (window.confirm("¿Seguro que deseas eliminar este segmento del minisite?")) {
+                    onDelete(tramo.id);
+                  }
+                }}
+                style={{
+                  fontSize: '9px',
+                  padding: '4px 6px',
+                  borderRadius: '4px',
+                  border: '1px solid #fecaca',
+                  backgroundColor: '#fef2f2',
+                  color: '#b91c1c',
+                  cursor: 'pointer',
+                  fontWeight: '600',
+                }}
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      </Popup>
+    </Polyline>
+  );
+};
+
+const MinisiteCruceMarker = ({ cruce }) => {
+  const [lon, lat] = cruce.geometry.coordinates;
+  const position = [lat, lon];
+  const influenceRadius = cruce.properties.radio_influencia || 25;
+
+  const lowZoomIcon = L.divIcon({
+    className: 'minisite-cruce-marker',
+    html: `<div style="
+      width: 14px;
+      height: 14px;
+      background-color: #f59e0b;
+      border: 2px solid #ffffff;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      cursor: pointer;
+    "></div>`,
+    iconSize: [14, 14],
+    iconAnchor: [7, 7]
+  });
+
+  return (
+    <React.Fragment>
+      <Circle
+        center={position}
+        radius={influenceRadius}
+        interactive={false}
+        pathOptions={{
+          fillColor: '#f59e0b',
+          fillOpacity: 0.08,
+          color: '#f59e0b',
+          weight: 1,
+          opacity: 0.35,
+          dashArray: '4, 4'
+        }}
+      />
+      <Marker
+        position={position}
+        icon={lowZoomIcon}
+        draggable={false}
+      >
+        <Tooltip direction="top" offset={[0, -7]} opacity={0.9}>
+          <span style={{ fontWeight: 'bold', color: '#1e293b' }}>
+            {cruce.properties.nombre || `Cruce #${cruce.properties.id}`}
+          </span>
+        </Tooltip>
+      </Marker>
+    </React.Fragment>
+  );
+};
+
+const MinisiteEditorLayer = ({ cruces, tramos, onToggleTramoType, onDeleteTramo }) => {
+  return (
+    <>
+      {tramos && tramos.map((tr) => (
+        <MinisiteTramoLine 
+          key={tr.id} 
+          tramo={tr} 
+          onToggleType={onToggleTramoType} 
+          onDelete={onDeleteTramo} 
+        />
+      ))}
+
+      {cruces && cruces.map((c) => (
+        <MinisiteCruceMarker 
+          key={`minisite_cruce_${c.properties.id}`} 
+          cruce={c} 
+        />
+      ))}
+    </>
+  );
+};
+
 const TramosLayer = ({ tramos, unassignedTramos, crucesMode, creandoTrack, onToggleTramoType }) => {
   if (!crucesMode || creandoTrack) return null;
 
@@ -1157,7 +1333,8 @@ const MapClickListener = ({ crucesMode, onMapAltClick }) => {
 
 const MapView = ({ 
   activities, 
-  crucesMode
+  crucesMode,
+  minisiteEditorMode
 }) => {
   const parallelSens = 10;
   const [pointsParams, setPointsParams] = useState(() => {
@@ -1244,6 +1421,127 @@ const MapView = ({
       setEditingRadius(25);
     }
   }, [selectedCruce]);
+
+  const [minisiteCruces, setMinisiteCruces] = useState([]);
+  const [minisiteTramos, setMinisiteTramos] = useState([]);
+  const [loadingMinisite, setLoadingMinisite] = useState(false);
+  const [minisiteModified, setMinisiteModified] = useState(false);
+
+  useEffect(() => {
+    if (minisiteEditorMode) {
+      const fetchMinisiteData = async () => {
+        setLoadingMinisite(true);
+        try {
+          const resCruces = await axios.get('/api/minisite/cruces');
+          const resTramos = await axios.get('/api/minisite/tramos');
+          
+          const loadedCruces = resCruces.data || [];
+          const loadedTramos = resTramos.data || [];
+          setMinisiteCruces(loadedCruces);
+          setMinisiteTramos(loadedTramos);
+          setMinisiteModified(false);
+
+          if (map && loadedCruces.length > 0) {
+            const allPoints = [];
+            loadedCruces.forEach(c => {
+              if (c.geometry && c.geometry.coordinates) {
+                const [lon, lat] = c.geometry.coordinates;
+                allPoints.push([lat, lon]);
+              }
+            });
+            if (allPoints.length > 0) {
+              const bounds = L.latLngBounds(allPoints);
+              map.fitBounds(bounds, { padding: [50, 50], animate: true });
+            }
+          }
+        } catch (err) {
+          console.error("Error al cargar los datos del minisite:", err);
+          alert("No se pudieron cargar los datos del minisite.");
+        } finally {
+          setLoadingMinisite(false);
+        }
+      };
+      fetchMinisiteData();
+    } else {
+      setMinisiteCruces([]);
+      setMinisiteTramos([]);
+      setMinisiteModified(false);
+    }
+  }, [minisiteEditorMode, map]);
+
+  const handleMinisiteToggleTramoType = (tramoId) => {
+    setMinisiteTramos(prev => prev.map(t => {
+      if (t.id === tramoId) {
+        return { ...t, isRoad: !t.isRoad };
+      }
+      return t;
+    }));
+    setMinisiteModified(true);
+  };
+
+  const handleMinisiteDeleteTramo = (tramoId) => {
+    const updatedTramos = minisiteTramos.filter(t => t.id !== tramoId);
+    
+    // Identificar cruces referenciados
+    const remainingCruceIds = new Set();
+    updatedTramos.forEach(t => {
+      if (t.startId) remainingCruceIds.add(t.startId);
+      if (t.endId) remainingCruceIds.add(t.endId);
+    });
+
+    const updatedCruces = minisiteCruces.filter(c => {
+      const cruceId = `cruce_${c.properties.id}`;
+      return remainingCruceIds.has(cruceId);
+    });
+
+    setMinisiteTramos(updatedTramos);
+    setMinisiteCruces(updatedCruces);
+    setMinisiteModified(true);
+  };
+
+  const handleSaveMinisiteChanges = async () => {
+    // 1. Revisar si hay cruces huérfanos (sin ningún tramo que llegue a ellos)
+    const referencedCruceIds = new Set();
+    minisiteTramos.forEach(t => {
+      if (t.startId) referencedCruceIds.add(t.startId);
+      if (t.endId) referencedCruceIds.add(t.endId);
+    });
+
+    const orphanedCruces = minisiteCruces.filter(c => {
+      const cruceId = `cruce_${c.properties.id}`;
+      return !referencedCruceIds.has(cruceId);
+    });
+
+    let finalCruces = minisiteCruces;
+    if (orphanedCruces.length > 0) {
+      const orphanedNames = orphanedCruces.map(c => c.properties.nombre || `#${c.properties.id}`);
+      alert(`Se han detectado y eliminado ${orphanedCruces.length} cruce(s) huérfano(s) sin segmentos asociados: ${orphanedNames.join(', ')}`);
+      
+      finalCruces = minisiteCruces.filter(c => {
+        const cruceId = `cruce_${c.properties.id}`;
+        return referencedCruceIds.has(cruceId);
+      });
+      
+      setMinisiteCruces(finalCruces);
+    }
+
+    setLoadingMinisite(true);
+    try {
+      const response = await axios.post('/api/export-minisite', {
+        cruces: finalCruces,
+        tramos: minisiteTramos,
+        tolerance: pointsParams.roadDetectionTolerance || 20
+      });
+      if (response.data && response.data.status === 'success') {
+        setMinisiteModified(false);
+      }
+    } catch (err) {
+      console.error("Error al guardar el minisite:", err);
+      alert("Error al guardar los datos del minisite.");
+    } finally {
+      setLoadingMinisite(false);
+    }
+  };
 
   const [loadingCruces, setLoadingCruces] = useState(false);
   const [calculationProgress, setCalculationProgress] = useState(null);
@@ -2578,14 +2876,44 @@ const MapView = ({
               width: '0.5rem', 
               height: '0.5rem', 
               borderRadius: '9999px', 
-              backgroundColor: crucesMode ? '#10b981' : '#FC4C02'
+              backgroundColor: minisiteEditorMode ? '#f59e0b' : (crucesMode ? '#10b981' : '#FC4C02')
             }} 
           />
           <span style={{ fontWeight: 600, color: '#334155' }}>
-            {crucesMode
-              ? `Modo Cruces (${visibleActivities.length} Actividades, ${visibleCruces.length} Cruces, ${tramos.length} Tramos)`
-              : (activities.length > 0 ? `Visualizando ${activities.length} recorridos` : 'Cargando...')}
+            {minisiteEditorMode
+              ? `Editor Minisite (${minisiteCruces.length} Cruces, ${minisiteTramos.length} Tramos)${minisiteModified ? ' (Modificado)' : ''}`
+              : crucesMode
+                ? `Modo Cruces (${visibleActivities.length} Actividades, ${visibleCruces.length} Cruces, ${tramos.length} Tramos)`
+                : (activities.length > 0 ? `Visualizando ${activities.length} recorridos` : 'Cargando...')}
           </span>
+          {minisiteEditorMode && (
+            <>
+              <div style={{ width: '1px', height: '0.75rem', backgroundColor: '#e2e8f0' }}></div>
+              <button 
+                onClick={handleSaveMinisiteChanges}
+                disabled={loadingMinisite || !minisiteModified}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.25rem',
+                  padding: '0.25rem 0.5rem',
+                  borderRadius: '0.25rem',
+                  fontWeight: 900,
+                  textTransform: 'uppercase',
+                  fontSize: '10px',
+                  cursor: (!minisiteModified || loadingMinisite) ? 'not-allowed' : 'pointer',
+                  border: '1px solid ' + (minisiteModified ? '#10b981' : '#e2e8f0'),
+                  backgroundColor: minisiteModified ? '#10b981' : '#f8fafc',
+                  color: minisiteModified ? '#ffffff' : '#94a3b8',
+                  transition: 'all 0.2s',
+                  opacity: loadingMinisite ? 0.7 : 1
+                }}
+              >
+                <Check size={12} style={{ color: minisiteModified ? '#ffffff' : '#94a3b8' }} />
+                {loadingMinisite ? 'Guardando...' : 'Guardar Cambios'}
+              </button>
+            </>
+          )}
           {crucesMode && (
             <>
               <div style={{ width: '1px', height: '0.75rem', backgroundColor: '#e2e8f0' }}></div>
@@ -3527,74 +3855,85 @@ const MapView = ({
           </LayersControl.BaseLayer>
         </LayersControl>
         
-        <RouteLines 
-          activities={activities} 
-          crucesMode={crucesMode}
-        />
-        <CrucesLayer 
-          crucesMode={crucesMode}
-          pointsParams={pointsParams}
-          cruces={cruces}
-          setCruces={setCruces}
-          selectedCruce={selectedCruce}
-          setSelectedCruce={setSelectedCruce}
-          onDeleteCruce={handleDeleteCruce}
-          zoom={zoom}
-          creandoTrack={creandoTrack}
-          trackStartCruce={trackStartCruce}
-          setTrackStartCruce={setTrackStartCruce}
-          trackCurrentCruce={trackCurrentCruce}
-          setTrackCurrentCruce={setTrackCurrentCruce}
-          setTrackTramos={setTrackTramos}
-          tramos={tramos}
-          editingRadius={editingRadius}
-        />
-        <TramosLayer 
-          tramos={tramos}
-          unassignedTramos={unassignedTramos}
-          crucesMode={crucesMode}
-          creandoTrack={creandoTrack}
-          onToggleTramoType={toggleTramoType}
-        />
-        {/* Resaltado de tramo paralelo encontrado */}
-        {crucesMode && currentMatchIndex >= 0 && parallelMatches[currentMatchIndex] && (
-          <Circle
-            center={parallelMatches[currentMatchIndex].point}
-            radius={20}
-            pathOptions={{
-              fillColor: '#8b5cf6', // Violeta intenso
-              fillOpacity: 0.25,
-              color: '#ef4444', // Rojo advertencia
-              weight: 2.5,
-              dashArray: '4, 6'
-            }}
-          >
-            <Popup permanent>
-              <div style={{ padding: '4px', fontFamily: 'sans-serif', minWidth: '160px' }}>
-                <div style={{ fontWeight: 'bold', color: '#b91c1c', fontSize: '11px', marginBottom: '2px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  ⚠️ Posible cruce faltante
-                </div>
-                <div style={{ fontSize: '10px', color: '#475569', lineHeight: 1.3 }}>
-                  Se detectaron segmentos paralelos a unos <strong>{Math.round(parallelMatches[currentMatchIndex].distance)} metros</strong> de distancia.
-                  <div style={{ marginTop: '6px', color: '#10b981', fontWeight: 'bold' }}>
-                    💡 Pulsa Ctrl + Click aquí para añadir el cruce.
+        {minisiteEditorMode ? (
+          <MinisiteEditorLayer
+            cruces={minisiteCruces}
+            tramos={minisiteTramos}
+            onToggleTramoType={handleMinisiteToggleTramoType}
+            onDeleteTramo={handleMinisiteDeleteTramo}
+          />
+        ) : (
+          <>
+            <RouteLines 
+              activities={activities} 
+              crucesMode={crucesMode}
+            />
+            <CrucesLayer 
+              crucesMode={crucesMode}
+              pointsParams={pointsParams}
+              cruces={cruces}
+              setCruces={setCruces}
+              selectedCruce={selectedCruce}
+              setSelectedCruce={setSelectedCruce}
+              onDeleteCruce={handleDeleteCruce}
+              zoom={zoom}
+              creandoTrack={creandoTrack}
+              trackStartCruce={trackStartCruce}
+              setTrackStartCruce={setTrackStartCruce}
+              trackCurrentCruce={trackCurrentCruce}
+              setTrackCurrentCruce={setTrackCurrentCruce}
+              setTrackTramos={setTrackTramos}
+              tramos={tramos}
+              editingRadius={editingRadius}
+            />
+            <TramosLayer 
+              tramos={tramos}
+              unassignedTramos={unassignedTramos}
+              crucesMode={crucesMode}
+              creandoTrack={creandoTrack}
+              onToggleTramoType={toggleTramoType}
+            />
+            {/* Resaltado de tramo paralelo encontrado */}
+            {crucesMode && currentMatchIndex >= 0 && parallelMatches[currentMatchIndex] && (
+              <Circle
+                center={parallelMatches[currentMatchIndex].point}
+                radius={20}
+                pathOptions={{
+                  fillColor: '#8b5cf6', // Violeta intenso
+                  fillOpacity: 0.25,
+                  color: '#ef4444', // Rojo advertencia
+                  weight: 2.5,
+                  dashArray: '4, 6'
+                }}
+              >
+                <Popup permanent>
+                  <div style={{ padding: '4px', fontFamily: 'sans-serif', minWidth: '160px' }}>
+                    <div style={{ fontWeight: 'bold', color: '#b91c1c', fontSize: '11px', marginBottom: '2px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      ⚠️ Posible cruce faltante
+                    </div>
+                    <div style={{ fontSize: '10px', color: '#475569', lineHeight: 1.3 }}>
+                      Se detectaron segmentos paralelos a unos <strong>{Math.round(parallelMatches[currentMatchIndex].distance)} metros</strong> de distancia.
+                      <div style={{ marginTop: '6px', color: '#10b981', fontWeight: 'bold' }}>
+                        💡 Pulsa Ctrl + Click aquí para añadir el cruce.
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </Popup>
-          </Circle>
+                </Popup>
+              </Circle>
+            )}
+            <TrackCreatorLayer
+              creandoTrack={creandoTrack}
+              trackStartCruce={trackStartCruce}
+              trackCurrentCruce={trackCurrentCruce}
+              trackTramos={trackTramos}
+              tramos={tramos}
+              onSelectTramo={handleSelectNextTramo}
+              getTrackCoordinates={getTrackCoordinates}
+              getNextAvailableTramos={getNextAvailableTramos}
+              getEquidistantPoint={getEquidistantPoint}
+            />
+          </>
         )}
-        <TrackCreatorLayer
-          creandoTrack={creandoTrack}
-          trackStartCruce={trackStartCruce}
-          trackCurrentCruce={trackCurrentCruce}
-          trackTramos={trackTramos}
-          tramos={tramos}
-          onSelectTramo={handleSelectNextTramo}
-          getTrackCoordinates={getTrackCoordinates}
-          getNextAvailableTramos={getNextAvailableTramos}
-          getEquidistantPoint={getEquidistantPoint}
-        />
         
         <AutoCenter activities={activities} />
         <BoxZoomListener active={boxZoomActive} setActive={setBoxZoomActive} />
@@ -3607,7 +3946,7 @@ const MapView = ({
       </MapContainer>
 
       {/* Reloj de arena / Overlay de cálculo */}
-      {crucesMode && (loadingCruces || calculationProgress) && (
+      {((crucesMode && (loadingCruces || calculationProgress)) || (minisiteEditorMode && loadingMinisite)) && (
         <div
           style={{
             position: 'absolute',
@@ -3650,20 +3989,24 @@ const MapView = ({
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
               <span style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0f172a', fontFamily: 'sans-serif' }}>
-                {loadingCruces 
-                  ? 'Cargando Cruces' 
-                  : (calculationProgress === 'exporting' 
-                    ? 'Exportando Minisite' 
-                    : (calculationProgress === 'segments' ? 'Procesando Segmentos' : 'Detectando Carreteras'))}
+                {minisiteEditorMode
+                  ? (minisiteModified ? 'Guardando Minisite' : 'Cargando Minisite')
+                  : loadingCruces 
+                    ? 'Cargando Cruces' 
+                    : (calculationProgress === 'exporting' 
+                      ? 'Exportando Minisite' 
+                      : (calculationProgress === 'segments' ? 'Procesando Segmentos' : 'Detectando Carreteras'))}
               </span>
               <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 500, lineHeight: 1.45, fontFamily: 'sans-serif' }}>
-                {loadingCruces 
-                  ? 'Obteniendo puntos de unión de la base de datos...' 
-                  : (calculationProgress === 'exporting'
-                    ? 'Guardando datos de cruces y segmentos en /public...'
-                    : (calculationProgress === 'segments' 
-                      ? 'Calculando intersecciones y dividiendo rutas en tramos...' 
-                      : 'Clasificando y verificando tramos de carretera en el backend...'))}
+                {minisiteEditorMode
+                  ? (minisiteModified ? 'Guardando cambios de cruces y segmentos en /public...' : 'Obteniendo ficheros del minisite desde el servidor...')
+                  : loadingCruces 
+                    ? 'Obteniendo puntos de unión de la base de datos...' 
+                    : (calculationProgress === 'exporting'
+                      ? 'Guardando datos de cruces y segmentos en /public...'
+                      : (calculationProgress === 'segments' 
+                        ? 'Calculando intersecciones y dividiendo rutas en tramos...' 
+                        : 'Clasificando y verificando tramos de carretera en el backend...'))}
               </span>
             </div>
           </div>

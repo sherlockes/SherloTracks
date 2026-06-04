@@ -25,3 +25,72 @@ html, body, #root {
   width: 100% !important;
   background: #f1f5f9 !important;
 }
+
+/* Custom mode buttons in header */
+.mode-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 2px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #475569;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.mode-btn:active {
+  transform: scale(0.96);
+}
+
+.mode-btn-cruces:hover {
+  border-color: #10b981;
+  color: #10b981;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+}
+
+.mode-btn-cruces.mode-btn-active {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-color: #10b981;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+}
+
+.mode-btn-minisite:hover {
+  border-color: #d97706;
+  color: #d97706;
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.15);
+}
+
+.mode-btn-minisite.mode-btn-active {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  border-color: #f59e0b;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.4);
+}
+
+.mode-btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s ease;
+}
+
+.mode-btn-active .mode-btn-icon {
+  animation: pulse-icon 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse-icon {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
