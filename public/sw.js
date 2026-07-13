@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sherlotracks-cache-v1';
+const CACHE_NAME = 'sherlotracks-cache-v2';
 const ASSETS = [
     './',
     './index.html',
