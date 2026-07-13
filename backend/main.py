@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException, Request
+from fastapi import FastAPI, Depends, HTTPException, Request, Response
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -20,6 +20,10 @@ from sqlalchemy import text
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="SherloTracks API")
+
+@app.get("/minisite")
+def redirect_minisite_slash():
+    return Response(status_code=307, headers={"Location": "/minisite/"})
 
 app.mount("/minisite", StaticFiles(directory="/public", html=True), name="minisite")
 
