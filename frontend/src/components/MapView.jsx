@@ -1449,8 +1449,8 @@ const MapView = ({
       const fetchMinisiteData = async () => {
         setLoadingMinisite(true);
         try {
-          const resCruces = await axios.get('/api/minisite/cruces');
-          const resTramos = await axios.get('/api/minisite/tramos');
+          const resCruces = await axios.get(`/api/minisite/cruces?t=${Date.now()}`);
+          const resTramos = await axios.get(`/api/minisite/tramos?t=${Date.now()}`);
           
           const loadedCruces = resCruces.data || [];
           const loadedTramos = resTramos.data || [];

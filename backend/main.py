@@ -537,27 +537,35 @@ def export_minisite(req: ExportMinisiteRequest, db: Session = Depends(get_db)):
 
 @app.get("/minisite/cruces")
 def get_minisite_cruces():
-    import json
+    from fastapi.responses import JSONResponse
     path = "/public/minisite_cruces.json"
-    if not os.path.exists(path):
-        return []
-    try:
+    content = []
+    if os.path.exists(path):
         with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+            try:
+                content = json.load(f)
+            except Exception:
+                content = []
+    return JSONResponse(
+        content=content,
+        headers={"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
+    )
 
 @app.get("/minisite/tramos")
 def get_minisite_tramos():
-    import json
+    from fastapi.responses import JSONResponse
     path = "/public/minisite_tramos.json"
-    if not os.path.exists(path):
-        return []
-    try:
+    content = []
+    if os.path.exists(path):
         with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+            try:
+                content = json.load(f)
+            except Exception:
+                content = []
+    return JSONResponse(
+        content=content,
+        headers={"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
+    )
 
 def distance_meters(lon1, lat1, lon2, lat2):
     import math
