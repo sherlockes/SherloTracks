@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException, Request
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from typing import List
@@ -19,6 +20,8 @@ from sqlalchemy import text
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="SherloTracks API")
+
+app.mount("/minisite", StaticFiles(directory="/public", html=True), name="minisite")
 
 @app.on_event("startup")
 def migrate_db():

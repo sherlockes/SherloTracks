@@ -24,6 +24,10 @@ export default defineConfig({
         target: 'http://sherlotracks-back:8000',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
+      },
+      '/minisite': {
+        target: 'http://sherlotracks-back:8000',
+        changeOrigin: true
       }
     }
   }
