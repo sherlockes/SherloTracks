@@ -26,6 +26,9 @@ services:
     volumes:
       - ./backend:/app
       - ./public:/public
+      - .:/repo
+      - /home/sherlockes/.ssh:/root/.ssh:ro
+      - /home/sherlockes/.gitconfig:/root/.gitconfig:ro
     networks:
       - proxy
       - default

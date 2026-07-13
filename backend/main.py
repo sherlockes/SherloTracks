@@ -531,7 +531,48 @@ def export_minisite(req: ExportMinisiteRequest, db: Session = Depends(get_db)):
         with open("/public/minisite_tramos.json", "w", encoding="utf-8") as f:
             json.dump(req.tramos, f, indent=2, ensure_ascii=False)
             
-        return {"status": "success", "message": "Archivos del minisite exportados correctamente en la carpeta /public."}
+        git_pushed = False
+        git_error_detail = None
+        # Auto push al repositorio si el volumen /repo está montado
+        if os.path.exists("/repo"):
+            import subprocess
+            try:
+                # Comprobar si hay cambios para evitar commits vacíos
+                status = subprocess.run(
+                    ["git", "-c", "safe.directory=/repo", "status", "--porcelain", "public/minisite_cruces.json", "public/minisite_tramos.json"],
+                    cwd="/repo", capture_output=True, text=True
+                )
+                if status.returncode == 0 and status.stdout.strip():
+                    # Configuración básica en caso de no existir .gitconfig
+                    subprocess.run(["git", "-c", "safe.directory=/repo", "config", "user.name", "SherloTracks Bot"], cwd="/repo")
+                    subprocess.run(["git", "-c", "safe.directory=/repo", "config", "user.email", "bot@sherlotracks.es"], cwd="/repo")
+                    
+                    subprocess.run(["git", "-c", "safe.directory=/repo", "add", "public/minisite_cruces.json", "public/minisite_tramos.json"], cwd="/repo")
+                    
+                    commit_res = subprocess.run(
+                        ["git", "-c", "safe.directory=/repo", "commit", "-m", "data: exportacion automatica de datos del minisite"],
+                        cwd="/repo", capture_output=True, text=True
+                    )
+                    
+                    if commit_res.returncode == 0:
+                        push_res = subprocess.run(["git", "-c", "safe.directory=/repo", "push"], cwd="/repo", capture_output=True, text=True)
+                        if push_res.returncode == 0:
+                            git_pushed = True
+                        else:
+                            git_error_detail = f"git push falló: {push_res.stderr.strip()}"
+                    else:
+                        git_error_detail = f"git commit falló: {commit_res.stderr.strip()}"
+            except Exception as git_err:
+                git_error_detail = str(git_err)
+                print(f"Error al hacer push al repositorio: {git_err}")
+
+        msg = "Archivos del minisite exportados correctamente en la carpeta /public."
+        if git_pushed:
+            msg += " Cambios subidos automáticamente al repositorio Git."
+        elif git_error_detail:
+            msg += f" Sin embargo, no se pudo subir al repositorio Git: {git_error_detail}"
+
+        return {"status": "success", "message": msg}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
