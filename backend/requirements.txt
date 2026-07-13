@@ -3,7 +3,6 @@ uvicorn
 sqlalchemy
 geoalchemy2
 psycopg2-binary
-stravalib
 polyline
 shapely
 python-dotenv
@@ -14,3 +13,5 @@ numpy
 pandas
 scikit-learn
 scipy
+garminconnect
+

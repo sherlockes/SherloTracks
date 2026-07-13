@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { MapContainer, TileLayer, useMap, Polyline, LayersControl, Popup, Circle, Tooltip, Marker } from 'react-leaflet';
 import L from 'leaflet';
 import axios from 'axios';
 import { Download, Upload, Trash2, Info, Settings, Sliders, RefreshCw, Plus, Minus, Share2, Check, X, Edit2, Maximize2, Minimize2, Square, Hourglass } from 'lucide-react';
 
-const RouteLine = ({ act, path, dimmed }) => {
+const RouteLine = React.memo(({ act, path, dimmed }) => {
   const [hover, setHover] = useState(false);
 
   const handleDownloadGPX = (e) => {
@@ -37,7 +38,7 @@ const RouteLine = ({ act, path, dimmed }) => {
         mouseout: () => setHover(false),
       }}
       pathOptions={{
-        color: hover ? '#0ea5e9' : '#FC4C02', // Azul eléctrico en hover, Naranja Strava normal
+        color: hover ? '#0ea5e9' : '#FC4C02', // Azul eléctrico en hover, Naranja de ruta normal
         weight: hover ? 6 : 3,
         opacity: dimmed ? 0.1 : 1.0,
         lineJoin: 'round'
@@ -76,11 +77,13 @@ const RouteLine = ({ act, path, dimmed }) => {
       )}
     </Polyline>
   );
-};
+}, (prevProps, nextProps) => {
+  return prevProps.act.id === nextProps.act.id && prevProps.dimmed === nextProps.dimmed && prevProps.path === nextProps.path;
+});
 
 // Componente para dibujar las líneas de las rutas con efecto Heatmap
-const RouteLines = ({ activities, crucesMode }) => {
-  if (crucesMode) {
+const RouteLines = React.memo(({ activities, crucesMode, historicalMode }) => {
+  if (crucesMode || historicalMode) {
     return null;
   }
 
@@ -98,7 +101,11 @@ const RouteLines = ({ activities, crucesMode }) => {
       })}
     </>
   );
-};
+}, (prevProps, nextProps) => {
+  return prevProps.activities === nextProps.activities && 
+         prevProps.crucesMode === nextProps.crucesMode && 
+         prevProps.historicalMode === nextProps.historicalMode;
+});
 
 const TramoLine = ({ tramo, onToggleType }) => {
   const [hover, setHover] = useState(false);
@@ -456,8 +463,8 @@ const MinisiteEditorLayer = ({ cruces, tramos, onToggleTramoType, onDeleteTramo 
   );
 };
 
-const TramosLayer = ({ tramos, unassignedTramos, crucesMode, creandoTrack, onToggleTramoType }) => {
-  if (!crucesMode || creandoTrack) return null;
+const TramosLayer = ({ tramos, unassignedTramos, crucesMode, historicalMode = false, creandoTrack, onToggleTramoType }) => {
+  if ((!crucesMode && !historicalMode) || creandoTrack) return null;
 
   return (
     <>
@@ -579,6 +586,7 @@ const TrackCreatorLayer = ({
 // Capa para gestionar y renderizar los cruces manuales persistidos en la base de datos
 const CrucesLayer = ({
   crucesMode,
+  historicalMode = false,
   pointsParams,
   cruces,
   setCruces,
@@ -821,7 +829,7 @@ const CrucesLayer = ({
 
   // Actualizar reactivamente el radio en metros al cambiar el %, entrar al modo o realizar un cambio de zoom o paneo en el mapa
   useEffect(() => {
-    if (!crucesMode || !map) return;
+    if ((!crucesMode && !historicalMode) || !map) return;
 
     const updateRadius = () => {
       const bounds = map.getBounds();
@@ -843,9 +851,9 @@ const CrucesLayer = ({
       map.off('zoomend', updateRadius);
       map.off('moveend', updateRadius);
     };
-  }, [pointsParams.pointSizePercent, crucesMode, map]);
+  }, [pointsParams.pointSizePercent, crucesMode, historicalMode, map]);
 
-  if (!crucesMode) return null;
+  if (!crucesMode && !historicalMode) return null;
 
   const isDraggableZoom = zoom >= 17;
 
@@ -878,6 +886,7 @@ const CrucesLayer = ({
             }
           }));
         }
+
       }
     } catch (e) {
       console.error("Error al actualizar la posición del cruce:", e);
@@ -1234,7 +1243,7 @@ const BoxZoomListener = ({ active, setActive }) => {
       setDragStart(e.latlng);
       
       const newRect = L.rectangle([e.latlng, e.latlng], {
-        color: '#FC4C02', // Naranja Strava
+        color: '#FC4C02', // Naranja de ruta
         weight: 1.5,
         dashArray: '5, 5',
         fillColor: '#FC4C02',
@@ -1334,7 +1343,9 @@ const MapClickListener = ({ crucesMode, onMapAltClick }) => {
 const MapView = ({ 
   activities, 
   crucesMode,
-  minisiteEditorMode
+  minisiteEditorMode,
+  historicalMode = false,
+  historicalYears = 5
 }) => {
   const parallelSens = 10;
   const [pointsParams, setPointsParams] = useState(() => {
@@ -1367,6 +1378,12 @@ const MapView = ({
   const [map, setMap] = useState(null);
   const [zoom, setZoom] = useState(6);
   const [activationBounds, setActivationBounds] = useState(null);
+
+  const totalDistanceKms = useMemo(() => {
+    if (!activities || activities.length === 0) return 0;
+    const totalMeters = activities.reduce((acc, curr) => acc + (curr.distance || 0), 0);
+    return (totalMeters / 1000).toFixed(0);
+  }, [activities]);
 
   useEffect(() => {
     if (!map) return;
@@ -1545,6 +1562,33 @@ const MapView = ({
 
   const [loadingCruces, setLoadingCruces] = useState(false);
   const [calculationProgress, setCalculationProgress] = useState(null);
+  const [progressPercent, setProgressPercent] = useState(0);
+  const [totalTracksToProcess, setTotalTracksToProcess] = useState(0);
+  const [totalKmsToProcess, setTotalKmsToProcess] = useState(0);
+  const [processedTracks, setProcessedTracks] = useState(0);
+  const [processedKms, setProcessedKms] = useState(0);
+
+  const showLoadingOverlay = ((crucesMode || historicalMode) && (loadingCruces || calculationProgress)) || (minisiteEditorMode && loadingMinisite);
+
+  useEffect(() => {
+    if (showLoadingOverlay && !historicalMode) {
+      setProgressPercent(0);
+      const interval = setInterval(() => {
+        setProgressPercent(prev => {
+          if (prev >= 95) return prev;
+          // Incremento logarítmico simulado
+          const increment = Math.max(1, Math.round((98 - prev) / 8));
+          return prev + increment;
+        });
+      }, 250);
+
+      return () => {
+        clearInterval(interval);
+      };
+    } else if (!showLoadingOverlay) {
+      setProgressPercent(100);
+    }
+  }, [showLoadingOverlay, historicalMode]);
   const calculationTimeoutRef = useRef(null);
   const isMounted = useRef(true);
   const classificationCacheRef = useRef(new Map());
@@ -2128,7 +2172,7 @@ const MapView = ({
       if (map) {
         setActivationBounds(map.getBounds());
       }
-    } else {
+    } else if (!historicalMode) {
       setCruces([]);
       setSelectedCruce(null);
       setActivationBounds(null);
@@ -2136,7 +2180,95 @@ const MapView = ({
       setCurrentMatchIndex(-1);
       classificationCacheRef.current.clear();
     }
-  }, [crucesMode, fetchCruces, map]);
+  }, [crucesMode, historicalMode, fetchCruces, map]);
+
+  // Resetear estados al cambiar de modo para evitar bloqueos y mezclar datos
+  useEffect(() => {
+    setCruces([]);
+    setTramos([]);
+    setUnassignedTramos([]);
+    setSelectedCruce(null);
+    setParallelMatches([]);
+    setCurrentMatchIndex(-1);
+  }, [crucesMode, historicalMode, minisiteEditorMode]);
+
+  const fetchHistoricalTramos = useCallback(async () => {
+    if (!historicalMode || !map) return;
+
+    setCalculationProgress('segments');
+    setTramos([]);
+    setUnassignedTramos([]);
+    setTotalTracksToProcess(0);
+    setTotalKmsToProcess(0);
+    setProcessedTracks(0);
+    setProcessedKms(0);
+    setProgressPercent(0);
+
+    try {
+      const bounds = map.getBounds();
+      const boundsParams = bounds 
+        ? `&min_lat=${bounds.getSouth()}&min_lon=${bounds.getWest()}&max_lat=${bounds.getNorth()}&max_lon=${bounds.getEast()}` 
+        : "";
+
+      const response = await fetch(`/api/historical/calculate?years=${historicalYears}${boundsParams}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder("utf-8");
+      let buffer = "";
+      
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        
+        // Mantener la última línea incompleta en el buffer
+        buffer = lines.pop();
+        
+        for (const line of lines) {
+          if (!line.trim()) continue;
+          try {
+            const data = JSON.parse(line);
+            if (data.type === "info") {
+              setTotalTracksToProcess(data.total);
+              setTotalKmsToProcess(data.totalKms);
+            } else if (data.type === "progress") {
+              setProcessedTracks(data.index);
+              setProcessedKms(data.kms);
+              if (data.total > 0) {
+                setProgressPercent(Math.round((data.index / data.total) * 100));
+              }
+            } else if (data.type === "result") {
+              setCruces(data.cruces || []);
+              setTramos(data.tramos || []);
+              setUnassignedTramos([]);
+            } else if (data.type === "error") {
+              alert(`Error en el servidor: ${data.detail}`);
+            }
+          } catch (e) {
+            console.error("Error parsing stream line:", e);
+          }
+        }
+      }
+    } catch (err) {
+      console.error("Error al calcular el modo histórico:", err);
+      alert("Ocurrió un error al calcular los tramos históricos en el servidor.");
+    } finally {
+      setCalculationProgress(null);
+    }
+  }, [historicalMode, historicalYears, map, setCruces, setTramos, setUnassignedTramos]);
+
+  // Carga de cruces y cálculo de tramos en modo histórico desde el servidor (streaming con límites de mapa)
+  useEffect(() => {
+    if (historicalMode && map) {
+      fetchHistoricalTramos();
+    }
+  }, [historicalMode, historicalYears, map, fetchHistoricalTramos]);
+
+
 
   // Resetear coincidencias paralelas cuando cambian los tramos calculados
   useEffect(() => {
@@ -2686,10 +2818,10 @@ const MapView = ({
   useEffect(() => {
     if (crucesMode) {
       calculateTramos();
-    } else {
+    } else if (!historicalMode) {
       setTramos([]);
     }
-  }, [crucesMode, visibleActivities, visibleCruces, pointsParams.similarityTolerance, pointsParams.discardDuplicateUnder, pointsParams.roadDetectionTolerance, calculateTramos]);
+  }, [crucesMode, historicalMode, visibleActivities, visibleCruces, pointsParams.similarityTolerance, pointsParams.discardDuplicateUnder, pointsParams.roadDetectionTolerance, calculateTramos]);
 
   // Algoritmo geométrico para buscar tramos de segmentos paralelos sin cruces
   const findParallelSegments = useCallback(() => {
@@ -2842,41 +2974,47 @@ const MapView = ({
     <div
       style={{ height: '100%', width: '100%', position: 'relative', backgroundColor: '#ffffff' }}
     >
-      {/* Indicador de modo activo y botón de ajustes (Cruces Mode) */}
-      <div 
-        style={{ 
-          position: 'absolute', 
-          top: '1rem', 
-          right: '1rem', 
-          zIndex: 1005, 
-          display: 'flex', 
-          flexDirection: 'column', 
-          alignItems: 'flex-end', 
-          gap: '0.5rem' 
-        }}
-      >
-        {/* Badge superior consolidado */}
+      {/* Indicador de modo activo y botón de ajustes (Cruces Mode) en Portal */}
+      {createPortal(
         <div 
           style={{ 
-            backgroundColor: 'rgba(255, 255, 255, 0.95)', 
-            backdropFilter: 'blur(12px)', 
-            WebkitBackdropFilter: 'blur(12px)',
-            padding: '0.5rem 1rem', 
-            borderRadius: '9999px', 
-            border: '1px solid #e2e8f0', 
-            fontSize: '0.75rem', 
+            position: 'absolute', 
+            bottom: '0', 
+            right: '0', 
+            zIndex: 1005, 
             display: 'flex', 
-            alignItems: 'center', 
-            gap: '0.75rem', 
-            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' 
+            flexDirection: 'column-reverse', 
+            alignItems: 'flex-end', 
+            gap: '0.5rem',
+            pointerEvents: 'none'
           }}
         >
+          {/* Badge consolidado en la esquina inferior derecha */}
+          <div 
+            style={{ 
+              backgroundColor: 'rgba(255, 255, 255, 0.95)', 
+              backdropFilter: 'blur(12px)', 
+              WebkitBackdropFilter: 'blur(12px)',
+              padding: '0.25rem 0.625rem', 
+              borderRadius: '0px', 
+              borderTop: '1px solid #e2e8f0',
+              borderLeft: '1px solid #e2e8f0',
+              borderRight: 'none',
+              borderBottom: 'none',
+              fontSize: '0.75rem', 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '0.625rem', 
+              boxShadow: '-2px -2px 6px rgba(0, 0, 0, 0.05)',
+              pointerEvents: 'auto'
+            }}
+          >
           <div 
             style={{ 
               width: '0.5rem', 
               height: '0.5rem', 
               borderRadius: '9999px', 
-              backgroundColor: minisiteEditorMode ? '#f59e0b' : (crucesMode ? '#10b981' : '#FC4C02')
+              backgroundColor: minisiteEditorMode ? '#f59e0b' : (crucesMode ? '#10b981' : (historicalMode ? '#8b5cf6' : '#FC4C02'))
             }} 
           />
           <span style={{ fontWeight: 600, color: '#334155' }}>
@@ -2884,8 +3022,38 @@ const MapView = ({
               ? `Editor Minisite (${minisiteCruces.length} Cruces, ${minisiteTramos.length} Tramos)${minisiteModified ? ' (Modificado)' : ''}`
               : crucesMode
                 ? `Modo Cruces (${visibleActivities.length} Actividades, ${visibleCruces.length} Cruces, ${tramos.length} Tramos)`
-                : (activities.length > 0 ? `Visualizando ${activities.length} recorridos` : 'Cargando...')}
+                : historicalMode
+                  ? `Modo Histórico (Antigüedad: ${historicalYears} años, ${cruces.length} Cruces, ${tramos.length} Tramos)`
+                  : (activities.length > 0 ? `${activities.length} tracks y ${totalDistanceKms} kms` : 'Sin recorridos')}
           </span>
+          {historicalMode && (
+            <>
+              <div style={{ width: '1px', height: '0.75rem', backgroundColor: '#e2e8f0' }}></div>
+              <button 
+                onClick={handleExportToMinisite}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.25rem',
+                  padding: '0.25rem 0.5rem',
+                  borderRadius: '0.25rem',
+                  fontWeight: 900,
+                  textTransform: 'uppercase',
+                  fontSize: '10px',
+                  cursor: 'pointer',
+                  border: '1px solid #bae6fd',
+                  backgroundColor: '#e0f2fe',
+                  color: '#0369a1',
+                  transition: 'all 0.2s',
+                  pointerEvents: 'auto'
+                }}
+                title="Exportar cruces y segmentos visibles de esta zona al minisite"
+              >
+                <Share2 size={12} style={{ marginRight: '2px' }} />
+                Exportar Minisite
+              </button>
+            </>
+          )}
           {minisiteEditorMode && (
             <>
               <div style={{ width: '1px', height: '0.75rem', backgroundColor: '#e2e8f0' }}></div>
@@ -2951,18 +3119,16 @@ const MapView = ({
               <button 
                 onClick={() => {
                   if (creandoTrack) {
-                    // Salir del modo creación
                     setCreandoTrack(false);
                     setTrackStartCruce(null);
                     setTrackCurrentCruce(null);
                     setTrackTramos([]);
                   } else {
-                    // Entrar en modo creación
                     setCreandoTrack(true);
                     setTrackStartCruce(null);
                     setTrackCurrentCruce(null);
                     setTrackTramos([]);
-                    setShowSettings(false); // Ocultar ajustes para despejar vista
+                    setShowSettings(false);
                   }
                 }}
                 style={{
@@ -3000,7 +3166,11 @@ const MapView = ({
               width: '20rem',
               display: 'flex',
               flexDirection: 'column',
-              gap: '1rem'
+              gap: '1rem',
+              maxHeight: 'calc(100vh - 180px)',
+              overflowY: 'auto',
+              scrollbarWidth: 'thin',
+              pointerEvents: 'auto'
             }}
           >
             <h4 style={{ margin: 0, fontWeight: 900, fontSize: '0.75rem', color: '#10b981', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
@@ -3337,7 +3507,7 @@ const MapView = ({
           </div>
         )}
 
-        {crucesMode && selectedCruce && (
+        {(crucesMode || historicalMode) && selectedCruce && (
           <div 
             style={{
               backgroundColor: 'rgba(255, 255, 255, 0.95)',
@@ -3351,7 +3521,8 @@ const MapView = ({
               display: 'flex',
               flexDirection: 'column',
               gap: '1rem',
-              fontFamily: 'sans-serif'
+              fontFamily: 'sans-serif',
+              pointerEvents: 'auto'
             }}
           >
             <h4 style={{ margin: 0, fontWeight: 900, fontSize: '0.75rem', color: '#10b981', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
@@ -3483,7 +3654,8 @@ const MapView = ({
               display: 'flex',
               flexDirection: 'column',
               gap: '1rem',
-              fontFamily: 'sans-serif'
+              fontFamily: 'sans-serif',
+              pointerEvents: 'auto'
             }}
           >
             <h4 style={{ margin: 0, fontWeight: 900, fontSize: '0.75rem', color: '#8b5cf6', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
@@ -3675,7 +3847,9 @@ const MapView = ({
             )}
           </div>
         )}
-      </div>
+      </div>,
+      document.body
+    )}
 
       {/* Cartel informativo del modo cruces si no hay cruces */}
       {crucesMode && cruces.length === 0 && (
@@ -3709,12 +3883,12 @@ const MapView = ({
       {/* Botones de zoom flotantes con el valor del zoom */}
       {map && (
         <div
+          className="hidden md:flex"
           style={{
             position: 'absolute',
             left: '1.25rem',
             top: '1.25rem',
             zIndex: 1000,
-            display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             gap: '0.375rem',
@@ -3755,7 +3929,7 @@ const MapView = ({
             style={{
               fontSize: '11px',
               fontWeight: 900,
-              color: '#FC4C02', // Color Strava
+              color: '#FC4C02', // Color de la marca
               fontFamily: 'monospace',
               userSelect: 'none',
               display: 'flex',
@@ -3832,7 +4006,7 @@ const MapView = ({
         zoomDelta={0.25}
         wheelPxPerZoomLevel={120}
         preferCanvas={true}
-        style={{ height: '100%', width: '100%', background: '#f1f5f9' }}
+        style={{ height: '100%', width: '100%', background: '#f1f5f9', zIndex: 0 }}
       >
         <LayersControl position="bottomleft">
           <LayersControl.BaseLayer checked name="Satélite">
@@ -3867,9 +4041,11 @@ const MapView = ({
             <RouteLines 
               activities={activities} 
               crucesMode={crucesMode}
+              historicalMode={historicalMode}
             />
             <CrucesLayer 
               crucesMode={crucesMode}
+              historicalMode={historicalMode}
               pointsParams={pointsParams}
               cruces={cruces}
               setCruces={setCruces}
@@ -3890,6 +4066,7 @@ const MapView = ({
               tramos={tramos}
               unassignedTramos={unassignedTramos}
               crucesMode={crucesMode}
+              historicalMode={historicalMode}
               creandoTrack={creandoTrack}
               onToggleTramoType={toggleTramoType}
             />
@@ -3938,15 +4115,17 @@ const MapView = ({
         <AutoCenter activities={activities} />
         <BoxZoomListener active={boxZoomActive} setActive={setBoxZoomActive} />
         <MapClickListener 
-          crucesMode={crucesMode}
+          crucesMode={crucesMode || historicalMode}
           onMapAltClick={handleMapAltClick}
         />
         <MapReferenceTracker setMap={setMap} />
         <ViewportPersister />
       </MapContainer>
 
+
+
       {/* Reloj de arena / Overlay de cálculo */}
-      {((crucesMode && (loadingCruces || calculationProgress)) || (minisiteEditorMode && loadingMinisite)) && (
+      {(((crucesMode || historicalMode) && (loadingCruces || calculationProgress)) || (minisiteEditorMode && loadingMinisite)) && (
         <div
           style={{
             position: 'absolute',
@@ -3978,14 +4157,30 @@ const MapView = ({
               textAlign: 'center',
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Hourglass 
-                size={42} 
-                style={{ 
-                  color: '#FC4C02', // Naranja Strava
-                  animation: 'hourglass-spin 2s infinite ease-in-out'
-                }} 
-              />
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', minWidth: '240px' }}>
+              {/* Contenedor de la barra de progreso */}
+              <div style={{
+                width: '100%',
+                height: '0.625rem',
+                backgroundColor: '#f1f5f9',
+                borderRadius: '9999px',
+                overflow: 'hidden',
+                position: 'relative',
+                border: '1px solid #e2e8f0'
+              }}>
+                {/* Relleno con gradiente animado */}
+                <div style={{
+                  width: `${progressPercent}%`,
+                  height: '100%',
+                  background: 'linear-gradient(90deg, #FC4C02 0%, #ff7849 100%)',
+                  borderRadius: '9999px',
+                  transition: 'width 0.2s ease-out'
+                }} />
+              </div>
+              {/* Texto en porcentaje */}
+              <span style={{ fontSize: '1.25rem', fontWeight: 900, color: '#FC4C02', fontFamily: 'monospace' }}>
+                {progressPercent}%
+              </span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
               <span style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0f172a', fontFamily: 'sans-serif' }}>
@@ -3995,7 +4190,9 @@ const MapView = ({
                     ? 'Cargando Cruces' 
                     : (calculationProgress === 'exporting' 
                       ? 'Exportando Minisite' 
-                      : (calculationProgress === 'segments' ? 'Procesando Segmentos' : 'Detectando Carreteras'))}
+                      : (historicalMode && calculationProgress === 'segments' 
+                        ? 'Analizando Tracks Históricos' 
+                        : (calculationProgress === 'segments' ? 'Procesando Segmentos' : 'Detectando Carreteras')))}
               </span>
               <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 500, lineHeight: 1.45, fontFamily: 'sans-serif' }}>
                 {minisiteEditorMode
@@ -4004,9 +4201,11 @@ const MapView = ({
                     ? 'Obteniendo puntos de unión de la base de datos...' 
                     : (calculationProgress === 'exporting'
                       ? 'Guardando datos de cruces y segmentos en /public...'
-                      : (calculationProgress === 'segments' 
-                        ? 'Calculando intersecciones y dividiendo rutas en tramos...' 
-                        : 'Clasificando y verificando tramos de carretera en el backend...'))}
+                      : (historicalMode && calculationProgress === 'segments'
+                        ? `Procesando: ${processedTracks} de ${totalTracksToProcess} tracks (${processedKms.toFixed(0)} km de ${totalKmsToProcess.toFixed(0)} km)`
+                        : (calculationProgress === 'segments' 
+                          ? 'Calculando intersecciones y dividiendo rutas en tramos...' 
+                          : 'Clasificando y verificando tramos de carretera en el backend...')))}
               </span>
             </div>
           </div>

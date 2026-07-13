@@ -29,14 +29,16 @@ html, body, #root {
 /* Custom mode buttons in header */
 .mode-btn {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 8px 18px;
-  border-radius: 9999px;
-  font-size: 11px;
+  justify-content: center;
+  gap: 2px;
+  padding: 4px 6px;
+  border-radius: 8px;
+  font-size: 8px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.02em;
   border: 2px solid #e2e8f0;
   background-color: #ffffff;
   color: #475569;
@@ -46,7 +48,26 @@ html, body, #root {
   outline: none;
   position: relative;
   overflow: hidden;
+  min-width: 52px;
+  height: 36px;
+  text-align: center;
 }
+
+.mode-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (min-width: 640px) {
+  .mode-btn {
+    gap: 4px;
+    padding: 6px 10px;
+    font-size: 9px;
+    height: 40px;
+    min-width: 60px;
+  }
+}
+
 
 .mode-btn:active {
   transform: scale(0.96);
@@ -78,6 +99,45 @@ html, body, #root {
   box-shadow: 0 4px 14px rgba(217, 119, 6, 0.4);
 }
 
+.mode-btn-sync:hover {
+  border-color: #0f172a;
+  color: #0f172a;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+}
+
+.mode-btn-sync.mode-btn-active {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border-color: #0f172a;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.3);
+}
+
+.mode-btn-ver:hover {
+  border-color: #3b82f6;
+  color: #3b82f6;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.mode-btn-ver.mode-btn-active {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  border-color: #3b82f6;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+}
+
+.mode-btn-historical:hover {
+  border-color: #8b5cf6;
+  color: #8b5cf6;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+}
+
+.mode-btn-historical.mode-btn-active {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  border-color: #8b5cf6;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(139, 92, 246, 0.4);
+}
+
 .mode-btn-icon {
   display: flex;
   align-items: center;
@@ -92,5 +152,15 @@ html, body, #root {
 @keyframes pulse-icon {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.15); }
+}
+
+@keyframes loading-bar {
+  0% { left: -40%; width: 40%; }
+  50% { left: 30%; width: 50%; }
+  100% { left: 100%; width: 40%; }
+}
+
+.animate-loading-bar {
+  animation: loading-bar 1.6s infinite ease-in-out;
 }
 

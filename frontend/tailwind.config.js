@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        strava: '#FC4C02',
+        brand: '#FC4C02',
       }
     },
   },
