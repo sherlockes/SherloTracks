@@ -1,0 +1,952 @@
+[
+  {
+    "id": "tramo_0",
+    "points": [
+      [
+        -0.326220989,
+        41.299870981
+      ],
+      [
+        -0.326644778,
+        41.299363186
+      ]
+    ],
+    "startId": "cruce_8",
+    "endId": "cruce_102",
+    "activityNames": [
+      "Ciclismo por la tarde",
+      "Bicicleta por la mañana",
+      "A Escatrón con el cierzo. ",
+      "Ciclismo al anochecer",
+      "Pedalada de tarde",
+      "Por el monte de Rueda",
+      "Bicicleta por la tarde",
+      "De Cinco Olivas a Caspe ",
+      "Cinco Olivas Ciclismo",
+      "Vuelta a los meandros",
+      "CO -  Gr99 y rueda ",
+      "Vuelta a los meandros ",
+      "Ciclismo por la mañana",
+      "Por los meandros a Escatrón"
+    ],
+    "count": 45,
+    "isRoad": false,
+    "lastPassDate": "2026-07-14T05:17:49",
+    "avg_altitude": 131.0
+  },
+  {
+    "id": "tramo_1",
+    "points": [
+      [
+        -0.326644778,
+        41.299363186
+      ],
+      [
+        -0.32879591,
+        41.296558153
+      ]
+    ],
+    "startId": "cruce_102",
+    "endId": "cruce_101",
+    "activityNames": [
+      "Ciclismo por la tarde",
+      "Bicicleta por la mañana",
+      "A Escatrón con el cierzo. ",
+      "Ciclismo al anochecer",
+      "Pedalada de tarde",
+      "Bicicleta por la tarde",
+      "Cinco Olivas Ciclismo",
+      "De Cinco Olivas a Caspe ",
+      "Vuelta a los meandros",
+      "CO -  Gr99 y rueda ",
+      "Vuelta a los meandros ",
+      "Ciclismo por la mañana",
+      "Por los meandros a Escatrón"
+    ],
+    "count": 54,
+    "isRoad": false,
+    "lastPassDate": "2026-07-14T05:17:49",
+    "avg_altitude": 130.5
+  },
+  {
+    "id": "tramo_2",
+    "points": [
+      [
+        -0.326907635,
+        41.292374559
+      ],
+      [
+        -0.32455,
+        41.29262,
+        0
+      ],
+      [
+        -0.324676037,
+        41.293386223
+      ]
+    ],
+    "startId": "cruce_241",
+    "endId": "cruce_288",
+    "activityNames": [
+      "Ciclismo por la tarde",
+      "Bicicleta por la mañana",
+      "A Escatrón con el cierzo. ",
+      "Ciclismo al anochecer",
+      "Pedalada de tarde",
+      "La Zaida y Escatrón...",
+      "Cinco Olivas Ciclismo",
+      "Vuelta a los meandros",
+      "CO -  Gr99 y rueda ",
+      "Vuelta a los meandros ",
+      "Ciclismo por la mañana",
+      "Por los meandros a Escatrón"
+    ],
+    "count": 41,
+    "isRoad": false,
+    "lastPassDate": "2026-07-14T05:17:49",
+    "avg_altitude": 137.0
+  },
+  {
+    "id": "tramo_3",
+    "points": [
+      [
+        -0.324676037,
+        41.293386223
+      ],
+      [
+        -0.324177146,
+        41.295070952
+      ]
+    ],
+    "startId": "cruce_288",
+    "endId": "cruce_100",
+    "activityNames": [
+      "Ciclismo por la tarde",
+      "Bicicleta por la mañana",
+      "A Escatrón con el cierzo. ",
+      "Ciclismo al anochecer",
+      "Pedalada de tarde",
+      "La Zaida y Escatrón...",
+      "Cinco Olivas Ciclismo",
+      "Vuelta a los meandros",
+      "CO -  Gr99 y rueda ",
+      "Vuelta a los meandros ",
+      "Ciclismo por la mañana",
+      "Por los meandros a Escatrón"
+    ],
+    "count": 41,
+    "isRoad": false,
+    "lastPassDate": "2026-07-14T05:17:49",
+    "avg_altitude": 124.5
+  },
+  {
+    "id": "tramo_4",
+    "points": [
+      [
+        -0.324177146,
+        41.295070952
+      ],
+      [
+        -0.32879591,
+        41.296558153
+      ]
+    ],
+    "startId": "cruce_100",
+    "endId": "cruce_101",
+    "activityNames": [
+      "Ciclismo por la tarde",
+      "Bicicleta por la mañana",
+      "A Escatrón con el cierzo. ",
+      "Ciclismo al anochecer",
+      "Pedalada de tarde",
+      "La Zaida y Escatrón...",
+      "Cinco Olivas Ciclismo",
+      "Vuelta a los meandros",
+      "CO -  Gr99 y rueda ",
+      "Vuelta a los meandros ",
+      "Ciclismo por la mañana",
+      "Por los meandros a Escatrón"
+    ],
+    "count": 44,
+    "isRoad": false,
+    "lastPassDate": "2026-07-14T05:17:49",
+    "avg_altitude": 124.0
+  },
+  {
+    "id": "tramo_5",
+    "points": [
+      [
+        -0.326220989,
+        41.299870981
+      ],
+      [
+        -0.324718952,
+        41.299685596
+      ]
+    ],
+    "startId": "cruce_8",
+    "endId": "cruce_289",
+    "activityNames": [
+      "Ciclismo por la tarde",
+      "Bicicleta por la mañana",
+      "A Escatrón con el cierzo. ",
+      "Ciclismo al anochecer",
+      "Pedalada de tarde",
+      "Por el monte de Rueda",
+      "Bicicleta por la tarde",
+      "Cinco Olivas Ciclismo",
+      "Vuelta a los meandros",
+      "CO -  Gr99 y rueda ",
+      "Vuelta a los meandros ",
+      "Ciclismo por la mañana",
+      "Por los meandros a Escatrón"
+    ],
+    "count": 39,
+    "isRoad": false,
+    "lastPassDate": "2026-07-14T05:17:49",
+    "avg_altitude": 132.0
+  },
+  {
+    "id": "tramo_6",
+    "points": [
+      [
+        -0.324718952,
+        41.299685596
+      ],
+      [
+        -0.316044688,
+        41.298379826
+      ]
+    ],
+    "startId": "cruce_289",
+    "endId": "cruce_112",
+    "activityNames": [
+      "Ciclismo por la tarde",
+      "Bicicleta por la mañana",
+      "Picones, Rebollón, Rueda y La Rosa",
+      "A Escatrón con el cierzo. ",
+      "Ciclismo al anochecer",
+      "Pedalada de tarde",
+      "Por el monte de Rueda",
+      "Bicicleta por la tarde",
+      "Partilla, Rueda y Montler",
+      "Picones, Rebollón y Rueda",
+      "Cinco Olivas Ciclismo",
+      "Vuelta a los meandros",
+      "CO -  Gr99 y rueda ",
+      "Vuelta a los meandros ",
+      "Ciclismo por la mañana",
+      "Por los meandros a Escatrón",
+      "Partilla, Rueda y Montler "
+    ],
+    "count": 46,
+    "isRoad": false,
+    "lastPassDate": "2026-07-14T05:17:49",
+    "avg_altitude": 141.5
+  },
+  {
+    "id": "tramo_7",
+    "points": [
+      [
+        -0.316044688,
+        41.298379826
+      ],
+      [
+        -0.31409204,
+        41.298174286
+      ]
+    ],
+    "startId": "cruce_112",
+    "endId": "cruce_157",
+    "activityNames": [
+      "Ciclismo por la tarde",
+      "Bicicleta por la mañana",
+      "Picones, Rebollón, Rueda y La Rosa",
+      "A Escatrón con el cierzo. ",
+      "Ciclismo al anochecer",
+      "Pedalada de tarde",
+      "Por el monte de Rueda",
+      "Bicicleta por la tarde",
+      "Partilla, Rueda y Montler",
+      "Picones, Rebollón y Rueda",
+      "Cinco Olivas Ciclismo",
+      "CO -  Gr99 y rueda ",
+      "Vuelta a los meandros ",
+      "Ciclismo por la mañana",
+      "Partilla, Rueda y Montler "
+    ],
+    "count": 32,
+    "isRoad": false,
+    "lastPassDate": "2025-08-29T07:37:58",
+    "avg_altitude": 146.5
+  },
+  {
+    "id": "tramo_8",
+    "points": [
+      [
+        -0.310701728,
+        41.298867478
+      ],
+      [
+        -0.31279,
+        41.29789,
+        0
+      ],
+      [
+        -0.31409204,
+        41.298174286
+      ]
+    ],
+    "startId": "cruce_156",
+    "endId": "cruce_157",
+    "activityNames": [
+      "Ciclismo por la tarde",
+      "Bicicleta por la mañana",
+      "Por rueda con la brisa",
+      "Picones, Rebollón, Rueda y La Rosa",
+      "A Escatrón con el cierzo. ",
+      "Ciclismo al anochecer",
+      "Pedalada de tarde",
+      "Por el monte de Rueda",
+      "Bicicleta por la tarde",
+      "Por el monte de Rueda...",
+      "Partilla, Rueda y Montler",
+      "Cinco Olivas Ciclismo",
+      "Picones, Rebollón y Rueda",
+      "Rueda y Montler",
+      "CO -  Gr99 y rueda ",
+      "Vuelta a los meandros ",
+      "Ciclismo por la mañana",
+      "Partilla, Rueda y Montler "
+    ],
+    "count": 38,
+    "isRoad": false,
+    "lastPassDate": "2025-08-29T07:37:58",
+    "avg_altitude": 151.7
+  },
+  {
+    "id": "tramo_9",
+    "points": [
+      [
+        -0.310701728,
+        41.298867478
+      ],
+      [
+        -0.307381153,
+        41.299588873
+      ]
+    ],
+    "startId": "cruce_156",
+    "endId": "cruce_155",
+    "activityNames": [
+      "Ciclismo por la tarde",
+      "Bicicleta por la mañana",
+      "Picones, Rebollón, Rueda y La Rosa",
+      "A Escatrón con el cierzo. ",
+      "Ciclismo al anochecer",
+      "Pedalada de tarde",
+      "Partilla, Rueda y Montler",
+      "Subida al poyo",
+      "Picones, Rebollón y Rueda",
+      "Cinco Olivas Ciclismo",
+      "CO -  Gr99 y rueda ",
+      "Vuelta a los meandros ",
+      "Ciclismo por la mañana"
+    ],
+    "count": 26,
+    "isRoad": false,
+    "lastPassDate": "2026-07-09T05:37:44",
+    "avg_altitude": 162.5
+  },
+  {
+    "id": "tramo_10",
+    "points": [
+      [
+        -0.316044688,
+        41.298379826
+      ],
+      [
+        -0.314596295,
+        41.297795445
+      ]
+    ],
+    "startId": "cruce_112",
+    "endId": "cruce_290",
+    "activityNames": [
+      "Ciclismo por la tarde",
+      "Bicicleta por la mañana",
+      "Ciclismo al anochecer",
+      "Cinco Olivas Ciclismo",
+      "Vuelta a los meandros",
+      "Ciclismo por la mañana",
+      "Por los meandros a Escatrón"
+    ],
+    "count": 14,
+    "isRoad": false,
+    "lastPassDate": "2026-07-14T05:17:49",
+    "avg_altitude": 145.0
+  },
+  {
+    "id": "tramo_11",
+    "points": [
+      [
+        -0.314596295,
+        41.297795445
+      ],
+      [
+        -0.312305689,
+        41.297114333
+      ]
+    ],
+    "startId": "cruce_290",
+    "endId": "cruce_158",
+    "activityNames": [
+      "Ciclismo por la tarde",
+      "Bicicleta por la mañana",
+      "Subida al poyo 2017",
+      "Subida al poyo",
+      "Ciclismo al anochecer",
+      "Cinco Olivas Ciclismo",
+      "Vuelta a los meandros",
+      "Ciclismo por la mañana",
+      "Por los meandros a Escatrón"
+    ],
+    "count": 16,
+    "isRoad": false,
+    "lastPassDate": "2026-07-14T05:17:49",
+    "avg_altitude": 140.5
+  },
+  {
+    "id": "tramo_12",
+    "points": [
+      [
+        -0.307381153,
+        41.299588873
+      ],
+      [
+        -0.30053,
+        41.2961,
+        0
+      ],
+      [
+        -0.306,
+        41.29493,
+        0
+      ],
+      [
+        -0.312305689,
+        41.297114333
+      ]
+    ],
+    "startId": "cruce_155",
+    "endId": "cruce_158",
+    "activityNames": [
+      "Ciclismo por la tarde",
+      "Bicicleta por la mañana",
+      "Por rueda con la brisa",
+      "Subida al poyo 2017",
+      "Subida al poyo",
+      "Ciclismo al anochecer",
+      "Por el monte de Rueda...",
+      "Cinco Olivas Ciclismo",
+      "Vuelta a los meandros",
+      "Ciclismo por la mañana",
+      "Por los meandros a Escatrón"
+    ],
+    "count": 21,
+    "isRoad": false,
+    "lastPassDate": "2026-07-14T05:17:49",
+    "avg_altitude": 145.0
+  },
+  {
+    "id": "tramo_13",
+    "points": [
+      [
+        -0.326644778,
+        41.299363186
+      ],
+      [
+        -0.32674,
+        41.30005,
+        0
+      ],
+      [
+        -0.33064,
+        41.30061,
+        0
+      ],
+      [
+        -0.3304,
+        41.3009,
+        0
+      ],
+      [
+        -0.33081,
+        41.30085,
+        0
+      ],
+      [
+        -0.33218,
+        41.30165,
+        0
+      ],
+      [
+        -0.33286,
+        41.30267,
+        0
+      ],
+      [
+        -0.3331,
+        41.30213,
+        0
+      ],
+      [
+        -0.33329,
+        41.30256,
+        0
+      ],
+      [
+        -0.33437,
+        41.30327,
+        0
+      ],
+      [
+        -0.33447,
+        41.30369,
+        0
+      ],
+      [
+        -0.33437,
+        41.30392,
+        0
+      ],
+      [
+        -0.33416,
+        41.30391,
+        0
+      ],
+      [
+        -0.33329,
+        41.30345,
+        0
+      ],
+      [
+        -0.33276,
+        41.30401,
+        0
+      ],
+      [
+        -0.33234,
+        41.30262,
+        0
+      ],
+      [
+        -0.33205,
+        41.30244,
+        0
+      ],
+      [
+        -0.33148,
+        41.30243,
+        0
+      ],
+      [
+        -0.33115,
+        41.30304,
+        0
+      ],
+      [
+        -0.33058,
+        41.30336,
+        0
+      ],
+      [
+        -0.33003,
+        41.30253,
+        0
+      ],
+      [
+        -0.32952,
+        41.30245,
+        0
+      ],
+      [
+        -0.3289,
+        41.30256,
+        0
+      ],
+      [
+        -0.32878,
+        41.30446,
+        0
+      ],
+      [
+        -0.32848,
+        41.30504,
+        0
+      ],
+      [
+        -0.3277,
+        41.30548,
+        0
+      ],
+      [
+        -0.32787,
+        41.30619,
+        0
+      ],
+      [
+        -0.3274,
+        41.30636,
+        0
+      ],
+      [
+        -0.32743,
+        41.30692,
+        0
+      ],
+      [
+        -0.32777,
+        41.30736,
+        0
+      ],
+      [
+        -0.32907,
+        41.3076,
+        0
+      ],
+      [
+        -0.32964,
+        41.30833,
+        0
+      ],
+      [
+        -0.32998,
+        41.30944,
+        0
+      ],
+      [
+        -0.32784,
+        41.31053,
+        0
+      ],
+      [
+        -0.32772,
+        41.31124,
+        0
+      ],
+      [
+        -0.32697,
+        41.3111,
+        0
+      ],
+      [
+        -0.32617,
+        41.31119,
+        0
+      ],
+      [
+        -0.32583,
+        41.31139,
+        0
+      ],
+      [
+        -0.32589,
+        41.31177,
+        0
+      ],
+      [
+        -0.32423,
+        41.31203,
+        0
+      ],
+      [
+        -0.32053,
+        41.31076,
+        0
+      ],
+      [
+        -0.31958,
+        41.31028,
+        0
+      ],
+      [
+        -0.31925,
+        41.31039,
+        0
+      ],
+      [
+        -0.31905,
+        41.31085,
+        0
+      ],
+      [
+        -0.31833,
+        41.31132,
+        0
+      ],
+      [
+        -0.31825,
+        41.31166,
+        0
+      ],
+      [
+        -0.31784,
+        41.31194,
+        0
+      ],
+      [
+        -0.31733,
+        41.31168,
+        0
+      ],
+      [
+        -0.31663,
+        41.31052,
+        0
+      ],
+      [
+        -0.31659,
+        41.30901,
+        0
+      ],
+      [
+        -0.31449,
+        41.30595,
+        0
+      ],
+      [
+        -0.31447,
+        41.30571,
+        0
+      ],
+      [
+        -0.31509,
+        41.30542,
+        0
+      ],
+      [
+        -0.31512,
+        41.30522,
+        0
+      ],
+      [
+        -0.31504,
+        41.30475,
+        0
+      ],
+      [
+        -0.31386,
+        41.30296,
+        0
+      ],
+      [
+        -0.31373,
+        41.30143,
+        0
+      ],
+      [
+        -0.31266,
+        41.30053,
+        0
+      ],
+      [
+        -0.31163,
+        41.29923,
+        0
+      ],
+      [
+        -0.310701728,
+        41.298867478
+      ]
+    ],
+    "startId": "cruce_102",
+    "endId": "cruce_156",
+    "activityNames": [
+      "Cinco Olivas Ciclismo",
+      "Bicicleta por la mañana"
+    ],
+    "count": 3,
+    "isRoad": false,
+    "lastPassDate": "2024-07-06T05:48:46",
+    "avg_altitude": 166.0
+  },
+  {
+    "id": "tramo_14",
+    "points": [
+      [
+        -0.31409204,
+        41.298174286
+      ],
+      [
+        -0.31358,
+        41.29763,
+        0
+      ],
+      [
+        -0.312305689,
+        41.297114333
+      ]
+    ],
+    "startId": "cruce_157",
+    "endId": "cruce_158",
+    "activityNames": [
+      "Por el monte de Rueda...",
+      "Cinco Olivas Ciclismo",
+      "Bicicleta por la mañana",
+      "Por rueda con la brisa"
+    ],
+    "count": 5,
+    "isRoad": false,
+    "lastPassDate": "2024-07-06T05:48:46",
+    "avg_altitude": 142.3
+  },
+  {
+    "id": "tramo_15",
+    "points": [
+      [
+        -0.326907635,
+        41.292374559
+      ],
+      [
+        -0.32791,
+        41.29312,
+        0
+      ],
+      [
+        -0.32824,
+        41.29364,
+        0
+      ],
+      [
+        -0.32801,
+        41.29474,
+        0
+      ],
+      [
+        -0.32879591,
+        41.296558153
+      ]
+    ],
+    "startId": "cruce_241",
+    "endId": "cruce_101",
+    "activityNames": [
+      "Bicicleta por la mañana"
+    ],
+    "count": 1,
+    "isRoad": false,
+    "lastPassDate": "2022-04-10T08:13:33",
+    "avg_altitude": 134.7
+  },
+  {
+    "id": "tramo_16",
+    "points": [
+      [
+        -0.326644778,
+        41.299363186
+      ],
+      [
+        -0.324718952,
+        41.299685596
+      ]
+    ],
+    "startId": "cruce_102",
+    "endId": "cruce_289",
+    "activityNames": [
+      "Picones, Rebollón, Rueda y La Rosa",
+      "Picones, Rebollón y Rueda",
+      "Pedalada de tarde",
+      "Partilla, Rueda y Montler",
+      "Partilla, Rueda y Montler "
+    ],
+    "count": 5,
+    "isRoad": false,
+    "lastPassDate": "2017-09-03T07:33:05",
+    "avg_altitude": 132.0
+  },
+  {
+    "id": "tramo_17",
+    "points": [
+      [
+        -0.31409204,
+        41.298174286
+      ],
+      [
+        -0.30599,
+        41.29492,
+        0
+      ],
+      [
+        -0.30383,
+        41.2952,
+        0
+      ],
+      [
+        -0.3032,
+        41.29601,
+        0
+      ],
+      [
+        -0.30055,
+        41.29608,
+        0
+      ],
+      [
+        -0.30268,
+        41.29791,
+        0
+      ],
+      [
+        -0.30535,
+        41.29849,
+        0
+      ],
+      [
+        -0.307381153,
+        41.299588873
+      ]
+    ],
+    "startId": "cruce_157",
+    "endId": "cruce_155",
+    "activityNames": [
+      "Rueda y Montler"
+    ],
+    "count": 1,
+    "isRoad": false,
+    "lastPassDate": "2018-05-06T14:12:18",
+    "avg_altitude": 152.3
+  },
+  {
+    "id": "tramo_18",
+    "points": [
+      [
+        -0.314596295,
+        41.297795445
+      ],
+      [
+        -0.32122,
+        41.29629,
+        0
+      ],
+      [
+        -0.32752,
+        41.29823,
+        0
+      ],
+      [
+        -0.326644778,
+        41.299363186
+      ]
+    ],
+    "startId": "cruce_290",
+    "endId": "cruce_102",
+    "activityNames": [
+      "Subida al poyo 2017",
+      "Subida al poyo"
+    ],
+    "count": 2,
+    "isRoad": false,
+    "lastPassDate": "2018-09-23T06:04:02",
+    "avg_altitude": 130.0
+  }
+]
