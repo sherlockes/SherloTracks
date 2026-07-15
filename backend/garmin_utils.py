@@ -20,7 +20,11 @@ def parse_gpx_points(gpx_bytes):
         for trkpt in root.findall(f".//{ns}trkpt"):
             lat = float(trkpt.attrib["lat"])
             lon = float(trkpt.attrib["lon"])
-            points.append((lon, lat))
+            ele_el = trkpt.find(f"{ns}ele")
+            if ele_el is None:
+                ele_el = trkpt.find("ele")
+            ele = float(ele_el.text) if ele_el is not None and ele_el.text else 0.0
+            points.append((lon, lat, ele))
             
         if len(points) < 2:
             return None

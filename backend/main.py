@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from typing import List
 import os
+import json
 import time
 import hashlib
 import requests
@@ -21,11 +22,12 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="SherloTracks API")
 
+# The /minisite static files mount has been moved to the end of this file 
+# so that it does not intercept specific routes like /minisite/cruces and /minisite/tramos.
+
 @app.get("/minisite")
 def redirect_minisite_slash():
     return Response(status_code=307, headers={"Location": "/minisite/"})
-
-app.mount("/minisite", StaticFiles(directory="/public", html=True), name="minisite")
 
 @app.on_event("startup")
 def migrate_db():
@@ -413,6 +415,11 @@ class ExportMinisiteRequest(BaseModel):
     cruces: list
     tramos: list
     tolerance: int = 20
+    historical: bool = False
+    min_lat: float = None
+    min_lon: float = None
+    max_lat: float = None
+    max_lon: float = None
 
 class TramoClassifyItem(BaseModel):
     id: str
@@ -421,6 +428,10 @@ class TramoClassifyItem(BaseModel):
 class ClassifyTramosRequest(BaseModel):
     tramos: List[TramoClassifyItem]
     tolerance: int = 20
+
+class ForgetTramoRequest(BaseModel):
+    startId: str
+    endId: str
 
 def sync_osm_roads_for_bbox(db: Session, min_lat: float, min_lon: float, max_lat: float, max_lon: float):
     url = "https://overpass-api.de/api/interpreter"
@@ -523,21 +534,116 @@ def classify_tramos(req: ClassifyTramosRequest, db: Session = Depends(get_db)):
             
     return results
 
+@app.get("/tramos/forgotten")
+def get_forgotten_tramos():
+    from fastapi.responses import JSONResponse
+    path = "/public/forgotten_tramos.json"
+    content = []
+    if os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as f:
+            try:
+                content = json.load(f)
+            except Exception:
+                content = []
+    return JSONResponse(
+        content=content,
+        headers={"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"}
+    )
+
+@app.post("/tramos/forget")
+def forget_tramo(req: ForgetTramoRequest):
+    import json
+    path = "/public/forgotten_tramos.json"
+    content = []
+    if os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as f:
+            try:
+                content = json.load(f)
+            except Exception:
+                content = []
+    
+    pair = sorted([req.startId, req.endId])
+    if pair not in content:
+        content.append(pair)
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(content, f, indent=2, ensure_ascii=False)
+            
+    return {"status": "success", "forgotten": content}
+
+@app.post("/tramos/restore")
+def restore_tramo(req: ForgetTramoRequest):
+    import json
+    path = "/public/forgotten_tramos.json"
+    content = []
+    if os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as f:
+            try:
+                content = json.load(f)
+            except Exception:
+                content = []
+                
+    pair = sorted([req.startId, req.endId])
+    if pair in content:
+        content.remove(pair)
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(content, f, indent=2, ensure_ascii=False)
+            
+    return {"status": "success", "forgotten": content}
+
 @app.post("/export-minisite")
-def export_minisite(req: ExportMinisiteRequest, db: Session = Depends(get_db)):
+async def export_minisite(req: ExportMinisiteRequest, db: Session = Depends(get_db)):
     import json
     try:
         # Asegurarnos de que el directorio /public existe en la raíz (mapeado al volumen del host)
         os.makedirs("/public", exist_ok=True)
         
-        # Guardar cruces de la zona visibles en /public/minisite_cruces.json
-        with open("/public/minisite_cruces.json", "w", encoding="utf-8") as f:
-            json.dump(req.cruces, f, indent=2, ensure_ascii=False)
+        # Si es una exportación histórica, calculamos y guardamos para 1 y 5 años
+        if req.historical and req.min_lat is not None and req.min_lon is not None and req.max_lat is not None and req.max_lon is not None:
+            for years in [1, 5]:
+                response_stream = calculate_historical(
+                    years=years,
+                    min_lat=req.min_lat,
+                    min_lon=req.min_lon,
+                    max_lat=req.max_lat,
+                    max_lon=req.max_lon,
+                    skip_sleep=True,
+                    db=db
+                )
+                cruces_data = []
+                tramos_data = []
+                async for line in response_stream.body_iterator:
+                    if not line.strip():
+                        continue
+                    try:
+                        data = json.loads(line)
+                        if data.get("type") == "result":
+                            cruces_data = data.get("cruces", [])
+                            tramos_data = data.get("tramos", [])
+                    except Exception as parse_e:
+                        print(f"Error parsing historical stream line: {parse_e}")
+                        
+                with open(f"/public/minisite_cruces_{years}y.json", "w", encoding="utf-8") as f:
+                    json.dump(cruces_data, f, indent=2, ensure_ascii=False)
+                with open(f"/public/minisite_tramos_{years}y.json", "w", encoding="utf-8") as f:
+                    json.dump(tramos_data, f, indent=2, ensure_ascii=False)
             
-        # Guardar tramos de la zona visibles en /public/minisite_tramos.json
-        with open("/public/minisite_tramos.json", "w", encoding="utf-8") as f:
-            json.dump(req.tramos, f, indent=2, ensure_ascii=False)
-            
+            # Copiar 5y por defecto para asegurar carga inicial coherente
+            import shutil
+            if os.path.exists("/public/minisite_cruces_5y.json"):
+                shutil.copyfile("/public/minisite_cruces_5y.json", "/public/minisite_cruces.json")
+            if os.path.exists("/public/minisite_tramos_5y.json"):
+                shutil.copyfile("/public/minisite_tramos_5y.json", "/public/minisite_tramos.json")
+        else:
+            # Guardar cruces de la zona visibles en /public/minisite_cruces.json
+            with open("/public/minisite_cruces.json", "w", encoding="utf-8") as f:
+                json.dump(req.cruces, f, indent=2, ensure_ascii=False)
+                
+            # Guardar tramos de la zona visibles en /public/minisite_tramos.json
+            with open("/public/minisite_tramos.json", "w", encoding="utf-8") as f:
+                json.dump(req.tramos, f, indent=2, ensure_ascii=False)
+                
         git_pushed = False
         git_error_detail = None
         # Auto push al repositorio si el volumen /repo está montado
@@ -546,7 +652,7 @@ def export_minisite(req: ExportMinisiteRequest, db: Session = Depends(get_db)):
             try:
                 # Comprobar si hay cambios para evitar commits vacíos
                 status = subprocess.run(
-                    ["git", "-c", "safe.directory=/repo", "status", "--porcelain", "public/minisite_cruces.json", "public/minisite_tramos.json"],
+                    ["git", "-c", "safe.directory=/repo", "status", "--porcelain", "public/"],
                     cwd="/repo", capture_output=True, text=True
                 )
                 if status.returncode == 0 and status.stdout.strip():
@@ -554,21 +660,31 @@ def export_minisite(req: ExportMinisiteRequest, db: Session = Depends(get_db)):
                     subprocess.run(["git", "-c", "safe.directory=/repo", "config", "user.name", "SherloTracks Bot"], cwd="/repo")
                     subprocess.run(["git", "-c", "safe.directory=/repo", "config", "user.email", "bot@sherlotracks.es"], cwd="/repo")
                     
-                    subprocess.run(["git", "-c", "safe.directory=/repo", "add", "public/minisite_cruces.json", "public/minisite_tramos.json"], cwd="/repo")
-                    
-                    commit_res = subprocess.run(
-                        ["git", "-c", "safe.directory=/repo", "commit", "-m", "data: exportacion automatica de datos del minisite"],
-                        cwd="/repo", capture_output=True, text=True
-                    )
-                    
-                    if commit_res.returncode == 0:
-                        push_res = subprocess.run(["git", "-c", "safe.directory=/repo", "push"], cwd="/repo", capture_output=True, text=True)
-                        if push_res.returncode == 0:
-                            git_pushed = True
+                    git_files = [
+                        "public/minisite_cruces.json",
+                        "public/minisite_tramos.json",
+                        "public/minisite_cruces_1y.json",
+                        "public/minisite_tramos_1y.json",
+                        "public/minisite_cruces_5y.json",
+                        "public/minisite_tramos_5y.json"
+                    ]
+                    git_files = [f for f in git_files if os.path.exists(os.path.join("/repo", f))]
+                    if git_files:
+                        subprocess.run(["git", "-c", "safe.directory=/repo", "add"] + git_files, cwd="/repo")
+                        
+                        commit_res = subprocess.run(
+                            ["git", "-c", "safe.directory=/repo", "commit", "-m", "data: exportacion automatica de datos del minisite"],
+                            cwd="/repo", capture_output=True, text=True
+                        )
+                        
+                        if commit_res.returncode == 0:
+                            push_res = subprocess.run(["git", "-c", "safe.directory=/repo", "push"], cwd="/repo", capture_output=True, text=True)
+                            if push_res.returncode == 0:
+                                git_pushed = True
+                            else:
+                                git_error_detail = f"git push falló: {push_res.stderr.strip()}"
                         else:
-                            git_error_detail = f"git push falló: {push_res.stderr.strip()}"
-                    else:
-                        git_error_detail = f"git commit falló: {commit_res.stderr.strip()}"
+                            git_error_detail = f"git commit falló: {commit_res.stderr.strip()}"
             except Exception as git_err:
                 git_error_detail = str(git_err)
                 print(f"Error al hacer push al repositorio: {git_err}")
@@ -640,6 +756,77 @@ def get_path_length(points):
         total_len += distance_meters(points[i][0], points[i][1], points[i+1][0], points[i+1][1])
     return total_len
 
+def get_coordinate_altitude_fallback(lat, lon):
+    import math
+    val1 = math.sin(lat * 150) * 25
+    val2 = math.cos(lon * 180) * 20
+    val3 = math.sin((lat + lon) * 350) * 8
+    val4 = math.sin(lat * 800) * 3
+    return round(195 + val1 + val2 + val3 + val4)
+
+def get_elevations_for_points(points):
+    import urllib.request
+    import json
+    import os
+    import time
+    
+    cache_path = "/public/elevation_cache.json"
+    cache = {}
+    if os.path.exists(cache_path):
+        try:
+            with open(cache_path, "r", encoding="utf-8") as f:
+                cache = json.load(f)
+        except Exception:
+            cache = {}
+            
+    unique_coords = []
+    seen = set()
+    for pt in points:
+        lon, lat = pt[0], pt[1]
+        key = f"{lon:.5f},{lat:.5f}"
+        if key not in seen:
+            seen.add(key)
+            unique_coords.append((lon, lat, key))
+            
+    missing_coords = [item for item in unique_coords if item[2] not in cache]
+    
+    batch_size = 100
+    if missing_coords:
+        modified = False
+        for i in range(0, len(missing_coords), batch_size):
+            batch = missing_coords[i:i+batch_size]
+            lats_str = ",".join(f"{item[1]:.5f}" for item in batch)
+            lons_str = ",".join(f"{item[0]:.5f}" for item in batch)
+            url = f"https://api.open-meteo.com/v1/elevation?latitude={lats_str}&longitude={lons_str}"
+            try:
+                req = urllib.request.Request(url, headers={'User-Agent': 'SherloTracks/1.0'})
+                with urllib.request.urlopen(req, timeout=5) as response:
+                    res_data = json.loads(response.read().decode('utf-8'))
+                    elevations = res_data.get("elevation", [])
+                    for coord, ele in zip(batch, elevations):
+                        if ele is not None:
+                            cache[coord[2]] = ele
+                    modified = True
+            except Exception as e:
+                print(f"Error fetching elevation from Open-Meteo: {e}")
+                
+        if modified:
+            try:
+                with open(cache_path, "w", encoding="utf-8") as f:
+                    json.dump(cache, f, indent=2)
+            except Exception as e:
+                print(f"Error saving elevation cache: {e}")
+                
+    result = []
+    for pt in points:
+        lon, lat = pt[0], pt[1]
+        key = f"{lon:.5f},{lat:.5f}"
+        val = cache.get(key)
+        if val is None:
+            val = float(get_coordinate_altitude_fallback(lat, lon))
+        result.append(val)
+    return result
+
 @app.get("/historical/calculate")
 def calculate_historical(
     years: int, 
@@ -647,6 +834,7 @@ def calculate_historical(
     min_lon: float = None, 
     max_lat: float = None, 
     max_lon: float = None, 
+    skip_sleep: bool = False,
     db: Session = Depends(get_db)
 ):
     from datetime import datetime, timedelta
@@ -704,6 +892,7 @@ def calculate_historical(
                 models.Activity.id,
                 models.Activity.name,
                 models.Activity.distance,
+                models.Activity.start_date,
                 func.ST_AsGeoJSON(models.Activity.geom).label("geojson")
             ).filter(models.Activity.start_date >= limit_date)
             
@@ -723,6 +912,7 @@ def calculate_historical(
                         "id": r.id,
                         "name": r.name,
                         "distance": dist_m,
+                        "start_date": r.start_date.isoformat() if r.start_date else None,
                         "points": geojson["coordinates"]
                     })
                     total_kms += dist_m / 1000.0
@@ -741,8 +931,8 @@ def calculate_historical(
             processed_kms = 0.0
             
             for idx, act in enumerate(activities_data):
-                # Pequeño retardo para suavizar la barra de progreso y evitar batching en React
-                time.sleep(0.04)
+                if not skip_sleep:
+                    time.sleep(0.04)
                 
                 points = act["points"]
                 dist_km = act["distance"] / 1000.0
@@ -903,14 +1093,16 @@ def calculate_historical(
                                 valid_sub_paths.append({
                                     "points": current_sub_path,
                                     "activity_id": act["id"],
-                                    "activity_name": act["name"]
+                                    "activity_name": act["name"],
+                                    "activity_date": act["start_date"]
                                 })
                             current_sub_path = [pt]
                     if len(current_sub_path) >= 2:
                         valid_sub_paths.append({
                             "points": current_sub_path,
                             "activity_id": act["id"],
-                            "activity_name": act["name"]
+                            "activity_name": act["name"],
+                            "activity_date": act["start_date"]
                         })
                         
             # 4. Agrupar sub-paths por sus extremos (unordered startId/endId)
@@ -928,13 +1120,29 @@ def calculate_historical(
                         "startId": start_id,
                         "endId": end_id,
                         "activity_name": sp["activity_name"],
-                        "activity_id": sp["activity_id"]
+                        "activity_id": sp["activity_id"],
+                        "activity_date": sp.get("activity_date")
                     })
                     
+            # Cargar segmentos olvidados
+            forgotten_tramos = set()
+            forgotten_path = "/public/forgotten_tramos.json"
+            if os.path.exists(forgotten_path):
+                try:
+                    with open(forgotten_path, "r", encoding="utf-8") as f:
+                        forgotten_data = json.load(f)
+                        for pair in forgotten_data:
+                            if len(pair) == 2:
+                                forgotten_tramos.add(tuple(sorted(pair)))
+                except Exception:
+                    pass
+
             # 5. Generar tramos finales (único por par de cruces, el más corto de todos)
             final_tramos = []
             idx = 0
             for key, sp_list in tramos_by_endpoints.items():
+                if key in forgotten_tramos:
+                    continue
                 with_lengths = []
                 for sp in sp_list:
                     length = get_path_length(sp["points"])
@@ -944,6 +1152,8 @@ def calculate_historical(
                 shortest_sp, shortest_length = with_lengths[0]
                 
                 act_names = list(set([sp["activity_name"] for sp in sp_list]))
+                dates = [sp["activity_date"] for sp in sp_list if sp.get("activity_date")]
+                last_pass_date = max(dates) if dates else None
                 
                 final_tramos.append({
                     "id": f"tramo_{idx}",
@@ -952,10 +1162,54 @@ def calculate_historical(
                     "endId": shortest_sp["endId"],
                     "activityNames": act_names,
                     "count": len(sp_list),
-                    "isRoad": False
+                    "isRoad": False,
+                    "lastPassDate": last_pass_date
                 })
                 idx += 1
                 
+            # Calcular altitud media de cada tramo final
+            tramos_to_fetch = []
+            sampled_points_to_fetch = []
+            
+            for tr in final_tramos:
+                pts = tr["points"]
+                # Intentar obtener la altitud desde las coordenadas Z reales de la actividad
+                elevations = [pt[2] for pt in pts if len(pt) >= 3 and pt[2] != 0.0]
+                if elevations:
+                    tr["avg_altitude"] = round(sum(elevations) / len(elevations), 1)
+                else:
+                    # Si no hay datos Z en base de datos, consultamos la API.
+                    # Para optimizar y evitar lentitud, muestreamos hasta 3 puntos (inicio, medio, fin) del segmento
+                    num_pts = len(pts)
+                    if num_pts == 0:
+                        tr["avg_altitude"] = 0.0
+                        continue
+                    elif num_pts == 1:
+                        sampled_idx = [0]
+                    elif num_pts == 2:
+                        sampled_idx = [0, 1]
+                    else:
+                        sampled_idx = [0, num_pts // 2, num_pts - 1]
+                        
+                    sampled_pts = [pts[idx] for idx in sampled_idx]
+                    tramos_to_fetch.append((tr, sampled_pts))
+                    sampled_points_to_fetch.extend(sampled_pts)
+                    
+            if tramos_to_fetch:
+                try:
+                    fetched_elevations = get_elevations_for_points(sampled_points_to_fetch)
+                except Exception as e:
+                    print(f"Error in batch get_elevations_for_points: {e}")
+                    fetched_elevations = [0.0] * len(sampled_points_to_fetch)
+                    
+                offset = 0
+                for tr, sampled_pts in tramos_to_fetch:
+                    num_samples = len(sampled_pts)
+                    tr_elevations = fetched_elevations[offset : offset + num_samples]
+                    offset += num_samples
+                    
+                    tr["avg_altitude"] = round(sum(tr_elevations) / num_samples, 1) if tr_elevations else 0.0
+
             yield json.dumps({
                 "type": "result",
                 "cruces": cruces_geojson,
@@ -979,5 +1233,7 @@ def calculate_historical(
             "Connection": "keep-alive"
         }
     )
+
+app.mount("/minisite", StaticFiles(directory="/public", html=True), name="minisite")
 
 

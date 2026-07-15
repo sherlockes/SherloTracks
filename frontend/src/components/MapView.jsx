@@ -107,7 +107,7 @@ const RouteLines = React.memo(({ activities, crucesMode, historicalMode }) => {
          prevProps.historicalMode === nextProps.historicalMode;
 });
 
-const TramoLine = ({ tramo, onToggleType }) => {
+const TramoLine = ({ tramo, onToggleType, onForget }) => {
   const [hover, setHover] = useState(false);
 
   // Convertir puntos de [lon, lat] a [lat, lon]
@@ -172,6 +172,24 @@ const TramoLine = ({ tramo, onToggleType }) => {
               <span style={{ fontWeight: '600', color: '#94a3b8' }}>Longitud: </span>
               <span style={{ fontWeight: 'bold', color: '#0f172a' }}>{distanceStr}</span>
             </div>
+            {tramo.avg_altitude !== undefined && (
+              <div>
+                <span style={{ fontWeight: '600', color: '#94a3b8' }}>Altitud Media: </span>
+                <span style={{ fontWeight: 'bold', color: '#0f172a' }}>{tramo.avg_altitude} m</span>
+              </div>
+            )}
+            {tramo.lastPassDate && (
+              <div>
+                <span style={{ fontWeight: '600', color: '#94a3b8' }}>Último paso: </span>
+                <span style={{ fontWeight: 'bold', color: '#0f172a' }}>
+                  {new Date(tramo.lastPassDate).toLocaleDateString('es-ES', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit'
+                  })}
+                </span>
+              </div>
+            )}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem', marginTop: '0.25rem' }}>
               <div>
                 <span style={{ fontWeight: '600', color: '#94a3b8' }}>Tipo: </span>
@@ -218,6 +236,38 @@ const TramoLine = ({ tramo, onToggleType }) => {
                 ))}
               </div>
             </div>
+            {onForget && (
+              <div style={{ marginTop: '0.5rem', borderTop: '1px solid #fecaca', paddingTop: '0.5rem', display: 'flex', justifyContent: 'flex-end' }}>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (window.confirm("¿Seguro que deseas olvidar este segmento? No volverá a aparecer en futuros escaneos.")) {
+                      onForget(tramo.startId, tramo.endId);
+                    }
+                  }}
+                  style={{
+                    fontSize: '9px',
+                    padding: '3px 6px',
+                    borderRadius: '4px',
+                    border: '1px solid #fca5a5',
+                    backgroundColor: '#fee2e2',
+                    color: '#991b1b',
+                    cursor: 'pointer',
+                    fontWeight: '600',
+                    outline: 'none',
+                    transition: 'all 0.15s ease'
+                  }}
+                  onMouseOver={(e) => {
+                    e.target.style.backgroundColor = '#fecaca';
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.backgroundColor = '#fee2e2';
+                  }}
+                >
+                  Olvidar Segmento ❌
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </Popup>
@@ -270,6 +320,12 @@ const UnassignedTramoLine = ({ tramo }) => {
               <span style={{ fontWeight: '600', color: '#94a3b8' }}>Longitud: </span>
               <span style={{ fontWeight: 'bold', color: '#0f172a' }}>{distanceStr}</span>
             </div>
+            {tramo.avg_altitude !== undefined && (
+              <div>
+                <span style={{ fontWeight: '600', color: '#94a3b8' }}>Altitud Media: </span>
+                <span style={{ fontWeight: 'bold', color: '#0f172a' }}>{tramo.avg_altitude} m</span>
+              </div>
+            )}
             <div style={{ marginTop: '0.375rem', borderTop: '1px solid #f1f5f9', paddingTop: '0.375rem' }}>
               <span style={{ fontWeight: '600', color: '#ea580c', display: 'block', marginBottom: '0.125rem' }}>Uso por actividades ({tramo.count}):</span>
               <div style={{ maxHeight: '60px', overflowY: 'auto', fontSize: '10px', color: '#64748b', fontWeight: '500', paddingLeft: '0.25rem' }}>
@@ -336,6 +392,12 @@ const MinisiteTramoLine = ({ tramo, onToggleType, onDelete }) => {
               <span style={{ fontWeight: '600', color: '#94a3b8' }}>Longitud: </span>
               <span style={{ fontWeight: 'bold', color: '#0f172a' }}>{distanceStr}</span>
             </div>
+            {tramo.avg_altitude !== undefined && (
+              <div>
+                <span style={{ fontWeight: '600', color: '#94a3b8' }}>Altitud Media: </span>
+                <span style={{ fontWeight: 'bold', color: '#0f172a' }}>{tramo.avg_altitude} m</span>
+              </div>
+            )}
             <div>
               <span style={{ fontWeight: '600', color: '#94a3b8' }}>Tipo: </span>
               <span style={{ fontWeight: 'bold', color: tramo.isRoad ? '#64748b' : '#10b981' }}>
@@ -463,14 +525,14 @@ const MinisiteEditorLayer = ({ cruces, tramos, onToggleTramoType, onDeleteTramo 
   );
 };
 
-const TramosLayer = ({ tramos, unassignedTramos, crucesMode, historicalMode = false, creandoTrack, onToggleTramoType }) => {
+const TramosLayer = ({ tramos, unassignedTramos, crucesMode, historicalMode = false, creandoTrack, onToggleTramoType, onForget }) => {
   if ((!crucesMode && !historicalMode) || creandoTrack) return null;
 
   return (
     <>
       {/* Tramos válidos entre cruces */}
       {tramos && tramos.map((tr) => (
-        <TramoLine key={tr.id} tramo={tr} onToggleType={onToggleTramoType} />
+        <TramoLine key={tr.id} tramo={tr} onToggleType={onToggleTramoType} onForget={onForget} />
       ))}
 
       {/* Trayectos no asignados a cruces (naranjas discontinuos) */}
@@ -1444,6 +1506,40 @@ const MapView = ({
   const [loadingMinisite, setLoadingMinisite] = useState(false);
   const [minisiteModified, setMinisiteModified] = useState(false);
 
+  const [forgottenTramos, setForgottenTramos] = useState([]);
+
+  const fetchForgottenTramos = useCallback(async () => {
+    try {
+      const response = await axios.get(`/api/tramos/forgotten?t=${Date.now()}`);
+      setForgottenTramos(response.data || []);
+    } catch (err) {
+      console.error("Error fetching forgotten tramos", err);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (crucesMode || historicalMode) {
+      fetchForgottenTramos();
+    }
+  }, [crucesMode, historicalMode, fetchForgottenTramos]);
+
+  const handleForgetTramo = useCallback(async (startId, endId) => {
+    try {
+      const response = await axios.post('/api/tramos/forget', { startId, endId });
+      if (response.data && response.data.status === 'success') {
+        setForgottenTramos(response.data.forgotten || []);
+        setTramos(prev => prev.filter(t => {
+          const pair = [t.startId, t.endId].sort().join('_');
+          const targetPair = [startId, endId].sort().join('_');
+          return pair !== targetPair;
+        }));
+      }
+    } catch (err) {
+      console.error("Error forgetting tramo", err);
+      alert("No se pudo olvidar el segmento.");
+    }
+  }, []);
+
   useEffect(() => {
     if (minisiteEditorMode) {
       const fetchMinisiteData = async () => {
@@ -2061,15 +2157,29 @@ const MapView = ({
       return visibleCruceIds.has(t.startId) && visibleCruceIds.has(t.endId);
     });
 
+    const payload = {
+      cruces: visibleCruces,
+      tramos: visibleTramos,
+      tolerance: pointsParams.roadDetectionTolerance || 20
+    };
+
+    if (historicalMode) {
+      payload.historical = true;
+      payload.min_lat = bounds.getSouth();
+      payload.min_lon = bounds.getWest();
+      payload.max_lat = bounds.getNorth();
+      payload.max_lon = bounds.getEast();
+    }
+
     setCalculationProgress('exporting');
     try {
-      const response = await axios.post('/api/export-minisite', {
-        cruces: visibleCruces,
-        tramos: visibleTramos,
-        tolerance: pointsParams.roadDetectionTolerance || 20
-      });
+      const response = await axios.post('/api/export-minisite', payload);
       if (response.data && response.data.status === 'success') {
-        alert(`¡Minisite exportado con éxito!\n\nSe han guardado:\n- ${visibleCruces.length} cruces en /public/minisite_cruces.json\n- ${visibleTramos.length} tramos en /public/minisite_tramos.json\n\nEl minisite de la carpeta public usará directamente estos datos.`);
+        if (historicalMode) {
+          alert(`¡Minisite exportado con éxito!\n\nSe han generado y guardado en la carpeta /public:\n- 1 año: minisite_cruces_1y.json y minisite_tramos_1y.json\n- 5 años: minisite_cruces_5y.json y minisite_tramos_5y.json\n- 10 años: minisite_cruces_10y.json y minisite_tramos_10y.json\n\nEl minisite de la carpeta public usará directamente estos datos históricos.`);
+        } else {
+          alert(`¡Minisite exportado con éxito!\n\nSe han guardado:\n- ${visibleCruces.length} cruces en /public/minisite_cruces.json\n- ${visibleTramos.length} tramos en /public/minisite_tramos.json\n\nEl minisite de la carpeta public usará directamente estos datos.`);
+        }
       }
     } catch (err) {
       console.error("Error al exportar a minisite:", err);
@@ -2210,7 +2320,7 @@ const MapView = ({
         ? `&min_lat=${bounds.getSouth()}&min_lon=${bounds.getWest()}&max_lat=${bounds.getNorth()}&max_lon=${bounds.getEast()}` 
         : "";
 
-      const response = await fetch(`/api/historical/calculate?years=${historicalYears}${boundsParams}`);
+      const response = await fetch(`/api/historical/calculate?years=${historicalYears}${boundsParams}&t=${Date.now()}`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -2710,9 +2820,11 @@ const MapView = ({
       const discardUnder = pointsParams.discardDuplicateUnder !== undefined ? pointsParams.discardDuplicateUnder : 200;
       
       // Agrupar por extremos sin importar el orden
+      const forgottenKeys = new Set(forgottenTramos.map(pair => [...pair].sort().join('__')));
       const tramosByEndpoints = new Map();
       finalTramos.forEach(t => {
         const key = [t.startId, t.endId].sort().join('__');
+        if (forgottenKeys.has(key)) return;
         if (!tramosByEndpoints.has(key)) {
           tramosByEndpoints.set(key, []);
         }
@@ -2813,7 +2925,7 @@ const MapView = ({
         }
       }
     }, 50);
-  }, [crucesMode, visibleActivities, visibleCruces, pointsParams.similarityTolerance, pointsParams.discardDuplicateUnder, pointsParams.roadDetectionTolerance]);
+  }, [crucesMode, visibleActivities, visibleCruces, pointsParams.similarityTolerance, pointsParams.discardDuplicateUnder, pointsParams.roadDetectionTolerance, forgottenTramos]);
 
   useEffect(() => {
     if (crucesMode) {
@@ -4069,6 +4181,7 @@ const MapView = ({
               historicalMode={historicalMode}
               creandoTrack={creandoTrack}
               onToggleTramoType={toggleTramoType}
+              onForget={handleForgetTramo}
             />
             {/* Resaltado de tramo paralelo encontrado */}
             {crucesMode && currentMatchIndex >= 0 && parallelMatches[currentMatchIndex] && (
@@ -4170,7 +4283,7 @@ const MapView = ({
               }}>
                 {/* Relleno con gradiente animado */}
                 <div style={{
-                  width: `${progressPercent}%`,
+                  width: calculationProgress === 'exporting' ? '100%' : `${progressPercent}%`,
                   height: '100%',
                   background: 'linear-gradient(90deg, #FC4C02 0%, #ff7849 100%)',
                   borderRadius: '9999px',
@@ -4179,7 +4292,7 @@ const MapView = ({
               </div>
               {/* Texto en porcentaje */}
               <span style={{ fontSize: '1.25rem', fontWeight: 900, color: '#FC4C02', fontFamily: 'monospace' }}>
-                {progressPercent}%
+                {calculationProgress === 'exporting' ? '💾' : `${progressPercent}%`}
               </span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
@@ -4200,7 +4313,9 @@ const MapView = ({
                   : loadingCruces 
                     ? 'Obteniendo puntos de unión de la base de datos...' 
                     : (calculationProgress === 'exporting'
-                      ? 'Guardando datos de cruces y segmentos en /public...'
+                      ? (historicalMode 
+                        ? 'Ejecutando cálculos rápidos y exportando históricos de 1 y 5 años en el servidor (esto tomará solo unos segundos)...' 
+                        : 'Guardando datos de cruces y segmentos en /public...')
                       : (historicalMode && calculationProgress === 'segments'
                         ? `Procesando: ${processedTracks} de ${totalTracksToProcess} tracks (${processedKms.toFixed(0)} km de ${totalKmsToProcess.toFixed(0)} km)`
                         : (calculationProgress === 'segments' 
