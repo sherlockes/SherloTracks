@@ -2176,7 +2176,7 @@ const MapView = ({
       const response = await axios.post('/api/export-minisite', payload);
       if (response.data && response.data.status === 'success') {
         if (historicalMode) {
-          alert(`¡Minisite exportado con éxito!\n\nSe han generado y guardado en la carpeta /public:\n- 1 año: minisite_cruces_1y.json y minisite_tramos_1y.json\n- 5 años: minisite_cruces_5y.json y minisite_tramos_5y.json\n- 10 años: minisite_cruces_10y.json y minisite_tramos_10y.json\n\nEl minisite de la carpeta public usará directamente estos datos históricos.`);
+          alert(`¡Minisite exportado con éxito!\n\nSe han generado y guardado en la carpeta /public:\n- 1 año: minisite_cruces_1y.json y minisite_tramos_1y.json\n- 5 años: minisite_cruces_5y.json y minisite_tramos_5y.json\n\nEl minisite de la carpeta public usará directamente estos datos históricos.`);
         } else {
           alert(`¡Minisite exportado con éxito!\n\nSe han guardado:\n- ${visibleCruces.length} cruces en /public/minisite_cruces.json\n- ${visibleTramos.length} tramos en /public/minisite_tramos.json\n\nEl minisite de la carpeta public usará directamente estos datos.`);
         }

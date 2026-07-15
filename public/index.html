@@ -3418,7 +3418,14 @@
                     val = t.avg_altitude || 0;
                 }
 
-                let ratio = (val - minVal) / valRange;
+                let ratio = 0;
+                if (activeColorMode === 'passes') {
+                    const logMax = Math.log(maxVal - minVal + 1);
+                    const logVal = Math.log(val - minVal + 1);
+                    ratio = logMax > 0 ? logVal / logMax : 0;
+                } else {
+                    ratio = (val - minVal) / valRange;
+                }
                 ratio = Math.max(0, Math.min(1, ratio));
 
                 // Gradiente térmico: de 220 (azul frío) a 0 (rojo caliente)
