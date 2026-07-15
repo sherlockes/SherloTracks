@@ -891,67 +891,60 @@
     <div id="historical-controls-panel" style="
         position: absolute;
         top: 16px;
-        left: 112px;
+        left: 96px;
         z-index: 1000;
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 6px;
         background: rgba(255, 255, 255, 0.78);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
-        padding: 8px 12px;
+        padding: 5px 8px;
         border-radius: 10px;
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
         border: 1px solid rgba(255, 255, 255, 0.4);
         font-family: 'Outfit', sans-serif;
     ">
         <!-- Selector de Años -->
-        <div style="display: flex; align-items: center; gap: 6px;">
-            <label style="font-size: 8px; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap;">Historial:</label>
-            <select id="select-years" style="
-                height: 26px;
-                border-radius: 6px;
-                background: #ffffff;
-                border: 1px solid rgba(0, 0, 0, 0.15);
-                color: #0f172a;
-                font-size: 10px;
-                font-weight: 700;
-                font-family: 'Outfit', sans-serif;
-                outline: none;
-                cursor: pointer;
-                padding: 0 6px;
-            ">
-                <option value="default">Por defecto</option>
-                <option value="1y">1 Año</option>
-                <option value="5y">5 Años</option>
-            </select>
-        </div>
+        <select id="select-years" style="
+            height: 26px;
+            border-radius: 6px;
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            color: #0f172a;
+            font-size: 10px;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            outline: none;
+            cursor: pointer;
+            padding: 0 4px;
+        ">
+            <option value="1y">1 Año</option>
+            <option value="5y" selected>5 Años</option>
+        </select>
 
         <!-- Divisor vertical -->
         <div style="width: 1px; height: 16px; background-color: rgba(0,0,0,0.15);"></div>
 
         <!-- Selector de Color -->
-        <div style="display: flex; align-items: center; gap: 6px;">
-            <label style="font-size: 8px; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap;">Colorear:</label>
-            <select id="select-color-mode" style="
-                height: 26px;
-                border-radius: 6px;
-                background: #ffffff;
-                border: 1px solid rgba(0, 0, 0, 0.15);
-                color: #0f172a;
-                font-size: 10px;
-                font-weight: 700;
-                font-family: 'Outfit', sans-serif;
-                outline: none;
-                cursor: pointer;
-                padding: 0 6px;
-            ">
-                <option value="normal">Por defecto</option>
-                <option value="age">Antigüedad ⏱️</option>
-                <option value="passes">Pasadas 🔄</option>
-                <option value="altitude">Altitud 🏔️</option>
-            </select>
-        </div>
+        <select id="select-color-mode" style="
+            height: 26px;
+            border-radius: 6px;
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            color: #0f172a;
+            font-size: 10px;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            outline: none;
+            cursor: pointer;
+            padding: 0 4px;
+        ">
+            <option value="normal">Defecto 🎨</option>
+            <option value="age">Antigüedad ⏱️</option>
+            <option value="passes">Pasadas 🔄</option>
+            <option value="altitude">Altitud 🏔️</option>
+        </select>
     </div>
 
     <!-- Minimapa del Recorrido Completo -->
@@ -3624,58 +3617,60 @@
 
         if (selectYears) {
             selectYears.addEventListener('change', (e) => {
-                const range = e.target.value;
-                let crucesUrl = 'minisite_cruces.json';
-                let tramosUrl = 'minisite_tramos.json';
-
-                if (range !== 'default') {
-                    crucesUrl = `minisite_cruces_${range}.json`;
-                    tramosUrl = `minisite_tramos_${range}.json`;
-                }
+                const range = e.target.value; // '1y' o '5y'
+                let crucesUrl = `minisite_cruces_${range}.json`;
+                let tramosUrl = `minisite_tramos_${range}.json`;
 
                 // Mostrar pantalla de carga
                 loadingScreen.style.display = 'flex';
                 loadingScreen.style.opacity = '1';
 
-                Promise.all([
-                    fetch(crucesUrl, { cache: 'no-cache' }).then(res => {
-                        if (!res.ok) throw new Error();
-                        return res.json();
-                    }),
-                    fetch(tramosUrl, { cache: 'no-cache' }).then(res => {
-                        if (!res.ok) throw new Error();
-                        return res.json();
+                const fetchFiles = (cUrl, tUrl) => {
+                    return Promise.all([
+                        fetch(cUrl, { cache: 'no-cache' }).then(res => {
+                            if (!res.ok) throw new Error("File not found");
+                            return res.json();
+                        }),
+                        fetch(tUrl, { cache: 'no-cache' }).then(res => {
+                            if (!res.ok) throw new Error("File not found");
+                            return res.json();
+                        })
+                    ]);
+                };
+
+                fetchFiles(crucesUrl, tramosUrl)
+                    .catch(err => {
+                        console.warn("Fichero histórico específico no encontrado, intentando por defecto...");
+                        return fetchFiles('minisite_cruces.json', 'minisite_tramos.json');
                     })
-                ]).then(([crucesData, tramosData]) => {
-                    // Resetear creador y track actual para evitar inconsistencias
-                    resetCreator();
-                    
-                    // Limpiar capas del mapa anteriores
-                    backgroundLayers.forEach(poly => poly.remove());
-                    backgroundLayers = [];
-                    clearCrossingMarkers();
-                    clearCandidateLayers();
+                    .then(([crucesData, tramosData]) => {
+                        // Resetear creador y track actual para evitar inconsistencias
+                        resetCreator();
+                        
+                        // Limpiar capas del mapa anteriores
+                        backgroundLayers.forEach(poly => poly.remove());
+                        backgroundLayers = [];
+                        clearCrossingMarkers();
+                        clearCandidateLayers();
 
-                    cruces = crucesData.type === 'FeatureCollection' ? crucesData.features : crucesData;
-                    tramos = tramosData;
+                        cruces = crucesData.type === 'FeatureCollection' ? crucesData.features : crucesData;
+                        tramos = tramosData;
 
-                    // Reconstruir el grafo e inicializarUI
-                    initMinisite();
-                    applyBaseSegmentsColoring();
-                    drawCrossingSelectionMarkers();
+                        // Reconstruir el grafo e inicializarUI
+                        initMinisite();
+                        applyBaseSegmentsColoring();
+                        drawCrossingSelectionMarkers();
 
-                    // Ocultar pantalla de carga
-                    loadingScreen.style.opacity = '0';
-                    setTimeout(() => loadingScreen.style.display = 'none', 500);
+                        // Ocultar pantalla de carga
+                        loadingScreen.style.opacity = '0';
+                        setTimeout(() => loadingScreen.style.display = 'none', 500);
 
-                }).catch(err => {
-                    console.error("Error al cargar rango histórico:", err);
-                    alert("⚠️ Este rango histórico de años no está disponible o no ha sido exportado. Se cargarán los datos por defecto.");
-                    selectYears.value = 'default';
-                    
-                    const event = new Event('change');
-                    selectYears.dispatchEvent(event);
-                });
+                    }).catch(err => {
+                        console.error("Error al cargar rango histórico:", err);
+                        alert("⚠️ Los datos de este tramo no están disponibles en el servidor.");
+                        loadingScreen.style.opacity = '0';
+                        setTimeout(() => loadingScreen.style.display = 'none', 500);
+                    });
             });
         }
 
