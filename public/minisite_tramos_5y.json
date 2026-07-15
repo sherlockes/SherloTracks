@@ -2371,7 +2371,7 @@
       "Cinco Olivas Ciclismo",
       "Al Purburell en gravel"
     ],
-    "count": 237,
+    "count": 239,
     "isRoad": false,
     "lastPassDate": "2026-07-15T05:18:20",
     "avg_altitude": 151.7
@@ -2380,26 +2380,26 @@
     "id": "tramo_54",
     "points": [
       [
-        -0.368084908,
-        41.323994744
+        -0.371105075,
+        41.328563029
       ],
       [
-        -0.36931,
+        -0.37076,
+        41.32698,
+        0
+      ],
+      [
+        -0.36937,
         41.32501,
         0
       ],
       [
-        -0.37113,
-        41.32733,
-        0
-      ],
-      [
-        -0.371105075,
-        41.328563029
+        -0.368084908,
+        41.323994744
       ]
     ],
-    "startId": "cruce_183",
-    "endId": "cruce_121",
+    "startId": "cruce_121",
+    "endId": "cruce_183",
     "activityNames": [
       "Bicicleta al anochecer",
       "Bicicleta a la hora del almuerzo",
@@ -2409,10 +2409,10 @@
       "Cinco Olivas Ciclismo",
       "Al Purburell en gravel"
     ],
-    "count": 220,
+    "count": 222,
     "isRoad": false,
     "lastPassDate": "2026-07-15T05:18:20",
-    "avg_altitude": 167.3
+    "avg_altitude": 170.7
   },
   {
     "id": "tramo_55",
@@ -6889,48 +6889,6 @@
     "id": "tramo_147",
     "points": [
       [
-        -0.370584726,
-        41.335439025
-      ],
-      [
-        -0.36996,
-        41.33287,
-        0
-      ],
-      [
-        -0.37024,
-        41.33016,
-        0
-      ],
-      [
-        -0.37116,
-        41.32709,
-        0
-      ],
-      [
-        -0.36941,
-        41.32497,
-        0
-      ],
-      [
-        -0.368084908,
-        41.323994744
-      ]
-    ],
-    "startId": "cruce_114",
-    "endId": "cruce_183",
-    "activityNames": [
-      "Bicicleta por la mañana"
-    ],
-    "count": 2,
-    "isRoad": false,
-    "lastPassDate": "2022-10-01T07:54:41",
-    "avg_altitude": 170.3
-  },
-  {
-    "id": "tramo_148",
-    "points": [
-      [
         -0.330668092,
         41.300624606
       ],
@@ -7092,7 +7050,7 @@
     "avg_altitude": 147.3
   },
   {
-    "id": "tramo_149",
+    "id": "tramo_148",
     "points": [
       [
         -0.333065987,
@@ -7156,7 +7114,7 @@
     "avg_altitude": 156.7
   },
   {
-    "id": "tramo_150",
+    "id": "tramo_149",
     "points": [
       [
         -0.338317752,
@@ -7185,7 +7143,7 @@
     "avg_altitude": 146.7
   },
   {
-    "id": "tramo_151",
+    "id": "tramo_150",
     "points": [
       [
         -0.319354534,
@@ -7224,7 +7182,7 @@
     "avg_altitude": 226.3
   },
   {
-    "id": "tramo_152",
+    "id": "tramo_151",
     "points": [
       [
         -0.319220424,
@@ -7248,7 +7206,7 @@
     "avg_altitude": 221.0
   },
   {
-    "id": "tramo_153",
+    "id": "tramo_152",
     "points": [
       [
         -0.31409204,
@@ -7276,7 +7234,7 @@
     "avg_altitude": 142.3
   },
   {
-    "id": "tramo_154",
+    "id": "tramo_153",
     "points": [
       [
         -0.312305689,
@@ -7354,7 +7312,7 @@
     "avg_altitude": 154.0
   },
   {
-    "id": "tramo_155",
+    "id": "tramo_154",
     "points": [
       [
         -0.302022099,
@@ -7432,7 +7390,7 @@
     "avg_altitude": 161.0
   },
   {
-    "id": "tramo_156",
+    "id": "tramo_155",
     "points": [
       [
         -0.319955349,
@@ -7466,7 +7424,7 @@
     "avg_altitude": 196.7
   },
   {
-    "id": "tramo_157",
+    "id": "tramo_156",
     "points": [
       [
         -0.331789255,
@@ -7506,7 +7464,7 @@
     "avg_altitude": 204.3
   },
   {
-    "id": "tramo_158",
+    "id": "tramo_157",
     "points": [
       [
         -0.342121124,
@@ -7530,7 +7488,7 @@
     "avg_altitude": 143.5
   },
   {
-    "id": "tramo_159",
+    "id": "tramo_158",
     "points": [
       [
         -0.339642763,
@@ -7554,7 +7512,7 @@
     "avg_altitude": 150.5
   },
   {
-    "id": "tramo_160",
+    "id": "tramo_159",
     "points": [
       [
         -0.341396928,
@@ -7578,7 +7536,7 @@
     "avg_altitude": 155.0
   },
   {
-    "id": "tramo_161",
+    "id": "tramo_160",
     "points": [
       [
         -0.343896747,
@@ -7603,7 +7561,7 @@
     "avg_altitude": 147.5
   },
   {
-    "id": "tramo_162",
+    "id": "tramo_161",
     "points": [
       [
         -0.344722867,
@@ -7653,7 +7611,7 @@
     "avg_altitude": 139.0
   },
   {
-    "id": "tramo_163",
+    "id": "tramo_162",
     "points": [
       [
         -0.366185904,
@@ -7677,13 +7635,13 @@
       "Bicicleta por la mañana",
       "Cinco Olivas Ciclismo"
     ],
-    "count": 19,
+    "count": 20,
     "isRoad": false,
     "lastPassDate": "2024-08-19T07:04:53",
     "avg_altitude": 170.0
   },
   {
-    "id": "tramo_164",
+    "id": "tramo_163",
     "points": [
       [
         -0.364619493,
@@ -7705,13 +7663,13 @@
       "Cinco Olivas Ciclismo",
       "Al Purburell en gravel"
     ],
-    "count": 157,
+    "count": 158,
     "isRoad": false,
     "lastPassDate": "2026-07-15T05:18:20",
     "avg_altitude": 177.0
   },
   {
-    "id": "tramo_165",
+    "id": "tramo_164",
     "points": [
       [
         -0.396950841,
@@ -7739,7 +7697,7 @@
     "avg_altitude": 136.7
   },
   {
-    "id": "tramo_166",
+    "id": "tramo_165",
     "points": [
       [
         -0.333065987,
@@ -7848,7 +7806,7 @@
     "avg_altitude": 175.3
   },
   {
-    "id": "tramo_167",
+    "id": "tramo_166",
     "points": [
       [
         -0.329723954,
@@ -7872,7 +7830,7 @@
     "avg_altitude": 212.0
   },
   {
-    "id": "tramo_168",
+    "id": "tramo_167",
     "points": [
       [
         -0.327803493,
@@ -7901,7 +7859,7 @@
     "avg_altitude": 210.0
   },
   {
-    "id": "tramo_169",
+    "id": "tramo_168",
     "points": [
       [
         -0.319220424,
@@ -7955,7 +7913,7 @@
     "avg_altitude": 210.0
   },
   {
-    "id": "tramo_170",
+    "id": "tramo_169",
     "points": [
       [
         -0.316028595,
@@ -7983,7 +7941,7 @@
     "avg_altitude": 238.7
   },
   {
-    "id": "tramo_171",
+    "id": "tramo_170",
     "points": [
       [
         -0.316972733,
@@ -8007,7 +7965,7 @@
     "avg_altitude": 225.0
   },
   {
-    "id": "tramo_172",
+    "id": "tramo_171",
     "points": [
       [
         -0.307381153,
@@ -8030,7 +7988,7 @@
     "avg_altitude": 162.5
   },
   {
-    "id": "tramo_173",
+    "id": "tramo_172",
     "points": [
       [
         -0.306415558,
@@ -8098,7 +8056,7 @@
     "avg_altitude": 199.7
   },
   {
-    "id": "tramo_174",
+    "id": "tramo_173",
     "points": [
       [
         -0.317986608,
@@ -8122,7 +8080,7 @@
     "avg_altitude": 222.0
   },
   {
-    "id": "tramo_175",
+    "id": "tramo_174",
     "points": [
       [
         -0.316044688,
@@ -8145,7 +8103,7 @@
     "avg_altitude": 145.0
   },
   {
-    "id": "tramo_176",
+    "id": "tramo_175",
     "points": [
       [
         -0.314596295,
@@ -8168,7 +8126,7 @@
     "avg_altitude": 140.5
   },
   {
-    "id": "tramo_177",
+    "id": "tramo_176",
     "points": [
       [
         -0.401124358,
@@ -8232,7 +8190,7 @@
     "avg_altitude": 236.7
   },
   {
-    "id": "tramo_178",
+    "id": "tramo_177",
     "points": [
       [
         -0.401124358,
@@ -8256,7 +8214,7 @@
     "avg_altitude": 283.5
   },
   {
-    "id": "tramo_179",
+    "id": "tramo_178",
     "points": [
       [
         -0.403865576,
@@ -8279,7 +8237,7 @@
     "avg_altitude": 278.5
   },
   {
-    "id": "tramo_180",
+    "id": "tramo_179",
     "points": [
       [
         -0.404847264,
@@ -8302,7 +8260,7 @@
     "avg_altitude": 276.0
   },
   {
-    "id": "tramo_181",
+    "id": "tramo_180",
     "points": [
       [
         -0.390041443,
@@ -8340,7 +8298,7 @@
     "avg_altitude": 281.7
   },
   {
-    "id": "tramo_182",
+    "id": "tramo_181",
     "points": [
       [
         -0.380165577,
@@ -8363,7 +8321,7 @@
     "avg_altitude": 288.5
   },
   {
-    "id": "tramo_183",
+    "id": "tramo_182",
     "points": [
       [
         -0.378368497,
@@ -8391,7 +8349,7 @@
     "avg_altitude": 279.3
   },
   {
-    "id": "tramo_184",
+    "id": "tramo_183",
     "points": [
       [
         -0.384344459,
@@ -8416,7 +8374,7 @@
     "avg_altitude": 158.0
   },
   {
-    "id": "tramo_185",
+    "id": "tramo_184",
     "points": [
       [
         -0.387820601,
@@ -8439,7 +8397,7 @@
     "avg_altitude": 164.5
   },
   {
-    "id": "tramo_186",
+    "id": "tramo_185",
     "points": [
       [
         -0.399241447,
@@ -8464,7 +8422,7 @@
     "avg_altitude": 171.0
   },
   {
-    "id": "tramo_187",
+    "id": "tramo_186",
     "points": [
       [
         -0.399250077,
@@ -8493,7 +8451,7 @@
     "avg_altitude": 184.0
   },
   {
-    "id": "tramo_188",
+    "id": "tramo_187",
     "points": [
       [
         -0.393034816,
@@ -8577,7 +8535,7 @@
     "avg_altitude": 197.3
   },
   {
-    "id": "tramo_189",
+    "id": "tramo_188",
     "points": [
       [
         -0.320389867,
@@ -8602,79 +8560,92 @@
     "avg_altitude": 218.5
   },
   {
-    "id": "tramo_190",
+    "id": "tramo_189",
     "points": [
       [
         -0.364619493,
         41.323217217
       ],
       [
-        -0.36541,
-        41.3232,
+        -0.36557,
+        41.32303,
         0
       ],
       [
-        -0.36555,
-        41.32308,
+        -0.3654778,
+        41.322246303
+      ]
+    ],
+    "startId": "cruce_198",
+    "endId": "cruce_319",
+    "activityNames": [
+      "Bicicleta por la mañana"
+    ],
+    "count": 5,
+    "isRoad": false,
+    "lastPassDate": "2022-10-01T07:54:41",
+    "avg_altitude": 174.7
+  },
+  {
+    "id": "tramo_190",
+    "points": [
+      [
+        -0.3654778,
+        41.322246303
+      ],
+      [
+        -0.36558,
+        41.32187,
         0
       ],
       [
-        -0.3656,
-        41.3227,
+        -0.36568,
+        41.32181,
         0
       ],
       [
-        -0.36548,
-        41.3223,
-        0
-      ],
+        -0.366303921,
+        41.321746739
+      ]
+    ],
+    "startId": "cruce_319",
+    "endId": "cruce_320",
+    "activityNames": [
+      "Bicicleta al anochecer",
+      "Bicicleta por la mañana",
+      "Cinco Olivas Ciclismo"
+    ],
+    "count": 16,
+    "isRoad": false,
+    "lastPassDate": "2025-06-07T04:59:37",
+    "avg_altitude": 180.0
+  },
+  {
+    "id": "tramo_191",
+    "points": [
       [
-        -0.3656,
-        41.32217,
-        0
-      ],
-      [
-        -0.36548,
-        41.32185,
-        0
-      ],
-      [
-        -0.36554,
-        41.32128,
-        0
-      ],
-      [
-        -0.36562,
-        41.32125,
-        0
-      ],
-      [
-        -0.36606,
-        41.32132,
-        0
-      ],
-      [
-        -0.36646,
-        41.32129,
-        0
+        -0.366303921,
+        41.321746739
       ],
       [
         -0.366990566,
         41.321698394
       ]
     ],
-    "startId": "cruce_198",
+    "startId": "cruce_320",
     "endId": "cruce_166",
     "activityNames": [
-      "Bicicleta por la mañana"
+      "Bicicleta al anochecer",
+      "Bicicleta por la mañana",
+      "Cinco Olivas Ciclismo"
     ],
-    "count": 4,
+    "count": 14,
     "isRoad": false,
-    "lastPassDate": "2022-10-01T07:54:41",
-    "avg_altitude": 180.0
+    "lastPassDate": "2025-06-07T04:59:37",
+    "avg_altitude": 184.5
   },
   {
-    "id": "tramo_191",
+    "id": "tramo_192",
     "points": [
       [
         -0.367693305,
@@ -8698,7 +8669,7 @@
     "avg_altitude": 190.5
   },
   {
-    "id": "tramo_192",
+    "id": "tramo_193",
     "points": [
       [
         -0.370772481,
@@ -8718,13 +8689,13 @@
       "Bicicleta por la tarde",
       "Cinco Olivas Ciclismo"
     ],
-    "count": 24,
+    "count": 26,
     "isRoad": false,
     "lastPassDate": "2026-04-26T07:35:00",
     "avg_altitude": 197.5
   },
   {
-    "id": "tramo_193",
+    "id": "tramo_194",
     "points": [
       [
         -0.370772481,
@@ -8765,7 +8736,7 @@
     "avg_altitude": 202.7
   },
   {
-    "id": "tramo_194",
+    "id": "tramo_195",
     "points": [
       [
         -0.367693305,
@@ -8791,7 +8762,7 @@
     "avg_altitude": 189.0
   },
   {
-    "id": "tramo_195",
+    "id": "tramo_196",
     "points": [
       [
         -0.372574925,
@@ -8808,9 +8779,30 @@
         0
       ],
       [
-        -0.37147,
-        41.32522,
-        0
+        -0.371453762,
+        41.325291944
+      ]
+    ],
+    "startId": "cruce_119",
+    "endId": "cruce_317",
+    "activityNames": [
+      "Bicicleta al anochecer",
+      "Bicicleta a la hora del almuerzo",
+      "Bicicleta por la mañana",
+      "Bicicleta por la tarde",
+      "Cinco Olivas Ciclismo"
+    ],
+    "count": 25,
+    "isRoad": false,
+    "lastPassDate": "2026-04-26T07:35:00",
+    "avg_altitude": 198.7
+  },
+  {
+    "id": "tramo_197",
+    "points": [
+      [
+        -0.371453762,
+        41.325291944
       ],
       [
         -0.37111,
@@ -8837,7 +8829,7 @@
         41.328563029
       ]
     ],
-    "startId": "cruce_119",
+    "startId": "cruce_317",
     "endId": "cruce_121",
     "activityNames": [
       "Bicicleta al anochecer",
@@ -8849,10 +8841,10 @@
     "count": 24,
     "isRoad": false,
     "lastPassDate": "2026-04-26T07:35:00",
-    "avg_altitude": 181.3
+    "avg_altitude": 165.7
   },
   {
-    "id": "tramo_196",
+    "id": "tramo_198",
     "points": [
       [
         -0.342121124,
@@ -8877,7 +8869,7 @@
     "avg_altitude": 148.0
   },
   {
-    "id": "tramo_197",
+    "id": "tramo_199",
     "points": [
       [
         -0.34358561,
@@ -8902,7 +8894,7 @@
     "avg_altitude": 151.0
   },
   {
-    "id": "tramo_198",
+    "id": "tramo_200",
     "points": [
       [
         -0.364619493,
@@ -8935,7 +8927,7 @@
     "avg_altitude": 176.0
   },
   {
-    "id": "tramo_199",
+    "id": "tramo_201",
     "points": [
       [
         -0.361690521,
@@ -8960,7 +8952,7 @@
     "avg_altitude": 185.0
   },
   {
-    "id": "tramo_200",
+    "id": "tramo_202",
     "points": [
       [
         -0.363691449,
@@ -8986,7 +8978,7 @@
     "avg_altitude": 188.5
   },
   {
-    "id": "tramo_201",
+    "id": "tramo_203",
     "points": [
       [
         -0.364984274,
@@ -9010,61 +9002,31 @@
     "avg_altitude": 186.0
   },
   {
-    "id": "tramo_202",
+    "id": "tramo_204",
     "points": [
       [
         -0.364694595,
         41.321505014
       ],
       [
-        -0.36487,
-        41.32181,
-        0
-      ],
-      [
-        -0.36555,
-        41.3222,
-        0
-      ],
-      [
-        -0.36556,
-        41.3219,
-        0
-      ],
-      [
-        -0.36612,
-        41.32178,
-        0
-      ],
-      [
-        -0.36612,
-        41.32232,
-        0
-      ],
-      [
-        -0.36634,
-        41.32174,
-        0
-      ],
-      [
-        -0.366990566,
-        41.321698394
+        -0.3654778,
+        41.322246303
       ]
     ],
     "startId": "cruce_169",
-    "endId": "cruce_166",
+    "endId": "cruce_319",
     "activityNames": [
       "Bicicleta al anochecer",
       "Bicicleta por la mañana",
       "Cinco Olivas Ciclismo"
     ],
-    "count": 10,
+    "count": 12,
     "isRoad": false,
     "lastPassDate": "2025-06-07T04:59:37",
-    "avg_altitude": 185.0
+    "avg_altitude": 182.5
   },
   {
-    "id": "tramo_203",
+    "id": "tramo_205",
     "points": [
       [
         -0.317546725,
@@ -9112,7 +9074,7 @@
     "avg_altitude": 220.0
   },
   {
-    "id": "tramo_204",
+    "id": "tramo_206",
     "points": [
       [
         -0.32538414,
@@ -9140,7 +9102,7 @@
     "avg_altitude": 208.7
   },
   {
-    "id": "tramo_205",
+    "id": "tramo_207",
     "points": [
       [
         -0.346063972,
@@ -9166,7 +9128,7 @@
     "avg_altitude": 146.0
   },
   {
-    "id": "tramo_206",
+    "id": "tramo_208",
     "points": [
       [
         -0.34668088,
@@ -9212,7 +9174,7 @@
     "avg_altitude": 153.7
   },
   {
-    "id": "tramo_207",
+    "id": "tramo_209",
     "points": [
       [
         -0.361690521,
@@ -9240,7 +9202,7 @@
     "avg_altitude": 173.0
   },
   {
-    "id": "tramo_208",
+    "id": "tramo_210",
     "points": [
       [
         -0.329723954,
@@ -9263,7 +9225,7 @@
     "avg_altitude": 211.0
   },
   {
-    "id": "tramo_209",
+    "id": "tramo_211",
     "points": [
       [
         -0.33017993,
@@ -9285,7 +9247,7 @@
     "avg_altitude": 211.0
   },
   {
-    "id": "tramo_210",
+    "id": "tramo_212",
     "points": [
       [
         -0.33017993,
@@ -9338,7 +9300,7 @@
     "avg_altitude": 183.3
   },
   {
-    "id": "tramo_211",
+    "id": "tramo_213",
     "points": [
       [
         -0.319494009,
@@ -9406,7 +9368,7 @@
     "avg_altitude": 216.3
   },
   {
-    "id": "tramo_212",
+    "id": "tramo_214",
     "points": [
       [
         -0.380165577,
@@ -9479,7 +9441,7 @@
     "avg_altitude": 252.0
   },
   {
-    "id": "tramo_213",
+    "id": "tramo_215",
     "points": [
       [
         -0.345556022,
@@ -9522,7 +9484,7 @@
     "avg_altitude": 177.7
   },
   {
-    "id": "tramo_214",
+    "id": "tramo_216",
     "points": [
       [
         -0.336563587,
@@ -9585,7 +9547,7 @@
     "avg_altitude": 175.0
   },
   {
-    "id": "tramo_215",
+    "id": "tramo_217",
     "points": [
       [
         -0.318144164,
@@ -9633,7 +9595,7 @@
     "avg_altitude": 159.3
   },
   {
-    "id": "tramo_216",
+    "id": "tramo_218",
     "points": [
       [
         -0.322326422,
@@ -9695,7 +9657,7 @@
     "avg_altitude": 149.0
   },
   {
-    "id": "tramo_217",
+    "id": "tramo_219",
     "points": [
       [
         -0.312412977,
@@ -9887,7 +9849,7 @@
     "avg_altitude": 138.3
   },
   {
-    "id": "tramo_218",
+    "id": "tramo_220",
     "points": [
       [
         -0.313743353,
@@ -9934,7 +9896,7 @@
     "avg_altitude": 120.0
   },
   {
-    "id": "tramo_219",
+    "id": "tramo_221",
     "points": [
       [
         -0.34358561,
@@ -9959,7 +9921,7 @@
     "avg_altitude": 144.5
   },
   {
-    "id": "tramo_220",
+    "id": "tramo_222",
     "points": [
       [
         -0.368272662,
@@ -10026,7 +9988,7 @@
     "avg_altitude": 156.3
   },
   {
-    "id": "tramo_221",
+    "id": "tramo_223",
     "points": [
       [
         -0.376190543,
@@ -10091,7 +10053,7 @@
     "avg_altitude": 160.7
   },
   {
-    "id": "tramo_222",
+    "id": "tramo_224",
     "points": [
       [
         -0.401124358,
@@ -10113,7 +10075,7 @@
     "avg_altitude": 285.5
   },
   {
-    "id": "tramo_223",
+    "id": "tramo_225",
     "points": [
       [
         -0.389671326,
@@ -10135,7 +10097,7 @@
     "avg_altitude": 291.0
   },
   {
-    "id": "tramo_224",
+    "id": "tramo_226",
     "points": [
       [
         -0.33017993,
@@ -10237,36 +10199,11 @@
     "avg_altitude": 189.0
   },
   {
-    "id": "tramo_225",
+    "id": "tramo_227",
     "points": [
       [
-        -0.364619493,
-        41.323217217
-      ],
-      [
-        -0.36557,
-        41.32303,
-        0
-      ],
-      [
-        -0.3656,
-        41.32182,
-        0
-      ],
-      [
-        -0.36615,
-        41.32178,
-        0
-      ],
-      [
-        -0.3661,
-        41.32228,
-        0
-      ],
-      [
-        -0.36634,
-        41.32172,
-        0
+        -0.366303921,
+        41.321746739
       ],
       [
         -0.36717,
@@ -10278,18 +10215,19 @@
         41.32244371
       ]
     ],
-    "startId": "cruce_198",
+    "startId": "cruce_320",
     "endId": "cruce_167",
     "activityNames": [
-      "Bicicleta por la mañana"
+      "Bicicleta por la mañana",
+      "Bicicleta al anochecer"
     ],
-    "count": 1,
+    "count": 3,
     "isRoad": false,
-    "lastPassDate": "2021-10-09T07:58:42",
-    "avg_altitude": 183.3
+    "lastPassDate": "2024-06-08T07:11:50",
+    "avg_altitude": 187.7
   },
   {
-    "id": "tramo_226",
+    "id": "tramo_228",
     "points": [
       [
         -0.370772481,
@@ -10313,7 +10251,7 @@
     "avg_altitude": 210.0
   },
   {
-    "id": "tramo_227",
+    "id": "tramo_229",
     "points": [
       [
         -0.403318405,
@@ -10401,7 +10339,7 @@
     "avg_altitude": 193.3
   },
   {
-    "id": "tramo_228",
+    "id": "tramo_230",
     "points": [
       [
         -0.426825285,
@@ -10464,7 +10402,7 @@
     "avg_altitude": 202.3
   },
   {
-    "id": "tramo_229",
+    "id": "tramo_231",
     "points": [
       [
         -0.428144401,
@@ -10533,7 +10471,7 @@
     "avg_altitude": 254.3
   },
   {
-    "id": "tramo_230",
+    "id": "tramo_232",
     "points": [
       [
         -0.428144401,
@@ -10576,7 +10514,7 @@
     "avg_altitude": 283.3
   },
   {
-    "id": "tramo_231",
+    "id": "tramo_233",
     "points": [
       [
         -0.430119038,
@@ -10614,7 +10552,7 @@
     "avg_altitude": 270.0
   },
   {
-    "id": "tramo_232",
+    "id": "tramo_234",
     "points": [
       [
         -0.433927422,
@@ -10672,7 +10610,7 @@
     "avg_altitude": 260.3
   },
   {
-    "id": "tramo_233",
+    "id": "tramo_235",
     "points": [
       [
         -0.417929722,
@@ -10715,7 +10653,7 @@
     "avg_altitude": 271.7
   },
   {
-    "id": "tramo_234",
+    "id": "tramo_236",
     "points": [
       [
         -0.410807133,
@@ -10748,7 +10686,7 @@
     "avg_altitude": 272.7
   },
   {
-    "id": "tramo_235",
+    "id": "tramo_237",
     "points": [
       [
         -0.318144164,
@@ -10820,7 +10758,7 @@
     "avg_altitude": 185.0
   },
   {
-    "id": "tramo_236",
+    "id": "tramo_238",
     "points": [
       [
         -0.293578506,
@@ -10882,7 +10820,7 @@
     "avg_altitude": 204.7
   },
   {
-    "id": "tramo_237",
+    "id": "tramo_239",
     "points": [
       [
         -0.29783803,
@@ -10909,7 +10847,7 @@
     "avg_altitude": 202.3
   },
   {
-    "id": "tramo_238",
+    "id": "tramo_240",
     "points": [
       [
         -0.305311735,
@@ -10961,7 +10899,7 @@
     "avg_altitude": 162.7
   },
   {
-    "id": "tramo_239",
+    "id": "tramo_241",
     "points": [
       [
         -0.303014517,
@@ -11013,7 +10951,7 @@
     "avg_altitude": 150.3
   },
   {
-    "id": "tramo_240",
+    "id": "tramo_242",
     "points": [
       [
         -0.309516191,
@@ -11035,7 +10973,7 @@
     "avg_altitude": 138.5
   },
   {
-    "id": "tramo_241",
+    "id": "tramo_243",
     "points": [
       [
         -0.341396928,
@@ -11059,7 +10997,7 @@
     "avg_altitude": 155.0
   },
   {
-    "id": "tramo_242",
+    "id": "tramo_244",
     "points": [
       [
         -0.387820601,
@@ -11088,7 +11026,7 @@
     "avg_altitude": 149.7
   },
   {
-    "id": "tramo_243",
+    "id": "tramo_245",
     "points": [
       [
         -0.42017877,
@@ -11157,7 +11095,7 @@
     "avg_altitude": 147.7
   },
   {
-    "id": "tramo_244",
+    "id": "tramo_246",
     "points": [
       [
         -0.42017877,
@@ -11201,7 +11139,7 @@
     "avg_altitude": 150.0
   },
   {
-    "id": "tramo_245",
+    "id": "tramo_247",
     "points": [
       [
         -0.426567793,
@@ -11235,7 +11173,7 @@
     "avg_altitude": 154.3
   },
   {
-    "id": "tramo_246",
+    "id": "tramo_248",
     "points": [
       [
         -0.431706905,
@@ -11264,7 +11202,7 @@
     "avg_altitude": 155.3
   },
   {
-    "id": "tramo_247",
+    "id": "tramo_249",
     "points": [
       [
         -0.433729291,
@@ -11313,7 +11251,7 @@
     "avg_altitude": 184.0
   },
   {
-    "id": "tramo_248",
+    "id": "tramo_250",
     "points": [
       [
         -0.441926122,
@@ -11401,7 +11339,7 @@
     "avg_altitude": 202.3
   },
   {
-    "id": "tramo_249",
+    "id": "tramo_251",
     "points": [
       [
         -0.435858704,
@@ -11508,7 +11446,7 @@
     "avg_altitude": 185.0
   },
   {
-    "id": "tramo_250",
+    "id": "tramo_252",
     "points": [
       [
         -0.322326422,
@@ -11631,7 +11569,7 @@
     "avg_altitude": 183.3
   },
   {
-    "id": "tramo_251",
+    "id": "tramo_253",
     "points": [
       [
         -0.334594846,
@@ -11683,7 +11621,7 @@
     "avg_altitude": 183.0
   },
   {
-    "id": "tramo_252",
+    "id": "tramo_254",
     "points": [
       [
         -0.441392967,
@@ -11736,7 +11674,7 @@
     "avg_altitude": 202.7
   },
   {
-    "id": "tramo_253",
+    "id": "tramo_255",
     "points": [
       [
         -0.441392967,
@@ -11765,7 +11703,7 @@
     "avg_altitude": 200.7
   },
   {
-    "id": "tramo_254",
+    "id": "tramo_256",
     "points": [
       [
         -0.450900436,
@@ -11904,7 +11842,7 @@
     "avg_altitude": 236.0
   },
   {
-    "id": "tramo_255",
+    "id": "tramo_257",
     "points": [
       [
         -0.327165127,
@@ -12031,7 +11969,7 @@
     "avg_altitude": 153.7
   },
   {
-    "id": "tramo_256",
+    "id": "tramo_258",
     "points": [
       [
         -0.430119038,
@@ -12053,7 +11991,7 @@
     "avg_altitude": 285.5
   },
   {
-    "id": "tramo_257",
+    "id": "tramo_259",
     "points": [
       [
         -0.422775149,
@@ -12090,7 +12028,7 @@
     "avg_altitude": 284.7
   },
   {
-    "id": "tramo_258",
+    "id": "tramo_260",
     "points": [
       [
         -0.408934951,
@@ -12129,7 +12067,7 @@
     "avg_altitude": 280.7
   },
   {
-    "id": "tramo_259",
+    "id": "tramo_261",
     "points": [
       [
         -0.407266617,
@@ -12153,7 +12091,7 @@
     "avg_altitude": 283.0
   },
   {
-    "id": "tramo_260",
+    "id": "tramo_262",
     "points": [
       [
         -0.326907635,
@@ -12190,44 +12128,7 @@
     "avg_altitude": 134.7
   },
   {
-    "id": "tramo_261",
-    "points": [
-      [
-        -0.366185904,
-        41.324353289
-      ],
-      [
-        -0.36601,
-        41.3238,
-        0
-      ],
-      [
-        -0.3657,
-        41.32345,
-        0
-      ],
-      [
-        -0.36495,
-        41.3232,
-        0
-      ],
-      [
-        -0.367119312,
-        41.323273618
-      ]
-    ],
-    "startId": "cruce_184",
-    "endId": "cruce_115",
-    "activityNames": [
-      "Bicicleta por la mañana"
-    ],
-    "count": 1,
-    "isRoad": false,
-    "lastPassDate": "2022-04-10T08:13:33",
-    "avg_altitude": 172.0
-  },
-  {
-    "id": "tramo_262",
+    "id": "tramo_263",
     "points": [
       [
         -0.441926122,
@@ -12286,7 +12187,7 @@
     "avg_altitude": 241.0
   },
   {
-    "id": "tramo_263",
+    "id": "tramo_264",
     "points": [
       [
         -0.459369069,
@@ -12315,7 +12216,7 @@
     "avg_altitude": 300.0
   },
   {
-    "id": "tramo_264",
+    "id": "tramo_265",
     "points": [
       [
         -0.457752535,
@@ -12394,7 +12295,7 @@
     "avg_altitude": 254.7
   },
   {
-    "id": "tramo_265",
+    "id": "tramo_266",
     "points": [
       [
         -0.418117244,
@@ -12453,7 +12354,7 @@
     "avg_altitude": 252.0
   },
   {
-    "id": "tramo_266",
+    "id": "tramo_267",
     "points": [
       [
         -0.407266617,
@@ -12485,7 +12386,7 @@
     "avg_altitude": 278.0
   },
   {
-    "id": "tramo_267",
+    "id": "tramo_268",
     "points": [
       [
         -0.339342356,
@@ -12552,7 +12453,7 @@
     "avg_altitude": 184.3
   },
   {
-    "id": "tramo_268",
+    "id": "tramo_269",
     "points": [
       [
         -0.378309488,
@@ -12609,7 +12510,7 @@
     "avg_altitude": 194.7
   },
   {
-    "id": "tramo_269",
+    "id": "tramo_270",
     "points": [
       [
         -0.394531488,
@@ -12696,7 +12597,7 @@
     "avg_altitude": 158.7
   },
   {
-    "id": "tramo_270",
+    "id": "tramo_271",
     "points": [
       [
         -0.376190543,
@@ -12845,7 +12746,7 @@
     "avg_altitude": 145.7
   },
   {
-    "id": "tramo_271",
+    "id": "tramo_272",
     "points": [
       [
         -0.366990566,
@@ -12857,11 +12758,37 @@
         0
       ],
       [
+        -0.365547538,
+        41.32125523
+      ]
+    ],
+    "startId": "cruce_166",
+    "endId": "cruce_318",
+    "activityNames": [
+      "Bicicleta al anochecer",
+      "Bicicleta a la hora del almuerzo",
+      "Bicicleta por la mañana",
+      "Bicicleta por la tarde",
+      "Cinco Olivas Ciclismo"
+    ],
+    "count": 18,
+    "isRoad": false,
+    "lastPassDate": "2026-04-26T07:35:00",
+    "avg_altitude": 188.7
+  },
+  {
+    "id": "tramo_273",
+    "points": [
+      [
+        -0.365547538,
+        41.32125523
+      ],
+      [
         -0.364984274,
         41.321134366
       ]
     ],
-    "startId": "cruce_166",
+    "startId": "cruce_318",
     "endId": "cruce_118",
     "activityNames": [
       "Bicicleta al anochecer",
@@ -12873,10 +12800,10 @@
     "count": 18,
     "isRoad": false,
     "lastPassDate": "2026-04-26T07:35:00",
-    "avg_altitude": 188.3
+    "avg_altitude": 186.5
   },
   {
-    "id": "tramo_272",
+    "id": "tramo_274",
     "points": [
       [
         -0.363691449,
@@ -12901,7 +12828,7 @@
     "avg_altitude": 182.5
   },
   {
-    "id": "tramo_273",
+    "id": "tramo_275",
     "points": [
       [
         -0.361921191,
@@ -12952,7 +12879,7 @@
     "avg_altitude": 176.3
   },
   {
-    "id": "tramo_274",
+    "id": "tramo_276",
     "points": [
       [
         -0.364013314,
@@ -13008,7 +12935,7 @@
     "avg_altitude": 168.0
   },
   {
-    "id": "tramo_275",
+    "id": "tramo_277",
     "points": [
       [
         -0.365316868,
@@ -13123,7 +13050,7 @@
     "avg_altitude": 150.0
   },
   {
-    "id": "tramo_276",
+    "id": "tramo_278",
     "points": [
       [
         -0.403302312,
@@ -13156,7 +13083,7 @@
     "avg_altitude": 183.0
   },
   {
-    "id": "tramo_277",
+    "id": "tramo_279",
     "points": [
       [
         -0.379806161,
@@ -13208,7 +13135,7 @@
     "avg_altitude": 181.0
   },
   {
-    "id": "tramo_278",
+    "id": "tramo_280",
     "points": [
       [
         -0.312412977,
@@ -13305,7 +13232,7 @@
     "avg_altitude": 169.7
   },
   {
-    "id": "tramo_279",
+    "id": "tramo_281",
     "points": [
       [
         -0.310991406,
@@ -13332,7 +13259,7 @@
     "avg_altitude": 127.3
   },
   {
-    "id": "tramo_280",
+    "id": "tramo_282",
     "points": [
       [
         -0.378545523,
@@ -13425,85 +13352,7 @@
     "avg_altitude": 182.7
   },
   {
-    "id": "tramo_281",
-    "points": [
-      [
-        -0.364694595,
-        41.321505014
-      ],
-      [
-        -0.3649,
-        41.3218,
-        0
-      ],
-      [
-        -0.36543,
-        41.32221,
-        0
-      ],
-      [
-        -0.36567,
-        41.32215,
-        0
-      ],
-      [
-        -0.36562,
-        41.32186,
-        0
-      ],
-      [
-        -0.36617,
-        41.32181,
-        0
-      ],
-      [
-        -0.3662,
-        41.32234,
-        0
-      ],
-      [
-        -0.36631,
-        41.32177,
-        0
-      ],
-      [
-        -0.36646,
-        41.32177,
-        0
-      ],
-      [
-        -0.36697,
-        41.32195,
-        0
-      ],
-      [
-        -0.36706,
-        41.32248,
-        0
-      ],
-      [
-        -0.36726,
-        41.32253,
-        0
-      ],
-      [
-        -0.367693305,
-        41.32244371
-      ]
-    ],
-    "startId": "cruce_169",
-    "endId": "cruce_167",
-    "activityNames": [
-      "Bicicleta por la mañana",
-      "Bicicleta al anochecer"
-    ],
-    "count": 2,
-    "isRoad": false,
-    "lastPassDate": "2024-06-08T07:11:50",
-    "avg_altitude": 187.3
-  },
-  {
-    "id": "tramo_282",
+    "id": "tramo_283",
     "points": [
       [
         -0.361690521,
@@ -13528,31 +13377,11 @@
     "avg_altitude": 176.5
   },
   {
-    "id": "tramo_283",
+    "id": "tramo_284",
     "points": [
       [
-        -0.372574925,
-        41.323563681
-      ],
-      [
-        -0.37279,
-        41.32461,
-        0
-      ],
-      [
-        -0.37238,
-        41.32529,
-        0
-      ],
-      [
-        -0.37239,
-        41.3256,
-        0
-      ],
-      [
-        -0.37159,
-        41.32524,
-        0
+        -0.371453762,
+        41.325291944
       ],
       [
         -0.37099,
@@ -13574,7 +13403,7 @@
         41.323994744
       ]
     ],
-    "startId": "cruce_119",
+    "startId": "cruce_317",
     "endId": "cruce_183",
     "activityNames": [
       "Bicicleta por la mañana"
@@ -13582,10 +13411,10 @@
     "count": 1,
     "isRoad": false,
     "lastPassDate": "2023-06-03T06:11:27",
-    "avg_altitude": 191.0
+    "avg_altitude": 182.3
   },
   {
-    "id": "tramo_284",
+    "id": "tramo_285",
     "points": [
       [
         -0.439238548,
@@ -13618,7 +13447,7 @@
     "avg_altitude": 163.3
   },
   {
-    "id": "tramo_285",
+    "id": "tramo_286",
     "points": [
       [
         -0.450621843,
@@ -13756,7 +13585,7 @@
     "avg_altitude": 179.3
   },
   {
-    "id": "tramo_286",
+    "id": "tramo_287",
     "points": [
       [
         -0.44691503,
@@ -13799,7 +13628,7 @@
     "avg_altitude": 204.0
   },
   {
-    "id": "tramo_287",
+    "id": "tramo_288",
     "points": [
       [
         -0.451309949,
@@ -13832,7 +13661,7 @@
     "avg_altitude": 211.3
   },
   {
-    "id": "tramo_288",
+    "id": "tramo_289",
     "points": [
       [
         -0.451309949,
@@ -13900,7 +13729,7 @@
     "avg_altitude": 204.3
   },
   {
-    "id": "tramo_289",
+    "id": "tramo_290",
     "points": [
       [
         -0.441926122,
@@ -13928,7 +13757,7 @@
     "avg_altitude": 197.7
   },
   {
-    "id": "tramo_290",
+    "id": "tramo_291",
     "points": [
       [
         -0.459369069,
@@ -14006,7 +13835,7 @@
     "avg_altitude": 301.3
   },
   {
-    "id": "tramo_291",
+    "id": "tramo_292",
     "points": [
       [
         -0.474827577,
@@ -14059,7 +13888,7 @@
     "avg_altitude": 301.3
   },
   {
-    "id": "tramo_292",
+    "id": "tramo_293",
     "points": [
       [
         -0.467343917,
@@ -14107,7 +13936,7 @@
     "avg_altitude": 285.3
   },
   {
-    "id": "tramo_293",
+    "id": "tramo_294",
     "points": [
       [
         -0.463190675,
@@ -14190,7 +14019,7 @@
     "avg_altitude": 252.3
   },
   {
-    "id": "tramo_294",
+    "id": "tramo_295",
     "points": [
       [
         -0.452371821,
@@ -14238,7 +14067,7 @@
     "avg_altitude": 214.0
   },
   {
-    "id": "tramo_295",
+    "id": "tramo_296",
     "points": [
       [
         -0.452371821,
@@ -14266,7 +14095,7 @@
     "avg_altitude": 206.7
   },
   {
-    "id": "tramo_296",
+    "id": "tramo_297",
     "points": [
       [
         -0.439608793,
@@ -14323,7 +14152,7 @@
     "avg_altitude": 179.7
   },
   {
-    "id": "tramo_297",
+    "id": "tramo_298",
     "points": [
       [
         -0.463190675,
@@ -14356,7 +14185,7 @@
     "avg_altitude": 274.3
   },
   {
-    "id": "tramo_298",
+    "id": "tramo_299",
     "points": [
       [
         -0.461001992,
@@ -14419,7 +14248,7 @@
     "avg_altitude": 286.3
   },
   {
-    "id": "tramo_299",
+    "id": "tramo_300",
     "points": [
       [
         -0.474827577,
@@ -14462,7 +14291,7 @@
     "avg_altitude": 305.0
   },
   {
-    "id": "tramo_300",
+    "id": "tramo_301",
     "points": [
       [
         -0.481929068,
@@ -14510,7 +14339,7 @@
     "avg_altitude": 298.0
   },
   {
-    "id": "tramo_301",
+    "id": "tramo_302",
     "points": [
       [
         -0.489810938,
@@ -14723,7 +14552,7 @@
     "avg_altitude": 237.3
   },
   {
-    "id": "tramo_302",
+    "id": "tramo_303",
     "points": [
       [
         -0.455787218,
@@ -14756,7 +14585,7 @@
     "avg_altitude": 209.3
   },
   {
-    "id": "tramo_303",
+    "id": "tramo_304",
     "points": [
       [
         -0.44691503,
@@ -14799,7 +14628,7 @@
     "avg_altitude": 185.3
   },
   {
-    "id": "tramo_304",
+    "id": "tramo_305",
     "points": [
       [
         -0.467343917,
@@ -14892,7 +14721,7 @@
     "avg_altitude": 263.0
   },
   {
-    "id": "tramo_305",
+    "id": "tramo_306",
     "points": [
       [
         -0.47102809,
@@ -14974,7 +14803,7 @@
     "avg_altitude": 243.0
   },
   {
-    "id": "tramo_306",
+    "id": "tramo_307",
     "points": [
       [
         -0.484208465,
@@ -15036,7 +14865,7 @@
     "avg_altitude": 274.7
   },
   {
-    "id": "tramo_307",
+    "id": "tramo_308",
     "points": [
       [
         -0.455787218,
@@ -15068,7 +14897,7 @@
     "avg_altitude": 206.0
   },
   {
-    "id": "tramo_308",
+    "id": "tramo_309",
     "points": [
       [
         -0.451812744,
@@ -15090,7 +14919,7 @@
     "avg_altitude": 200.5
   },
   {
-    "id": "tramo_309",
+    "id": "tramo_310",
     "points": [
       [
         -0.370584726,
@@ -15146,7 +14975,7 @@
     "avg_altitude": 155.3
   },
   {
-    "id": "tramo_310",
+    "id": "tramo_311",
     "points": [
       [
         -0.304425359,
@@ -15169,7 +14998,7 @@
     "avg_altitude": 304.5
   },
   {
-    "id": "tramo_311",
+    "id": "tramo_312",
     "points": [
       [
         -0.304398537,
@@ -15267,7 +15096,7 @@
     "avg_altitude": 324.7
   },
   {
-    "id": "tramo_312",
+    "id": "tramo_313",
     "points": [
       [
         -0.312494953,
@@ -15320,7 +15149,7 @@
     "avg_altitude": 340.7
   },
   {
-    "id": "tramo_313",
+    "id": "tramo_314",
     "points": [
       [
         -0.309446454,
@@ -15359,7 +15188,7 @@
     "avg_altitude": 338.3
   },
   {
-    "id": "tramo_314",
+    "id": "tramo_315",
     "points": [
       [
         -0.329611301,
@@ -15409,7 +15238,7 @@
     "avg_altitude": 176.0
   },
   {
-    "id": "tramo_315",
+    "id": "tramo_316",
     "points": [
       [
         -0.327689131,
@@ -15434,7 +15263,7 @@
     "avg_altitude": 135.0
   },
   {
-    "id": "tramo_316",
+    "id": "tramo_317",
     "points": [
       [
         -0.323141813,
@@ -15503,7 +15332,7 @@
     "avg_altitude": 183.0
   },
   {
-    "id": "tramo_317",
+    "id": "tramo_318",
     "points": [
       [
         -0.317954421,
@@ -15571,7 +15400,7 @@
     "avg_altitude": 175.7
   },
   {
-    "id": "tramo_318",
+    "id": "tramo_319",
     "points": [
       [
         -0.350286437,
@@ -15646,7 +15475,7 @@
     "avg_altitude": 167.7
   },
   {
-    "id": "tramo_319",
+    "id": "tramo_320",
     "points": [
       [
         -0.350286437,
@@ -15828,7 +15657,7 @@
     "avg_altitude": 176.0
   },
   {
-    "id": "tramo_320",
+    "id": "tramo_321",
     "points": [
       [
         -0.339916348,
@@ -15912,7 +15741,7 @@
     "avg_altitude": 133.0
   },
   {
-    "id": "tramo_321",
+    "id": "tramo_322",
     "points": [
       [
         -0.350286437,
@@ -16079,7 +15908,7 @@
     "avg_altitude": 209.7
   },
   {
-    "id": "tramo_322",
+    "id": "tramo_323",
     "points": [
       [
         -0.329809785,
@@ -16138,7 +15967,7 @@
     "avg_altitude": 219.0
   },
   {
-    "id": "tramo_323",
+    "id": "tramo_324",
     "points": [
       [
         -0.324879885,
@@ -16220,7 +16049,7 @@
     "avg_altitude": 242.0
   },
   {
-    "id": "tramo_324",
+    "id": "tramo_325",
     "points": [
       [
         -0.367918611,
@@ -16242,17 +16071,12 @@
         0
       ],
       [
-        -0.37058,
-        41.32179,
-        0
-      ],
-      [
-        -0.366990566,
-        41.321698394
+        -0.370772481,
+        41.322008608
       ]
     ],
     "startId": "cruce_120",
-    "endId": "cruce_166",
+    "endId": "cruce_168",
     "activityNames": [
       "Bicicleta por la mañana",
       "Bicicleta al anochecer"
@@ -16260,10 +16084,10 @@
     "count": 2,
     "isRoad": false,
     "lastPassDate": "2022-10-02T07:54:42",
-    "avg_altitude": 189.3
+    "avg_altitude": 192.7
   },
   {
-    "id": "tramo_325",
+    "id": "tramo_326",
     "points": [
       [
         -0.339916348,
@@ -16397,7 +16221,7 @@
     "avg_altitude": 157.3
   },
   {
-    "id": "tramo_326",
+    "id": "tramo_327",
     "points": [
       [
         -0.344722867,
@@ -16449,7 +16273,7 @@
     "avg_altitude": 141.3
   },
   {
-    "id": "tramo_327",
+    "id": "tramo_328",
     "points": [
       [
         -0.364929952,
@@ -16487,7 +16311,7 @@
     "avg_altitude": 154.0
   },
   {
-    "id": "tramo_328",
+    "id": "tramo_329",
     "points": [
       [
         -0.328758359,
@@ -16525,7 +16349,7 @@
     "avg_altitude": 221.0
   },
   {
-    "id": "tramo_329",
+    "id": "tramo_330",
     "points": [
       [
         -0.324879885,
@@ -16588,7 +16412,7 @@
     "avg_altitude": 235.0
   },
   {
-    "id": "tramo_330",
+    "id": "tramo_331",
     "points": [
       [
         -0.320904851,
@@ -16721,7 +16545,7 @@
     "avg_altitude": 241.0
   },
   {
-    "id": "tramo_331",
+    "id": "tramo_332",
     "points": [
       [
         -0.307670832,
@@ -16759,7 +16583,7 @@
     "avg_altitude": 281.7
   },
   {
-    "id": "tramo_332",
+    "id": "tramo_333",
     "points": [
       [
         -0.307697654,
@@ -16784,7 +16608,7 @@
     "avg_altitude": 281.5
   },
   {
-    "id": "tramo_333",
+    "id": "tramo_334",
     "points": [
       [
         -0.305635273,
@@ -16893,7 +16717,7 @@
     "avg_altitude": 317.3
   },
   {
-    "id": "tramo_334",
+    "id": "tramo_335",
     "points": [
       [
         -0.283423662,
@@ -16942,7 +16766,7 @@
     "avg_altitude": 356.7
   },
   {
-    "id": "tramo_335",
+    "id": "tramo_336",
     "points": [
       [
         -0.292441249,
@@ -16990,7 +16814,7 @@
     "avg_altitude": 340.0
   },
   {
-    "id": "tramo_336",
+    "id": "tramo_337",
     "points": [
       [
         -0.314333439,
@@ -17038,7 +16862,7 @@
     "avg_altitude": 272.7
   },
   {
-    "id": "tramo_337",
+    "id": "tramo_338",
     "points": [
       [
         -0.310111642,
@@ -17112,7 +16936,7 @@
     "avg_altitude": 286.3
   },
   {
-    "id": "tramo_338",
+    "id": "tramo_339",
     "points": [
       [
         -0.317160487,
@@ -17135,7 +16959,7 @@
     "avg_altitude": 278.5
   },
   {
-    "id": "tramo_339",
+    "id": "tramo_340",
     "points": [
       [
         -0.361690521,
@@ -17172,7 +16996,7 @@
     "avg_altitude": 168.3
   },
   {
-    "id": "tramo_340",
+    "id": "tramo_341",
     "points": [
       [
         -0.321961641,
@@ -17269,7 +17093,7 @@
     "avg_altitude": 228.3
   },
   {
-    "id": "tramo_341",
+    "id": "tramo_342",
     "points": [
       [
         -0.317160487,
@@ -17332,7 +17156,7 @@
     "avg_altitude": 288.0
   },
   {
-    "id": "tramo_342",
+    "id": "tramo_343",
     "points": [
       [
         -0.320352316,
@@ -17375,7 +17199,7 @@
     "avg_altitude": 268.0
   },
   {
-    "id": "tramo_343",
+    "id": "tramo_344",
     "points": [
       [
         -0.314607024,
@@ -17398,7 +17222,7 @@
     "avg_altitude": 251.0
   },
   {
-    "id": "tramo_344",
+    "id": "tramo_345",
     "points": [
       [
         -0.300595164,
@@ -17446,7 +17270,7 @@
     "avg_altitude": 280.3
   },
   {
-    "id": "tramo_345",
+    "id": "tramo_346",
     "points": [
       [
         -0.316194892,
@@ -17483,7 +17307,71 @@
     "avg_altitude": 250.7
   },
   {
-    "id": "tramo_346",
+    "id": "tramo_347",
+    "points": [
+      [
+        -0.365547538,
+        41.32125523
+      ],
+      [
+        -0.36597,
+        41.32179,
+        0
+      ],
+      [
+        -0.36604,
+        41.32232,
+        0
+      ],
+      [
+        -0.36617,
+        41.32233,
+        0
+      ],
+      [
+        -0.366303921,
+        41.321746739
+      ]
+    ],
+    "startId": "cruce_318",
+    "endId": "cruce_320",
+    "activityNames": [
+      "Bicicleta por la mañana"
+    ],
+    "count": 1,
+    "isRoad": false,
+    "lastPassDate": "2022-04-11T08:58:25",
+    "avg_altitude": 183.7
+  },
+  {
+    "id": "tramo_348",
+    "points": [
+      [
+        -0.3654778,
+        41.322246303
+      ],
+      [
+        -0.36548,
+        41.32185,
+        0
+      ],
+      [
+        -0.365547538,
+        41.32125523
+      ]
+    ],
+    "startId": "cruce_319",
+    "endId": "cruce_318",
+    "activityNames": [
+      "Bicicleta por la mañana"
+    ],
+    "count": 1,
+    "isRoad": false,
+    "lastPassDate": "2021-08-16T06:21:18",
+    "avg_altitude": 181.7
+  },
+  {
+    "id": "tramo_349",
     "points": [
       [
         -0.366990566,
@@ -17525,7 +17413,7 @@
     "avg_altitude": 203.3
   },
   {
-    "id": "tramo_347",
+    "id": "tramo_350",
     "points": [
       [
         -0.363884568,
@@ -17576,7 +17464,7 @@
     "avg_altitude": 233.7
   },
   {
-    "id": "tramo_348",
+    "id": "tramo_351",
     "points": [
       [
         -0.378642082,
@@ -17627,7 +17515,7 @@
     "avg_altitude": 221.7
   },
   {
-    "id": "tramo_349",
+    "id": "tramo_352",
     "points": [
       [
         -0.386973023,
@@ -17698,7 +17586,7 @@
     "avg_altitude": 176.7
   },
   {
-    "id": "tramo_350",
+    "id": "tramo_353",
     "points": [
       [
         -0.384998918,
@@ -17724,7 +17612,7 @@
     "avg_altitude": 150.0
   },
   {
-    "id": "tramo_351",
+    "id": "tramo_354",
     "points": [
       [
         -0.385755301,
@@ -17753,7 +17641,7 @@
     "avg_altitude": 161.0
   },
   {
-    "id": "tramo_352",
+    "id": "tramo_355",
     "points": [
       [
         -0.441392967,
@@ -17906,7 +17794,7 @@
     "avg_altitude": 232.7
   },
   {
-    "id": "tramo_353",
+    "id": "tramo_356",
     "points": [
       [
         -0.435858704,
@@ -18104,7 +17992,7 @@
     "avg_altitude": 177.3
   },
   {
-    "id": "tramo_354",
+    "id": "tramo_357",
     "points": [
       [
         -0.399250077,
@@ -18167,7 +18055,7 @@
     "avg_altitude": 162.3
   },
   {
-    "id": "tramo_355",
+    "id": "tramo_358",
     "points": [
       [
         -0.431706905,
@@ -18289,7 +18177,7 @@
     "avg_altitude": 160.0
   },
   {
-    "id": "tramo_356",
+    "id": "tramo_359",
     "points": [
       [
         -0.399250077,
@@ -18326,7 +18214,7 @@
     "avg_altitude": 164.3
   },
   {
-    "id": "tramo_357",
+    "id": "tramo_360",
     "points": [
       [
         -0.441392967,
@@ -18459,7 +18347,7 @@
     "avg_altitude": 236.0
   },
   {
-    "id": "tramo_358",
+    "id": "tramo_361",
     "points": [
       [
         -0.47102809,
@@ -18502,7 +18390,7 @@
     "avg_altitude": 225.0
   },
   {
-    "id": "tramo_359",
+    "id": "tramo_362",
     "points": [
       [
         -0.384998918,
@@ -18597,7 +18485,7 @@
     "avg_altitude": 165.3
   },
   {
-    "id": "tramo_360",
+    "id": "tramo_363",
     "points": [
       [
         -0.396484137,
@@ -18647,7 +18535,7 @@
     "avg_altitude": 185.0
   },
   {
-    "id": "tramo_361",
+    "id": "tramo_364",
     "points": [
       [
         -0.397224426,
@@ -18682,7 +18570,7 @@
     "avg_altitude": 196.3
   },
   {
-    "id": "tramo_362",
+    "id": "tramo_365",
     "points": [
       [
         -0.392273068,
@@ -18727,7 +18615,7 @@
     "avg_altitude": 209.3
   },
   {
-    "id": "tramo_363",
+    "id": "tramo_366",
     "points": [
       [
         -0.384655595,
@@ -18752,7 +18640,7 @@
     "avg_altitude": 223.0
   },
   {
-    "id": "tramo_364",
+    "id": "tramo_367",
     "points": [
       [
         -0.385610461,
@@ -18797,7 +18685,7 @@
     "avg_altitude": 235.0
   },
   {
-    "id": "tramo_365",
+    "id": "tramo_368",
     "points": [
       [
         -0.377579927,
@@ -18822,7 +18710,7 @@
     "avg_altitude": 243.5
   },
   {
-    "id": "tramo_366",
+    "id": "tramo_369",
     "points": [
       [
         -0.376898646,
@@ -18852,7 +18740,7 @@
     "avg_altitude": 244.7
   },
   {
-    "id": "tramo_367",
+    "id": "tramo_370",
     "points": [
       [
         -0.374441743,
@@ -18877,7 +18765,7 @@
     "avg_altitude": 249.5
   },
   {
-    "id": "tramo_368",
+    "id": "tramo_371",
     "points": [
       [
         -0.373401046,
@@ -18902,7 +18790,7 @@
     "avg_altitude": 254.5
   },
   {
-    "id": "tramo_369",
+    "id": "tramo_372",
     "points": [
       [
         -0.36962986,
@@ -18952,7 +18840,7 @@
     "avg_altitude": 260.0
   },
   {
-    "id": "tramo_370",
+    "id": "tramo_373",
     "points": [
       [
         -0.360789299,
@@ -19007,7 +18895,7 @@
     "avg_altitude": 273.7
   },
   {
-    "id": "tramo_371",
+    "id": "tramo_374",
     "points": [
       [
         -0.35045743,
@@ -19050,7 +18938,7 @@
     "avg_altitude": 284.0
   },
   {
-    "id": "tramo_372",
+    "id": "tramo_375",
     "points": [
       [
         -0.34349978,
@@ -19104,7 +18992,7 @@
     "avg_altitude": 296.0
   },
   {
-    "id": "tramo_373",
+    "id": "tramo_376",
     "points": [
       [
         -0.337228775,
@@ -19158,7 +19046,7 @@
     "avg_altitude": 297.3
   },
   {
-    "id": "tramo_374",
+    "id": "tramo_377",
     "points": [
       [
         -0.330963135,
@@ -19201,7 +19089,7 @@
     "avg_altitude": 303.0
   },
   {
-    "id": "tramo_375",
+    "id": "tramo_378",
     "points": [
       [
         -0.326060057,
@@ -19249,7 +19137,7 @@
     "avg_altitude": 314.0
   },
   {
-    "id": "tramo_376",
+    "id": "tramo_379",
     "points": [
       [
         -0.317595005,
@@ -19272,7 +19160,7 @@
     "avg_altitude": 321.5
   },
   {
-    "id": "tramo_377",
+    "id": "tramo_380",
     "points": [
       [
         -0.314376354,
@@ -19295,7 +19183,7 @@
     "avg_altitude": 328.5
   },
   {
-    "id": "tramo_378",
+    "id": "tramo_381",
     "points": [
       [
         -0.314864516,
@@ -19383,7 +19271,7 @@
     "avg_altitude": 350.3
   },
   {
-    "id": "tramo_379",
+    "id": "tramo_382",
     "points": [
       [
         -0.276830792,
@@ -19430,7 +19318,7 @@
     "avg_altitude": 380.7
   },
   {
-    "id": "tramo_380",
+    "id": "tramo_383",
     "points": [
       [
         -0.270581245,
@@ -19502,7 +19390,7 @@
     "avg_altitude": 398.7
   },
   {
-    "id": "tramo_381",
+    "id": "tramo_384",
     "points": [
       [
         -0.259637833,
@@ -19554,7 +19442,7 @@
     "avg_altitude": 396.3
   },
   {
-    "id": "tramo_382",
+    "id": "tramo_385",
     "points": [
       [
         -0.277372599,
@@ -19636,7 +19524,7 @@
     "avg_altitude": 373.3
   },
   {
-    "id": "tramo_383",
+    "id": "tramo_386",
     "points": [
       [
         -0.302472711,
@@ -19739,7 +19627,7 @@
     "avg_altitude": 354.3
   },
   {
-    "id": "tramo_384",
+    "id": "tramo_387",
     "points": [
       [
         -0.322229862,
@@ -19768,7 +19656,7 @@
     "avg_altitude": 327.0
   },
   {
-    "id": "tramo_385",
+    "id": "tramo_388",
     "points": [
       [
         -0.325684547,
@@ -19802,7 +19690,7 @@
     "avg_altitude": 331.0
   },
   {
-    "id": "tramo_386",
+    "id": "tramo_389",
     "points": [
       [
         -0.325303674,
@@ -19832,7 +19720,7 @@
     "avg_altitude": 332.3
   },
   {
-    "id": "tramo_387",
+    "id": "tramo_390",
     "points": [
       [
         -0.32400012,
@@ -19862,7 +19750,7 @@
     "avg_altitude": 333.0
   },
   {
-    "id": "tramo_388",
+    "id": "tramo_391",
     "points": [
       [
         -0.318775177,
@@ -19887,7 +19775,7 @@
     "avg_altitude": 336.0
   },
   {
-    "id": "tramo_389",
+    "id": "tramo_392",
     "points": [
       [
         -0.357323852,
@@ -19920,7 +19808,7 @@
     "avg_altitude": 166.0
   },
   {
-    "id": "tramo_390",
+    "id": "tramo_393",
     "points": [
       [
         -0.357323852,
@@ -20008,7 +19896,7 @@
     "avg_altitude": 164.3
   },
   {
-    "id": "tramo_391",
+    "id": "tramo_394",
     "points": [
       [
         -0.317595005,
@@ -20035,7 +19923,7 @@
     "avg_altitude": 320.7
   },
   {
-    "id": "tramo_392",
+    "id": "tramo_395",
     "points": [
       [
         -0.315421988,
@@ -20097,7 +19985,7 @@
     "avg_altitude": 346.0
   },
   {
-    "id": "tramo_393",
+    "id": "tramo_396",
     "points": [
       [
         -0.325684547,
@@ -20131,7 +20019,7 @@
     "avg_altitude": 329.0
   },
   {
-    "id": "tramo_394",
+    "id": "tramo_397",
     "points": [
       [
         -0.329447217,
@@ -20160,7 +20048,7 @@
     "avg_altitude": 330.0
   },
   {
-    "id": "tramo_395",
+    "id": "tramo_398",
     "points": [
       [
         -0.312494953,
@@ -20212,7 +20100,7 @@
     "avg_altitude": 340.0
   },
   {
-    "id": "tramo_396",
+    "id": "tramo_399",
     "points": [
       [
         -0.305315852,
@@ -20254,7 +20142,7 @@
     "avg_altitude": 340.7
   },
   {
-    "id": "tramo_397",
+    "id": "tramo_400",
     "points": [
       [
         -0.289619565,
@@ -20301,7 +20189,7 @@
     "avg_altitude": 333.7
   },
   {
-    "id": "tramo_398",
+    "id": "tramo_401",
     "points": [
       [
         -0.283488035,
@@ -20338,7 +20226,7 @@
     "avg_altitude": 329.0
   },
   {
-    "id": "tramo_399",
+    "id": "tramo_402",
     "points": [
       [
         -0.274113492,
@@ -20516,7 +20404,7 @@
     "avg_altitude": 289.3
   },
   {
-    "id": "tramo_400",
+    "id": "tramo_403",
     "points": [
       [
         -0.240343814,
@@ -20743,7 +20631,7 @@
     "avg_altitude": 284.3
   },
   {
-    "id": "tramo_401",
+    "id": "tramo_404",
     "points": [
       [
         -0.378642082,
@@ -20781,7 +20669,7 @@
     "avg_altitude": 222.7
   },
   {
-    "id": "tramo_402",
+    "id": "tramo_405",
     "points": [
       [
         -0.381860733,
@@ -20839,7 +20727,7 @@
     "avg_altitude": 217.3
   },
   {
-    "id": "tramo_403",
+    "id": "tramo_406",
     "points": [
       [
         -0.384655595,
@@ -20872,7 +20760,7 @@
     "avg_altitude": 225.0
   },
   {
-    "id": "tramo_404",
+    "id": "tramo_407",
     "points": [
       [
         -0.380315781,
@@ -20955,7 +20843,7 @@
     "avg_altitude": 283.0
   },
   {
-    "id": "tramo_405",
+    "id": "tramo_408",
     "points": [
       [
         -0.360928436,
@@ -21018,7 +20906,7 @@
     "avg_altitude": 344.7
   },
   {
-    "id": "tramo_406",
+    "id": "tramo_409",
     "points": [
       [
         -0.355451703,
@@ -21066,7 +20954,7 @@
     "avg_altitude": 338.7
   },
   {
-    "id": "tramo_407",
+    "id": "tramo_410",
     "points": [
       [
         -0.337942243,
@@ -21089,7 +20977,7 @@
     "avg_altitude": 334.5
   },
   {
-    "id": "tramo_408",
+    "id": "tramo_411",
     "points": [
       [
         -0.332829952,
@@ -21112,7 +21000,7 @@
     "avg_altitude": 333.5
   },
   {
-    "id": "tramo_409",
+    "id": "tramo_412",
     "points": [
       [
         -0.314392447,
@@ -21176,7 +21064,7 @@
     "avg_altitude": 342.7
   },
   {
-    "id": "tramo_410",
+    "id": "tramo_413",
     "points": [
       [
         -0.338988304,
@@ -21199,7 +21087,7 @@
     "avg_altitude": 335.5
   },
   {
-    "id": "tramo_411",
+    "id": "tramo_414",
     "points": [
       [
         -0.338988304,
@@ -21222,7 +21110,7 @@
     "avg_altitude": 335.5
   },
   {
-    "id": "tramo_412",
+    "id": "tramo_415",
     "points": [
       [
         -0.344974479,
@@ -21250,7 +21138,7 @@
     "avg_altitude": 329.0
   },
   {
-    "id": "tramo_413",
+    "id": "tramo_416",
     "points": [
       [
         -0.344974479,
@@ -21333,7 +21221,7 @@
     "avg_altitude": 286.0
   },
   {
-    "id": "tramo_414",
+    "id": "tramo_417",
     "points": [
       [
         -0.35045743,
@@ -21407,7 +21295,7 @@
     "avg_altitude": 304.7
   },
   {
-    "id": "tramo_415",
+    "id": "tramo_418",
     "points": [
       [
         -0.329965353,
@@ -21446,7 +21334,7 @@
     "avg_altitude": 326.7
   },
   {
-    "id": "tramo_416",
+    "id": "tramo_419",
     "points": [
       [
         -0.386973023,
@@ -21469,7 +21357,7 @@
     "avg_altitude": 210.0
   },
   {
-    "id": "tramo_417",
+    "id": "tramo_420",
     "points": [
       [
         -0.387488008,
@@ -21522,7 +21410,7 @@
     "avg_altitude": 214.3
   },
   {
-    "id": "tramo_418",
+    "id": "tramo_421",
     "points": [
       [
         -0.276830792,
@@ -21564,7 +21452,7 @@
     "avg_altitude": 370.0
   },
   {
-    "id": "tramo_419",
+    "id": "tramo_422",
     "points": [
       [
         -0.277372599,
@@ -21636,7 +21524,7 @@
     "avg_altitude": 359.7
   },
   {
-    "id": "tramo_420",
+    "id": "tramo_423",
     "points": [
       [
         -0.280038714,
@@ -21708,7 +21596,7 @@
     "avg_altitude": 341.0
   },
   {
-    "id": "tramo_421",
+    "id": "tramo_424",
     "points": [
       [
         -0.280038714,
@@ -21760,7 +21648,7 @@
     "avg_altitude": 334.0
   },
   {
-    "id": "tramo_422",
+    "id": "tramo_425",
     "points": [
       [
         -0.364013314,
@@ -21792,7 +21680,7 @@
     "avg_altitude": 182.7
   },
   {
-    "id": "tramo_423",
+    "id": "tramo_426",
     "points": [
       [
         -0.396484137,
@@ -21825,7 +21713,7 @@
     "avg_altitude": 194.0
   },
   {
-    "id": "tramo_424",
+    "id": "tramo_427",
     "points": [
       [
         -0.397224426,
@@ -21878,7 +21766,7 @@
     "avg_altitude": 199.3
   },
   {
-    "id": "tramo_425",
+    "id": "tramo_428",
     "points": [
       [
         -0.40451467,
@@ -21916,7 +21804,7 @@
     "avg_altitude": 214.3
   },
   {
-    "id": "tramo_426",
+    "id": "tramo_429",
     "points": [
       [
         -0.40926218,
@@ -21949,7 +21837,7 @@
     "avg_altitude": 217.0
   },
   {
-    "id": "tramo_427",
+    "id": "tramo_430",
     "points": [
       [
         -0.4112041,
@@ -21971,7 +21859,7 @@
     "avg_altitude": 216.5
   },
   {
-    "id": "tramo_428",
+    "id": "tramo_431",
     "points": [
       [
         -0.413585901,
@@ -22168,7 +22056,7 @@
     "avg_altitude": 259.0
   },
   {
-    "id": "tramo_429",
+    "id": "tramo_432",
     "points": [
       [
         -0.378803015,
@@ -22211,7 +22099,7 @@
     "avg_altitude": 314.7
   },
   {
-    "id": "tramo_430",
+    "id": "tramo_433",
     "points": [
       [
         -0.358096361,
@@ -22293,7 +22181,7 @@
     "avg_altitude": 323.3
   },
   {
-    "id": "tramo_431",
+    "id": "tramo_434",
     "points": [
       [
         -0.32073343,
@@ -22315,7 +22203,7 @@
     "avg_altitude": 323.0
   },
   {
-    "id": "tramo_432",
+    "id": "tramo_435",
     "points": [
       [
         -0.315421988,
@@ -22362,7 +22250,7 @@
     "avg_altitude": 323.3
   },
   {
-    "id": "tramo_433",
+    "id": "tramo_436",
     "points": [
       [
         -0.32439854,
@@ -22410,7 +22298,7 @@
     "avg_altitude": 325.7
   },
   {
-    "id": "tramo_434",
+    "id": "tramo_437",
     "points": [
       [
         -0.305315852,
@@ -22482,7 +22370,7 @@
     "avg_altitude": 321.7
   },
   {
-    "id": "tramo_435",
+    "id": "tramo_438",
     "points": [
       [
         -0.329965353,
@@ -22585,7 +22473,7 @@
     "avg_altitude": 307.3
   },
   {
-    "id": "tramo_436",
+    "id": "tramo_439",
     "points": [
       [
         -0.330963135,
@@ -22633,7 +22521,7 @@
     "avg_altitude": 314.0
   },
   {
-    "id": "tramo_437",
+    "id": "tramo_440",
     "points": [
       [
         -0.307670832,
@@ -22696,7 +22584,7 @@
     "avg_altitude": 302.7
   },
   {
-    "id": "tramo_438",
+    "id": "tramo_441",
     "points": [
       [
         -0.378282403,
@@ -22729,7 +22617,7 @@
     "avg_altitude": 258.0
   },
   {
-    "id": "tramo_439",
+    "id": "tramo_442",
     "points": [
       [
         -0.383342009,
@@ -22807,7 +22695,7 @@
     "avg_altitude": 287.0
   },
   {
-    "id": "tramo_440",
+    "id": "tramo_443",
     "points": [
       [
         -0.383342009,
@@ -22835,7 +22723,7 @@
     "avg_altitude": 311.0
   },
   {
-    "id": "tramo_441",
+    "id": "tramo_444",
     "points": [
       [
         -0.378803015,
@@ -22958,7 +22846,7 @@
     "avg_altitude": 292.3
   },
   {
-    "id": "tramo_442",
+    "id": "tramo_445",
     "points": [
       [
         -0.4112041,
@@ -23021,7 +22909,7 @@
     "avg_altitude": 211.0
   },
   {
-    "id": "tramo_443",
+    "id": "tramo_446",
     "points": [
       [
         -0.392273068,
@@ -23069,7 +22957,7 @@
     "avg_altitude": 211.0
   },
   {
-    "id": "tramo_444",
+    "id": "tramo_447",
     "points": [
       [
         -0.392600298,
@@ -23132,7 +23020,7 @@
     "avg_altitude": 225.7
   },
   {
-    "id": "tramo_445",
+    "id": "tramo_448",
     "points": [
       [
         -0.40561974,
@@ -23215,7 +23103,7 @@
     "avg_altitude": 231.0
   },
   {
-    "id": "tramo_446",
+    "id": "tramo_449",
     "points": [
       [
         -0.405893326,
@@ -23298,7 +23186,7 @@
     "avg_altitude": 238.3
   },
   {
-    "id": "tramo_447",
+    "id": "tramo_450",
     "points": [
       [
         -0.383051634,
@@ -23331,7 +23219,7 @@
     "avg_altitude": 242.0
   },
   {
-    "id": "tramo_448",
+    "id": "tramo_451",
     "points": [
       [
         -0.40926218,
@@ -23383,7 +23271,7 @@
     "avg_altitude": 214.0
   },
   {
-    "id": "tramo_449",
+    "id": "tramo_452",
     "points": [
       [
         -0.422608852,
@@ -23405,7 +23293,7 @@
     "avg_altitude": 208.5
   },
   {
-    "id": "tramo_450",
+    "id": "tramo_453",
     "points": [
       [
         -0.424100161,
@@ -23443,7 +23331,7 @@
     "avg_altitude": 211.3
   },
   {
-    "id": "tramo_451",
+    "id": "tramo_454",
     "points": [
       [
         -0.405893326,
@@ -23540,7 +23428,7 @@
     "avg_altitude": 251.7
   },
   {
-    "id": "tramo_452",
+    "id": "tramo_455",
     "points": [
       [
         -0.396146178,
@@ -23628,7 +23516,7 @@
     "avg_altitude": 263.3
   },
   {
-    "id": "tramo_453",
+    "id": "tramo_456",
     "points": [
       [
         -0.338988304,
@@ -23675,7 +23563,7 @@
     "avg_altitude": 331.3
   },
   {
-    "id": "tramo_454",
+    "id": "tramo_457",
     "points": [
       [
         -0.385755301,
@@ -23733,7 +23621,7 @@
     "avg_altitude": 196.7
   },
   {
-    "id": "tramo_455",
+    "id": "tramo_458",
     "points": [
       [
         -0.403543711,
@@ -23781,7 +23669,7 @@
     "avg_altitude": 213.3
   },
   {
-    "id": "tramo_456",
+    "id": "tramo_459",
     "points": [
       [
         -0.413265211,
@@ -23929,7 +23817,7 @@
     "avg_altitude": 212.3
   },
   {
-    "id": "tramo_457",
+    "id": "tramo_460",
     "points": [
       [
         -0.40561974,
@@ -24721,7 +24609,7 @@
     "avg_altitude": 242.0
   },
   {
-    "id": "tramo_458",
+    "id": "tramo_461",
     "points": [
       [
         -0.358096361,
@@ -24804,7 +24692,7 @@
     "avg_altitude": 301.7
   },
   {
-    "id": "tramo_459",
+    "id": "tramo_462",
     "points": [
       [
         -0.385610461,
@@ -24851,7 +24739,7 @@
     "avg_altitude": 232.0
   },
   {
-    "id": "tramo_460",
+    "id": "tramo_463",
     "points": [
       [
         -0.396146178,
@@ -24943,7 +24831,7 @@
     "avg_altitude": 291.3
   },
   {
-    "id": "tramo_461",
+    "id": "tramo_464",
     "points": [
       [
         -0.374441743,
@@ -25055,7 +24943,7 @@
     "avg_altitude": 262.0
   },
   {
-    "id": "tramo_462",
+    "id": "tramo_465",
     "points": [
       [
         -0.378803015,
@@ -25152,7 +25040,7 @@
     "avg_altitude": 287.0
   },
   {
-    "id": "tramo_463",
+    "id": "tramo_466",
     "points": [
       [
         -0.305635273,
@@ -25355,7 +25243,7 @@
     "avg_altitude": 321.7
   },
   {
-    "id": "tramo_464",
+    "id": "tramo_467",
     "points": [
       [
         -0.240343814,
@@ -25803,7 +25691,7 @@
     "avg_altitude": 301.7
   },
   {
-    "id": "tramo_465",
+    "id": "tramo_468",
     "points": [
       [
         -0.403543711,
@@ -25861,7 +25749,7 @@
     "avg_altitude": 217.0
   },
   {
-    "id": "tramo_466",
+    "id": "tramo_469",
     "points": [
       [
         -0.420876145,
@@ -25964,7 +25852,7 @@
     "avg_altitude": 185.3
   },
   {
-    "id": "tramo_467",
+    "id": "tramo_470",
     "points": [
       [
         -0.431937575,
@@ -26002,7 +25890,7 @@
     "avg_altitude": 150.0
   },
   {
-    "id": "tramo_468",
+    "id": "tramo_471",
     "points": [
       [
         -0.435735583,
@@ -26155,7 +26043,7 @@
     "avg_altitude": 171.3
   },
   {
-    "id": "tramo_469",
+    "id": "tramo_472",
     "points": [
       [
         -0.432779789,
@@ -26183,7 +26071,7 @@
     "avg_altitude": 178.3
   },
   {
-    "id": "tramo_470",
+    "id": "tramo_473",
     "points": [
       [
         -0.432377458,
@@ -26221,7 +26109,7 @@
     "avg_altitude": 191.3
   },
   {
-    "id": "tramo_471",
+    "id": "tramo_474",
     "points": [
       [
         -0.426439047,
@@ -26244,7 +26132,7 @@
     "avg_altitude": 206.0
   },
   {
-    "id": "tramo_472",
+    "id": "tramo_475",
     "points": [
       [
         -0.413585901,
@@ -26307,7 +26195,7 @@
     "avg_altitude": 219.7
   },
   {
-    "id": "tramo_473",
+    "id": "tramo_476",
     "points": [
       [
         -0.431706905,
@@ -26644,7 +26532,7 @@
     "avg_altitude": 171.3
   },
   {
-    "id": "tramo_474",
+    "id": "tramo_477",
     "points": [
       [
         -0.422608852,
