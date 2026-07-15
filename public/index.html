@@ -592,7 +592,7 @@
         /* Acordeón de Controles Superior Izquierda (Logo + GPS/TOPO) */
         #top-left-accordion.expanded #accordion-body {
             opacity: 1 !important;
-            max-height: 80px !important;
+            max-height: 220px !important;
             transform: translateY(0px) !important;
             pointer-events: auto !important;
         }
@@ -884,67 +884,59 @@
                     letter-spacing: 0.05em;
                 ">NORTE</span>
             </button>
+
+            <!-- Selector de Años (Estilizado como botón) -->
+            <select id="select-years" style="
+                width: 100%;
+                height: 32px;
+                border-radius: 8px;
+                background: var(--bg-glass);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.4);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+                color: #475569;
+                font-size: 9px;
+                font-weight: 900;
+                font-family: 'Outfit', sans-serif;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                outline: none;
+                cursor: pointer;
+                padding: 0 4px;
+                text-align-last: center;
+            " title="Rango histórico de años">
+                <option value="1y" style="color: #0f172a; text-transform: uppercase;">1 Año</option>
+                <option value="5y" selected style="color: #0f172a; text-transform: uppercase;">5 Años</option>
+            </select>
+
+            <!-- Selector de Coloreado (Estilizado como botón) -->
+            <select id="select-color-mode" style="
+                width: 100%;
+                height: 32px;
+                border-radius: 8px;
+                background: var(--bg-glass);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.4);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+                color: #475569;
+                font-size: 9px;
+                font-weight: 900;
+                font-family: 'Outfit', sans-serif;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                outline: none;
+                cursor: pointer;
+                padding: 0 4px;
+                text-align-last: center;
+            " title="Modo de colorear tracks">
+                <option value="normal" style="color: #0f172a; text-transform: uppercase;">Defecto</option>
+                <option value="age" style="color: #0f172a; text-transform: uppercase;">Antigüedad</option>
+                <option value="passes" style="color: #0f172a; text-transform: uppercase;">Pasadas</option>
+                <option value="altitude" style="color: #0f172a; text-transform: uppercase;">Altitud</option>
+            </select>
         </div>
-    </div>
-
-    <!-- Panel de Visualización Histórica (Siempre visible) -->
-    <div id="historical-controls-panel" style="
-        position: absolute;
-        top: 16px;
-        left: 96px;
-        z-index: 1000;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        background: rgba(255, 255, 255, 0.78);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        padding: 5px 8px;
-        border-radius: 10px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        font-family: 'Outfit', sans-serif;
-    ">
-        <!-- Selector de Años -->
-        <select id="select-years" style="
-            height: 26px;
-            border-radius: 6px;
-            background: #ffffff;
-            border: 1px solid rgba(0, 0, 0, 0.15);
-            color: #0f172a;
-            font-size: 10px;
-            font-weight: 700;
-            font-family: 'Outfit', sans-serif;
-            outline: none;
-            cursor: pointer;
-            padding: 0 4px;
-        ">
-            <option value="1y">1 Año</option>
-            <option value="5y" selected>5 Años</option>
-        </select>
-
-        <!-- Divisor vertical -->
-        <div style="width: 1px; height: 16px; background-color: rgba(0,0,0,0.15);"></div>
-
-        <!-- Selector de Color -->
-        <select id="select-color-mode" style="
-            height: 26px;
-            border-radius: 6px;
-            background: #ffffff;
-            border: 1px solid rgba(0, 0, 0, 0.15);
-            color: #0f172a;
-            font-size: 10px;
-            font-weight: 700;
-            font-family: 'Outfit', sans-serif;
-            outline: none;
-            cursor: pointer;
-            padding: 0 4px;
-        ">
-            <option value="normal">Defecto 🎨</option>
-            <option value="age">Antigüedad ⏱️</option>
-            <option value="passes">Pasadas 🔄</option>
-            <option value="altitude">Altitud 🏔️</option>
-        </select>
     </div>
 
     <!-- Minimapa del Recorrido Completo -->
